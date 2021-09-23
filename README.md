@@ -192,13 +192,3 @@ return [
     * underline
     * strike
     * superscript
-
-## Configuration
-
-By default Bard Mutator will replace all of ProseMirror/Statamic's standard node and mark classes with extended versions that support mutation, except for Statamic's Set node. If you want to control which nodes/marks are replaced, or need to add your own, you can publish and edit the config:
-
-```bash
-php please vendor:publish --tag=bard-mutator-config
-```
-
-Open `config/bard-mutator.php` and make your changes.

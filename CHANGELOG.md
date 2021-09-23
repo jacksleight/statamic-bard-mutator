@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2 (2021-09-23)
+
+- [break] Removed custom class configuration for now as it could potentially cause issues in future ProseMirror/Statamic updates, needs more thought
+
 ## 0.1.1 (2021-09-23)
 
 - Tweak config keys
