@@ -2,7 +2,7 @@
 
 return [
 
-    'nodes' => [
+    'replace_nodes' => [
         ProseMirrorToHtml\Nodes\Blockquote::class       => JackSleight\BardMutator\Nodes\Blockquote::class,
         ProseMirrorToHtml\Nodes\BulletList::class       => JackSleight\BardMutator\Nodes\BulletList::class,
         ProseMirrorToHtml\Nodes\CodeBlock::class        => JackSleight\BardMutator\Nodes\CodeBlock::class,
@@ -19,7 +19,7 @@ return [
         ProseMirrorToHtml\Nodes\TableRow::class         => JackSleight\BardMutator\Nodes\TableRow::class,
     ],
 
-    'marks' => [
+    'replace_marks' => [
         ProseMirrorToHtml\Marks\Bold::class             => JackSleight\BardMutator\Marks\Bold::class,
         ProseMirrorToHtml\Marks\Code::class             => JackSleight\BardMutator\Marks\Code::class,
         ProseMirrorToHtml\Marks\Italic::class           => JackSleight\BardMutator\Marks\Italic::class,

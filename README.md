@@ -146,7 +146,7 @@ If there are no attributes the item can just be the tag name:
 ]
 ```
 
-And if there's only one item with no attrbutes the entire tag value can just be the tag name:
+And if there's only one item with no attributes the entire tag value can just be the tag name:
 
 ```php
 'p'

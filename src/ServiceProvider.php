@@ -25,10 +25,10 @@ class ServiceProvider extends AddonServiceProvider
             __DIR__ . '/../config/bard-mutator.php' => config_path('bard-mutator.php'),
         ], 'bard-mutator-config');
 
-        foreach (config('bard-mutator.nodes') as $searchNode => $mutatorNode) {
+        foreach (config('bard-mutator.replace_nodes') as $searchNode => $mutatorNode) {
             Augmentor::replaceNode($searchNode, $mutatorNode);
         }
-        foreach (config('bard-mutator.marks') as $searchMark => $mutatorMark) {
+        foreach (config('bard-mutator.replace_marks') as $searchMark => $mutatorMark) {
             Augmentor::replaceMark($searchMark, $mutatorMark);
         }
     }
