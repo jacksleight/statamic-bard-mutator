@@ -1,0 +1,22 @@
+{
+    "name": "jacksleight/bard-mutator",
+    "autoload": {
+        "psr-4": {
+            "JackSleight\\BardMutator\\": "src"
+        }
+    },
+    "extra": {
+        "statamic": {
+            "name": "Bard Mutator",
+            "description": "This Statamic addon allows you to modify the tags rendered by the Bard fieldtype, giving you full control over the final HTML."
+        },
+        "laravel": {
+            "providers": [
+                "JackSleight\\BardMutator\\ServiceProvider"
+            ]
+        }
+    },
+    "require": {
+        "statamic/cms": "^3.2"
+    }
+}
