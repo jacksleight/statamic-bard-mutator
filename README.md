@@ -203,7 +203,7 @@ Because of the way ProseMirror works Bard Mutator has to replace all of the buil
 
 In fact, one reason I developed this in the first place was to make it possible for multiple addons to make tag modifications without having to compete over the same set of classes.
 
-My other Bard addon, [Bard Paragraph Style](https://github.com/jacksleight/bard-paragraph-style), is fully compatible with this. It uses this instead of it's own node class if installed.
+My other Bard addon, [Bard Paragraph Style](https://github.com/jacksleight/bard-paragraph-style), is fully compatible with this. It uses Bard Mutator under the hood instead of it's own node class if installed.
 
 *However*, if you have other addons (or site code) that replace any of the built-in node or mark classes Bard Mutator probably won't work properly. Unfortunately I don’t think there’s any way I can fix that.
 
