@@ -100,8 +100,8 @@ Mutator::node('image', function ($tag) {
 
 You should add mutators in your service provider's `boot()` method. They will receive two arguments:
 
-* **`tag` (array):** The standard [tag value](#tag-values)
-* **`node/mark` (object):** The raw node or mark data
+* **tag (array):** The standard [tag value](#tag-values)
+* **node/mark (object):** The raw node or mark data
 
 You should return a [tag value](#tag-values).
 
@@ -135,8 +135,8 @@ In its fully expanded format a tag value looks like this:
 
 A fully expanded tag value is an array of items where each item is an associative array with two keys:
 
-* **`tag` (string):** The name of the tag
-* **`attrs` (array):** A name/value array of attributes
+* **tag (string):** The name of the tag
+* **attrs (array):** A name/value array of attributes
 
 An array with multiple items will render nested tags, with the content placed within the innermost (last) tag.
 
