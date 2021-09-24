@@ -197,14 +197,14 @@ Bard Mutator will replace all of ProseMirror/Statamic's built-in node and mark c
     * strike
     * superscript
 
-## 🚨 Warning: Potential Incompatibilites
+## 🚨 Other Addons & Potential Incompatibilites
 
-Because of the way ProseMirror works Bard Mutator has to replace all of the built-in node and mark classes with its own. And it can only do that reliably if there are no other addons (or site code) trying to do the same thing.
+Because of the way ProseMirror works Bard Mutator has to replace all of the built-in node and mark classes with its own. And it can only do that reliably if there are no other addons (or user code) trying to do the same thing.
 
-In fact, one reason I developed this in the first place was to make it possible for multiple addons to make tag modifications without having to compete over the same set of classes.
+In fact, one of the main reasons I developed this was to make it possible for multiple addons to make modifications to the built-in nodes and marks without having to compete over the same set of classes.
 
-My other Bard addon, [Bard Paragraph Style](https://github.com/jacksleight/bard-paragraph-style), is fully compatible with this. It uses Bard Mutator under the hood instead of it's own node class if installed.
+My other Bard addon ([Bard Paragraph Style](https://github.com/jacksleight/bard-paragraph-style)) is fully compatible with this. If Bard Mutator is installed it uses that under the hood instead of it's own node class.
 
-*However*, if you have other addons (or site code) that replace any of the built-in node or mark classes Bard Mutator probably won't work properly. Unfortunately I don’t think there’s any way I can fix that.
+*However*, if you have other addons (or user code) that replace any of the built-in node or mark classes Bard Mutator probably won't work properly. Unfortunately I don’t think there’s any way I can fix that.
 
 This does not affect custom nodes and marks.
