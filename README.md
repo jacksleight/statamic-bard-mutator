@@ -196,3 +196,15 @@ Bard Mutator will replace all of ProseMirror/Statamic's standard node and mark c
     * underline
     * strike
     * superscript
+
+## 🚨 Warning: Potential Incompatibilites
+
+Because of the way ProseMirror works Bard Mutator has to replace all of the standard node and mark classes with custom ones. And it can only do that reliably if there are no other addons (or site code) trying to do the same thing.
+
+In fact, one reason I developed this in the first place was to make it possible for multiple addons/developers to make tag modifications without having to compete over the same set of classes.
+
+My other Bard addon, [Bard Paragraph Style](https://github.com/jacksleight/bard-paragraph-style), is fully compatible with this addon. It uses this instead of it's own node class if installed.
+
+*However*, if you have other addons (or site code) that replace any of the standard node and mark classes Bard Mutator probably won't work properly. Unfortunately there isn't really any way I can fix that.
+
+This does not affect custom nodes and marks.
