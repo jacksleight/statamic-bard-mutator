@@ -101,11 +101,11 @@ Mutator::node('image', function ($tag) {
 You should add mutators in your service provider's `boot()` method. They will receive two arguments:
 
 * **`tag` (array):** The standard [tag value](#tag-values)
-* **`node/mark` (object):** The raw node/mark data
+* **`node/mark` (object):** The raw node or mark data
 
 You should return a [tag value](#tag-values).
 
-You can add multiple mutators for the same node/mark, they'll be executed in the order they were added.
+You can add multiple mutators for the same node or mark, they'll be executed in the order they were added.
 
 ## How it Works
 
@@ -133,10 +133,12 @@ In its fully expanded format a tag value looks like this:
 ]
 ```
 
-A fully expanded tag value is an array of items. An array with multiple items will render nested tags, with the content placed within the innermost (last) tag. Each item is an associative array with two keys:
+A fully expanded tag value is an array of items where each item is an associative array with two keys:
 
 * **`tag` (string):** The name of the tag
 * **`attrs` (array):** A name/value array of attributes
+
+An array with multiple items will render nested tags, with the content placed within the innermost (last) tag.
 
 If there are no attributes the item can just be the tag name:
 
@@ -152,7 +154,7 @@ And if there's only one item with no attributes the entire tag value can just be
 'p'
 ```
 
-For ease and consistency Bard Mutator normalizes the tag value to the fully expanded format before passing to your mutators. You can return any format you like.
+The standard node and mark classes return a mixture of these formats, but for ease and consistency Bard Mutator normalizes them to the fully expanded format before passing to your mutators. You can return any format you like.
 
 **Important:** A tag value that's a single associative array is *not* supported:
 
@@ -167,6 +169,8 @@ return [
 ```
 
 ## Avaliable Nodes & Marks
+
+Bard Mutator will replace all of ProseMirror/Statamic's standard node and mark classes with extended versions that support mutation, except for Statamic's Set node. These are:
 
 * **Nodes**
     * blockquote

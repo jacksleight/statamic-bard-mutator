@@ -2,7 +2,7 @@
 
 ## 0.1.2 (2021-09-23)
 
-- [break] Removed custom class configuration as it could cause issues with future ProseMirror/Statamic updates or other addons, needs more thought
+- [break] Removed class configuration as it could potentially cause issues with future ProseMirror/Statamic updates or other addons, needs more thought
 
 ## 0.1.1 (2021-09-23)
 
