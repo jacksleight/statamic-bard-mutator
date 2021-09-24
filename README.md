@@ -205,6 +205,6 @@ In fact, one reason I developed this in the first place was to make it possible 
 
 My other Bard addon, [Bard Paragraph Style](https://github.com/jacksleight/bard-paragraph-style), is fully compatible with this. It uses this instead of it's own node class if installed.
 
-*However*, if you have other addons (or site code) that replace any of the built-in node and mark classes Bard Mutator probably won't work properly. Unfortunately I don’t think there’s any way to fix that.
+*However*, if you have other addons (or site code) that replace any of the built-in node or mark classes Bard Mutator probably won't work properly. Unfortunately I don’t think there’s any way I can fix that.
 
 This does not affect custom nodes and marks.
