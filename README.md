@@ -154,7 +154,7 @@ And if there's only one item with no attributes the entire tag value can just be
 'p'
 ```
 
-The standard node and mark classes return a mixture of these formats, but for ease and consistency Bard Mutator normalizes them to the fully expanded format before passing to your mutators. You can return any format you like.
+The built-in node and mark classes return a mixture of these formats, but for ease and consistency Bard Mutator normalizes them to the fully expanded format before passing to your mutators. You can return any format you like.
 
 **Important:** A tag value that's a single associative array is *not* supported:
 
@@ -170,7 +170,7 @@ return [
 
 ## Avaliable Nodes & Marks
 
-Bard Mutator will replace all of ProseMirror/Statamic's standard node and mark classes with extended versions that support mutation, except for Statamic's Set node. These are:
+Bard Mutator will replace all of ProseMirror/Statamic's built-in node and mark classes with extended versions that support mutation, except for Statamic's Set node. These are:
 
 * **Nodes**
     * blockquote
@@ -199,12 +199,12 @@ Bard Mutator will replace all of ProseMirror/Statamic's standard node and mark c
 
 ## 🚨 Warning: Potential Incompatibilites
 
-Because of the way ProseMirror works Bard Mutator has to replace all of the standard node and mark classes with custom ones. And it can only do that reliably if there are no other addons (or site code) trying to do the same thing.
+Because of the way ProseMirror works Bard Mutator has to replace all of the built-in node and mark classes with its own. And it can only do that reliably if there are no other addons (or site code) trying to do the same thing.
 
-In fact, one reason I developed this in the first place was to make it possible for multiple addons/developers to make tag modifications without having to compete over the same set of classes.
+In fact, one reason I developed this in the first place was to make it possible for multiple addons to make tag modifications without having to compete over the same set of classes.
 
-My other Bard addon, [Bard Paragraph Style](https://github.com/jacksleight/bard-paragraph-style), is fully compatible with this addon. It uses this instead of it's own node class if installed.
+My other Bard addon, [Bard Paragraph Style](https://github.com/jacksleight/bard-paragraph-style), is fully compatible with this. It uses this instead of it's own node class if installed.
 
-*However*, if you have other addons (or site code) that replace any of the standard node and mark classes Bard Mutator probably won't work properly. Unfortunately there isn't really any way I can fix that.
+*However*, if you have other addons (or site code) that replace any of the built-in node and mark classes Bard Mutator probably won't work properly. Unfortunately I don’t think there’s any way to fix that.
 
 This does not affect custom nodes and marks.
