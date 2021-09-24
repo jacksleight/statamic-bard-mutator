@@ -1,6 +1,6 @@
 <!-- statamic:hide -->
 
-![Statamic](https://flat.badgen.net/badge/Statamic/3.2+/FF269E)
+![Statamic](https://flat.badgen.net/badge/Statamic/3.1.14+/FF269E)
 ![Packagist version](https://flat.badgen.net/packagist/v/jacksleight/bard-mutator)
 ![License](https://flat.badgen.net/github/license/jacksleight/bard-mutator)
 
