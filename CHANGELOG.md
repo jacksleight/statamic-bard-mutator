@@ -1,5 +1,9 @@
 # Changelog
 
+## NEXT
+
+- Tweak to the trait API
+
 ## 0.1.2 (2021-09-23)
 
 - [break] Removed class configuration as it could potentially cause issues with future ProseMirror/Statamic updates or other addons, needs more thought
