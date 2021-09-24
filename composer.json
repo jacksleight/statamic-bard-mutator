@@ -17,6 +17,6 @@
         }
     },
     "require": {
-        "statamic/cms": "^3.2"
+        "statamic/cms": "^3.1.14"
     }
 }

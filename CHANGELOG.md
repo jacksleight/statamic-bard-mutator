@@ -2,6 +2,7 @@
 
 ## NEXT
 
+- Support back to Statamic 3.1.14
 - Tweak to the trait API
 
 ## 0.1.2 (2021-09-23)
