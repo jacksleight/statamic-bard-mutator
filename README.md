@@ -52,9 +52,9 @@ Mutator::tag('link', function ($tag) {
 ```php
 use JackSleight\BardMutator\Facades\Mutator;
 
-Mutator::tag('heading', function ($tag, $node) {
-    if ($node->attrs->level === 2) {
-        $tag[0]['attrs']['id'] = str_slug(collect($node->content)->implode('text', ''));
+Mutator::tag('heading', function ($tag, $data) {
+    if ($data->attrs->level === 2) {
+        $tag[0]['attrs']['id'] = str_slug(collect($data->content)->implode('text', ''));
     }
     return $tag;
 });
