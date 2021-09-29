@@ -170,7 +170,7 @@ return [
 
 ## Avaliable Nodes & Marks
 
-Bard Mutator will replace all of ProseMirror/Statamic's built-in node and mark classes with extended versions that support mutation, except for Statamic's Set node. These are:
+Bard Mutator will replace all of the built-in node and mark classes with extended versions that support mutation, except for Statamic's Set node. These are:
 
 * **Nodes**
     * blockquote
