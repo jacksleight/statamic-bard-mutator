@@ -6,13 +6,13 @@ use JackSleight\BardMutator\Facades\Mutator;
 
 trait MutatesMark
 {
-    public function mutateMark($tag)
+    public function mutateTag($tag)
     {
-        return Mutator::mutateMark($this->markType, $this->mark, $tag);
+        return Mutator::mutateTag($this->markType, $this->mark, $tag);
     }
 
     public function tag()
     {
-        return $this->mutateMark(parent::tag());
+        return $this->mutateTag(parent::tag());
     }
 }

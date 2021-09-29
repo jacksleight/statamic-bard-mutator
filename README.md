@@ -27,7 +27,7 @@ First of all let's see what this can do with some examples!
 ```php
 use JackSleight\BardMutator\Facades\Mutator;
 
-Mutator::node('bullet_list', function ($tag) {
+Mutator::tag('bullet_list', function ($tag) {
     $tag[0]['attrs']['class'] = 'list';
     return $tag;
 });
@@ -39,7 +39,7 @@ Mutator::node('bullet_list', function ($tag) {
 use JackSleight\BardMutator\Facades\Mutator;
 use Statamic\Facades\URL;
 
-Mutator::mark('link', function ($tag) {
+Mutator::tag('link', function ($tag) {
     if (URL::isExternal($tag[0]['attrs']['href'])) {
         $tag[0]['attrs']['rel'] = 'noopener';
     }
@@ -52,7 +52,7 @@ Mutator::mark('link', function ($tag) {
 ```php
 use JackSleight\BardMutator\Facades\Mutator;
 
-Mutator::node('heading', function ($tag, $node) {
+Mutator::tag('heading', function ($tag, $node) {
     if ($node->attrs->level === 2) {
         $tag[0]['attrs']['id'] = str_slug(collect($node->content)->implode('text', ''));
     }
@@ -65,7 +65,7 @@ Mutator::node('heading', function ($tag, $node) {
 ```php
 use JackSleight\BardMutator\Facades\Mutator;
 
-Mutator::node('table', function ($tag) {
+Mutator::tag('table', function ($tag) {
     array_unshift($tag, [
         'tag' => 'div',
         'attrs' => ['class' => 'table-wrapper'],
@@ -79,7 +79,7 @@ Mutator::node('table', function ($tag) {
 ```php
 use JackSleight\BardMutator\Facades\Mutator;
 
-Mutator::node('list_item', function ($tag) {
+Mutator::tag('list_item', function ($tag) {
     array_push($tag, 'span');
     return $tag;
 });
@@ -90,7 +90,7 @@ Mutator::node('list_item', function ($tag) {
 ```php
 use JackSleight\BardMutator\Facades\Mutator;
 
-Mutator::node('image', function ($tag) {
+Mutator::tag('image', function ($tag) {
     $tag[0]['tag'] = 'fancy-image';
     return $tag;
 });
@@ -101,7 +101,7 @@ Mutator::node('image', function ($tag) {
 You should add mutators in your service provider's `boot()` method. They will receive two arguments:
 
 * **tag (array):** The standard [tag value](#tag-values)
-* **node/mark (object):** The raw node or mark data
+* **data (object):** The raw node or mark data
 
 You should return a [tag value](#tag-values).
 

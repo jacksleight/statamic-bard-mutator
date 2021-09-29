@@ -6,59 +6,30 @@ use closure;
 
 class Mutator
 {
-    public $nodeMutators = [];
+    public $tagMutators = [];
 
-    public $markMutators = [];
-
-    public function node($nodeType, closure $mutator)
+    public function tag($type, closure $mutator)
     {
-        $this->nodeMutators[$nodeType][] = $mutator;
+        $this->tagMutators[$type][] = $mutator;
     }
 
-    public function mark($markType, closure $mutator)
+    public function getTagMutators($type)
     {
-        $this->markMutators[$markType][] = $mutator;
+        return $this->tagMutators[$type] ?? [];
     }
 
-    public function getNodeMutators($nodeType)
+    public function mutateTag($type, $data, $tag)
     {
-        return $this->nodeMutators[$nodeType] ?? [];
-    }
-
-    public function getMarkMutators($markType)
-    {
-        return $this->markMutators[$markType] ?? [];
-    }
-
-    public function mutateNode($nodeType, $node, $tag)
-    {
-        $mutators = $this->getNodeMutators($nodeType);
+        $mutators = $this->getTagMutators($type);
         if (!count($mutators)) {
             return $tag;
         }
 
-        $node = $this->normalizeData($node);
+        $data = $this->normalizeData($data);
         
         foreach ($mutators as $mutator) {
             $tag = $this->normalizeTag($tag);
-            $tag = $mutator($tag, $node);
-        }
-
-        return $tag;
-    }
-
-    public function mutateMark($markType, $mark, $tag)
-    {
-        $mutators = $this->getMarkMutators($markType);
-        if (!count($mutators)) {
-            return $tag;
-        }
-
-        $mark = $this->normalizeData($mark);
-        
-        foreach ($mutators as $mutator) {
-            $tag = $this->normalizeTag($tag);
-            $tag = $mutator($tag, $mark);
+            $tag = $mutator($tag, $data);
         }
 
         return $tag;
@@ -86,5 +57,21 @@ class Mutator
             $data->content = [];
         }
         return $data;
+    }
+
+    /**
+     * @deprecated
+     */
+    public function node($type, closure $mutator)
+    {
+        $this->tag($type, $mutator);
+    }
+
+    /**
+     * @deprecated
+     */
+    public function mark($type, closure $mutator)
+    {
+        $this->tag($type, $mutator);
     }
 }
