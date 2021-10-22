@@ -2,8 +2,11 @@
 
 ## 0.2.0 (2021-10-22)
 
-- **Package Renamed:**  
-This package has been renamed to `jacksleight/statamic-bard-mutator`. You will need to manually update your `composer.json` to switch to the new version, and you will also need to update any class references to the new `JackSleight\StatamicBardMutator` namespace. There are no additional BC breaks. I'm very sorry for any inconvienence this causes, but it's necessary for some future plans and to keep everything namespaced properly. It won't happen again!
+- [break] **Package Renamed:**  
+This package has been renamed to `jacksleight/statamic-bard-mutator`. I'm very sorry for any inconvienence this causes, but it's necessary for some future plans and to keep everything namespaced properly. It won't happen again! Update instructions:
+    1. Update `composer.json` to `"jacksleight/statamic-bard-mutator": "0.2.0",`
+    2. Update any class references to the new `JackSleight\StatamicBardMutator` namespace
+    3. Run `composer update`
 
 ## 0.1.4 (2021-09-29)
 
