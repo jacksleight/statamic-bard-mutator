@@ -8,6 +8,8 @@
 
 <!-- /statamic:hide -->
 
+> **Updating from 0.1.4?** Check the [0.2.0 update instructions](https://github.com/jacksleight/statamic-bard-mutator/blob/main/CHANGELOG.md#020-2021-10-22).
+> 
 This Statamic addon allows you to modify the tags rendered by the Bard fieldtype, giving you full control over the final HTML. You can add, remove and modify attributes, wrap tags and content, or rename and replace tags entirely.
 
 ## Installation
