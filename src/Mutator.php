@@ -1,6 +1,6 @@
 <?php
 
-namespace JackSleight\BardMutator;
+namespace JackSleight\StatamicBardMutator;
 
 use closure;
 

@@ -1,8 +1,8 @@
 {
-    "name": "jacksleight/bard-mutator",
+    "name": "jacksleight/statamic-bard-mutator",
     "autoload": {
         "psr-4": {
-            "JackSleight\\BardMutator\\": "src"
+            "JackSleight\\StatamicBardMutator\\": "src"
         }
     },
     "extra": {
@@ -12,7 +12,7 @@
         },
         "laravel": {
             "providers": [
-                "JackSleight\\BardMutator\\ServiceProvider"
+                "JackSleight\\StatamicBardMutator\\ServiceProvider"
             ]
         }
     },

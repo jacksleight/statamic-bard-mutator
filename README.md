@@ -1,8 +1,8 @@
 <!-- statamic:hide -->
 
 ![Statamic](https://flat.badgen.net/badge/Statamic/3.1.14+/FF269E)
-![Packagist version](https://flat.badgen.net/packagist/v/jacksleight/bard-mutator)
-![License](https://flat.badgen.net/github/license/jacksleight/bard-mutator)
+![Packagist version](https://flat.badgen.net/packagist/v/jacksleight/statamic-bard-mutator)
+![License](https://flat.badgen.net/github/license/jacksleight/statamic-bard-mutator)
 
 # Bard Mutator 
 
@@ -15,7 +15,7 @@ This Statamic addon allows you to modify the tags rendered by the Bard fieldtype
 Install the addon using Composer:
 
 ```bash
-composer require jacksleight/bard-mutator
+composer require jacksleight/statamic-bard-mutator
 ```
 
 ## Examples
@@ -25,7 +25,7 @@ First of all let's see what this can do with some examples!
 ### Add a class to all bullet lists:
 
 ```php
-use JackSleight\BardMutator\Facades\Mutator;
+use JackSleight\StatamicBardMutator\Facades\Mutator;
 
 Mutator::tag('bullet_list', function ($tag) {
     $tag[0]['attrs']['class'] = 'list';
@@ -36,7 +36,7 @@ Mutator::tag('bullet_list', function ($tag) {
 ### Add `noopener` to all external links:
 
 ```php
-use JackSleight\BardMutator\Facades\Mutator;
+use JackSleight\StatamicBardMutator\Facades\Mutator;
 use Statamic\Facades\URL;
 
 Mutator::tag('link', function ($tag) {
@@ -50,7 +50,7 @@ Mutator::tag('link', function ($tag) {
 ### Add an auto-generated ID to all level 2 headings:
 
 ```php
-use JackSleight\BardMutator\Facades\Mutator;
+use JackSleight\StatamicBardMutator\Facades\Mutator;
 
 Mutator::tag('heading', function ($tag, $data) {
     if ($data->attrs->level === 2) {
@@ -63,7 +63,7 @@ Mutator::tag('heading', function ($tag, $data) {
 ### Add a wrapper div around all tables:
 
 ```php
-use JackSleight\BardMutator\Facades\Mutator;
+use JackSleight\StatamicBardMutator\Facades\Mutator;
 
 Mutator::tag('table', function ($tag) {
     array_unshift($tag, [
@@ -77,7 +77,7 @@ Mutator::tag('table', function ($tag) {
 ### Add a wrapper span around all list item content:
 
 ```php
-use JackSleight\BardMutator\Facades\Mutator;
+use JackSleight\StatamicBardMutator\Facades\Mutator;
 
 Mutator::tag('list_item', function ($tag) {
     array_push($tag, 'span');
@@ -88,7 +88,7 @@ Mutator::tag('list_item', function ($tag) {
 ### Convert all images to a custom element:
 
 ```php
-use JackSleight\BardMutator\Facades\Mutator;
+use JackSleight\StatamicBardMutator\Facades\Mutator;
 
 Mutator::tag('image', function ($tag) {
     $tag[0]['tag'] = 'fancy-image';

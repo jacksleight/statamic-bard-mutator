@@ -1,12 +1,12 @@
 <?php
 
-namespace JackSleight\BardMutator;
+namespace JackSleight\StatamicBardMutator;
 
 use Statamic\Providers\AddonServiceProvider;
 use Statamic\Fieldtypes\Bard\Augmentor;
-use JackSleight\BardMutator\Mutator;
-use JackSleight\BardMutator\Nodes;
-use JackSleight\BardMutator\Marks;
+use JackSleight\StatamicBardMutator\Mutator;
+use JackSleight\StatamicBardMutator\Nodes;
+use JackSleight\StatamicBardMutator\Marks;
 
 class ServiceProvider extends AddonServiceProvider
 {

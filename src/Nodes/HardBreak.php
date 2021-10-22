@@ -1,8 +1,8 @@
 <?php
 
-namespace JackSleight\BardMutator\Nodes;
+namespace JackSleight\StatamicBardMutator\Nodes;
 
-use JackSleight\BardMutator\Support\Traits\MutatesNode;
+use JackSleight\StatamicBardMutator\Support\Traits\MutatesNode;
 
 class HardBreak extends \ProseMirrorToHtml\Nodes\HardBreak
 {

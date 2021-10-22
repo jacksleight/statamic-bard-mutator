@@ -1,8 +1,8 @@
 <?php
 
-namespace JackSleight\BardMutator\Support\Traits;
+namespace JackSleight\StatamicBardMutator\Support\Traits;
 
-use JackSleight\BardMutator\Facades\Mutator;
+use JackSleight\StatamicBardMutator\Facades\Mutator;
 
 trait MutatesNode
 {

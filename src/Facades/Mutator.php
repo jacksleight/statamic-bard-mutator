@@ -1,6 +1,6 @@
 <?php
 
-namespace JackSleight\BardMutator\Facades;
+namespace JackSleight\StatamicBardMutator\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -8,6 +8,6 @@ class Mutator extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return \JackSleight\BardMutator\Mutator::class;
+        return \JackSleight\StatamicBardMutator\Mutator::class;
     }
 }

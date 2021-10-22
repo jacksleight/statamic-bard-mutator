@@ -1,8 +1,8 @@
 <?php
 
-namespace JackSleight\BardMutator\Marks;
+namespace JackSleight\StatamicBardMutator\Marks;
 
-use JackSleight\BardMutator\Support\Traits\MutatesMark;
+use JackSleight\StatamicBardMutator\Support\Traits\MutatesMark;
 
 class Code extends \ProseMirrorToHtml\Marks\Code
 {
