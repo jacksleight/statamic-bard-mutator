@@ -8,13 +8,11 @@
 
 <!-- /statamic:hide -->
 
-> **Updating from 0.1.4?** Check the [0.2.0 update instructions](https://github.com/jacksleight/statamic-bard-mutator/blob/main/CHANGELOG.md#020-2021-10-22).
-
 This Statamic addon allows you to modify the tags rendered by the Bard fieldtype, giving you full control over the final HTML. You can add, remove and modify attributes, wrap tags and content, or rename and replace tags entirely.
 
 ## Installation
 
-Install the addon using Composer:
+You can search for this addon in the `Tools > Addons` section of the Statamic control panel and click **install**, or run the following command from your project root:
 
 ```bash
 composer require jacksleight/statamic-bard-mutator
@@ -203,7 +201,7 @@ Bard Mutator will replace all of the built-in node and mark classes with extende
 
 Because of the way ProseMirror works Bard Mutator has to replace all of the built-in node and mark classes with its own. And it can only do that reliably if there are no other addons (or user code) trying to do the same thing.
 
-In fact, one of the main reasons I developed this was to make it possible for multiple addons to make modifications to the built-in nodes and marks without having to compete over the same set of classes.
+<!-- In fact, one of the main reasons I developed this was to make it possible for multiple addons to make modifications to the built-in nodes and marks without having to compete over the same set of classes. -->
 
 My other Bard addon ([Bard Paragraph Style](https://github.com/jacksleight/bard-paragraph-style)) is fully compatible with this. If Bard Mutator is installed it uses that under the hood instead of it's own node class.
 
