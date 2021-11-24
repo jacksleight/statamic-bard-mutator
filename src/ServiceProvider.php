@@ -2,11 +2,14 @@
 
 namespace JackSleight\StatamicBardMutator;
 
+use Statamic\Statamic;
 use Statamic\Providers\AddonServiceProvider;
 use Statamic\Fieldtypes\Bard\Augmentor;
 use JackSleight\StatamicBardMutator\Mutator;
 use JackSleight\StatamicBardMutator\Nodes;
 use JackSleight\StatamicBardMutator\Marks;
+use JackSleight\StatamicBardMutator\Facades;
+use Statamic\Support\Arr;
 
 class ServiceProvider extends AddonServiceProvider
 {
@@ -23,38 +26,49 @@ class ServiceProvider extends AddonServiceProvider
     {
         parent::boot();
 
-        $classes = [
-            'replaceNodes' => [
-                \ProseMirrorToHtml\Nodes\Blockquote::class       => Nodes\Blockquote::class,
-                \ProseMirrorToHtml\Nodes\BulletList::class       => Nodes\BulletList::class,
-                \ProseMirrorToHtml\Nodes\CodeBlock::class        => Nodes\CodeBlock::class,
-                \ProseMirrorToHtml\Nodes\HardBreak::class        => Nodes\HardBreak::class,
-                \ProseMirrorToHtml\Nodes\Heading::class          => Nodes\Heading::class,
-                \ProseMirrorToHtml\Nodes\HorizontalRule::class   => Nodes\HorizontalRule::class,
-                \Statamic\Fieldtypes\Bard\ImageNode::class       => Nodes\Image::class,
-                \ProseMirrorToHtml\Nodes\ListItem::class         => Nodes\ListItem::class,
-                \ProseMirrorToHtml\Nodes\OrderedList::class      => Nodes\OrderedList::class,
-                \ProseMirrorToHtml\Nodes\Paragraph::class        => Nodes\Paragraph::class,
-                \ProseMirrorToHtml\Nodes\Table::class            => Nodes\Table::class,
-                \ProseMirrorToHtml\Nodes\TableCell::class        => Nodes\TableCell::class,
-                \ProseMirrorToHtml\Nodes\TableHeader::class      => Nodes\TableHeader::class,
-                \ProseMirrorToHtml\Nodes\TableRow::class         => Nodes\TableRow::class,
-            ],
-            'replaceMarks' => [
-                \ProseMirrorToHtml\Marks\Bold::class             => Marks\Bold::class,
-                \ProseMirrorToHtml\Marks\Code::class             => Marks\Code::class,
-                \ProseMirrorToHtml\Marks\Italic::class           => Marks\Italic::class,
-                \Statamic\Fieldtypes\Bard\LinkMark::class        => Marks\Link::class,
-                \ProseMirrorToHtml\Marks\Subscript::class        => Marks\Subscript::class,
-                \ProseMirrorToHtml\Marks\Underline::class        => Marks\Underline::class,
-                \ProseMirrorToHtml\Marks\Strike::class           => Marks\Strike::class,
-                \ProseMirrorToHtml\Marks\Superscript::class      => Marks\Superscript::class,
-            ],
+        Statamic::booted(function () {
+            $this->bootExtensions();
+        });
+    }
+    
+    protected function bootExtensions()
+    {
+        $types = Facades\Mutator::getMutatedTypes();
+
+        $replacementNodes = [
+            'blockquote'      => [\ProseMirrorToHtml\Nodes\Blockquote::class, Nodes\Blockquote::class],
+            'bullet_list'     => [\ProseMirrorToHtml\Nodes\BulletList::class, Nodes\BulletList::class],
+            'code_block'      => [\ProseMirrorToHtml\Nodes\CodeBlock::class, Nodes\CodeBlock::class],
+            'hard_break'      => [\ProseMirrorToHtml\Nodes\HardBreak::class, Nodes\HardBreak::class],
+            'heading'         => [\ProseMirrorToHtml\Nodes\Heading::class, Nodes\Heading::class],
+            'horizontal_rule' => [\ProseMirrorToHtml\Nodes\HorizontalRule::class, Nodes\HorizontalRule::class],
+            'image'           => [\Statamic\Fieldtypes\Bard\ImageNode::class, Nodes\Image::class],
+            'list_item'       => [\ProseMirrorToHtml\Nodes\ListItem::class, Nodes\ListItem::class],
+            'ordered_list'    => [\ProseMirrorToHtml\Nodes\OrderedList::class, Nodes\OrderedList::class],
+            'paragraph'       => [\ProseMirrorToHtml\Nodes\Paragraph::class, Nodes\Paragraph::class],
+            'table'           => [\ProseMirrorToHtml\Nodes\Table::class, Nodes\Table::class],
+            'table_cell'      => [\ProseMirrorToHtml\Nodes\TableCell::class, Nodes\TableCell::class],
+            'table_header'    => [\ProseMirrorToHtml\Nodes\TableHeader::class, Nodes\TableHeader::class],
+            'table_row'       => [\ProseMirrorToHtml\Nodes\TableRow::class, Nodes\TableRow::class],
         ];
-        foreach ($classes['replaceNodes'] as $searchNode => $mutatorNode) {
+        $replacementMarks = [
+            'bold'        => [\ProseMirrorToHtml\Marks\Bold::class, Marks\Bold::class],
+            'code'        => [\ProseMirrorToHtml\Marks\Code::class, Marks\Code::class],
+            'italic'      => [\ProseMirrorToHtml\Marks\Italic::class, Marks\Italic::class],
+            'link'        => [\Statamic\Fieldtypes\Bard\LinkMark::class, Marks\Link::class],
+            'subscript'   => [\ProseMirrorToHtml\Marks\Subscript::class, Marks\Subscript::class],
+            'underline'   => [\ProseMirrorToHtml\Marks\Underline::class, Marks\Underline::class],
+            'strike'      => [\ProseMirrorToHtml\Marks\Strike::class, Marks\Strike::class],
+            'superscript' => [\ProseMirrorToHtml\Marks\Superscript::class, Marks\Superscript::class],
+        ];
+
+        $replaceNodes = Arr::only($replacementNodes, $types);
+        $replaceMarks = Arr::only($replacementMarks, $types);
+
+        foreach ($replaceNodes as $searchNode => $mutatorNode) {
             Augmentor::replaceNode($searchNode, $mutatorNode);
         }
-        foreach ($classes['replaceMarks'] as $searchMark => $mutatorMark) {
+        foreach ($replaceMarks as $searchMark => $mutatorMark) {
             Augmentor::replaceMark($searchMark, $mutatorMark);
         }
     }

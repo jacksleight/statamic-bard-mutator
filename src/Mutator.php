@@ -8,6 +8,11 @@ class Mutator
 {
     public $tagMutators = [];
 
+    public function getMutatedTypes()
+    {
+        return array_keys($this->tagMutators);
+    }
+
     public function tag($type, closure $mutator)
     {
         $this->tagMutators[$type][] = $mutator;
