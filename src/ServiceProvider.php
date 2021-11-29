@@ -2,26 +2,26 @@
 
 namespace JackSleight\StatamicBardMutator;
 
-use Statamic\Statamic;
-use Statamic\Providers\AddonServiceProvider;
 use Statamic\Fieldtypes\Bard\Augmentor;
-use JackSleight\StatamicBardMutator\Mutator;
-use JackSleight\StatamicBardMutator\Nodes;
-use JackSleight\StatamicBardMutator\Marks;
-use JackSleight\StatamicBardMutator\Facades;
+use Statamic\Providers\AddonServiceProvider;
+use Statamic\Statamic;
 use Statamic\Support\Arr;
 
 class ServiceProvider extends AddonServiceProvider
 {
+    protected $scripts = [
+        __DIR__.'/../dist/js/addon.js',
+    ];
+
     public function register()
     {
         parent::register();
-        
+
         $this->app->singleton(Mutator::class, function () {
             return new Mutator();
         });
     }
-    
+
     public function boot()
     {
         parent::boot();
@@ -30,10 +30,10 @@ class ServiceProvider extends AddonServiceProvider
             $this->bootExtensions();
         });
     }
-    
+
     protected function bootExtensions()
     {
-        $types = Facades\Mutator::getMutatedTypes();
+        $mutatedTypes = Facades\Mutator::getMutatedTypes();
 
         $replacementNodes = [
             'blockquote'      => [\ProseMirrorToHtml\Nodes\Blockquote::class, Nodes\Blockquote::class],
@@ -62,8 +62,8 @@ class ServiceProvider extends AddonServiceProvider
             'superscript' => [\ProseMirrorToHtml\Marks\Superscript::class, Marks\Superscript::class],
         ];
 
-        $replaceNodes = Arr::only($replacementNodes, $types);
-        $replaceMarks = Arr::only($replacementMarks, $types);
+        $replaceNodes = Arr::only($replacementNodes, $mutatedTypes);
+        $replaceMarks = Arr::only($replacementMarks, $mutatedTypes);
 
         foreach ($replaceNodes as $searchNode => $mutatorNode) {
             Augmentor::replaceNode($searchNode, $mutatorNode);
