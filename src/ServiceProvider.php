@@ -8,10 +8,6 @@ use Statamic\Providers\AddonServiceProvider;
 
 class ServiceProvider extends AddonServiceProvider
 {
-    // protected $scripts = [
-    //
-    // ];
-
     public function register()
     {
         parent::register();
