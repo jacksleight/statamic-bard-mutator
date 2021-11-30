@@ -2,8 +2,8 @@ const mutatesNode = (superclass) => class extends superclass {
     get schema() {
         return BardMutator.mutator.mutateSchema(this.name, super.schema);
     }
-    commands(data) {
-        return BardMutator.mutator.mutateCommands(this.name, super.commands(data), data);
+    commands(info) {
+        return BardMutator.mutator.mutateCommands(this.name, super.commands(info), info);
     }
 };
 export default mutatesNode;

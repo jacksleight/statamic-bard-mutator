@@ -2,7 +2,7 @@ import { extendSchema } from "./utilities";
 
 export default class Mutator {
 
-    extensions = {}
+    extensions = null
 
     registered = []
 
@@ -53,14 +53,14 @@ export default class Mutator {
         return this.commandsMutators[type] || [];
     }
     
-    mutateCommands(type, commands, data) {
+    mutateCommands(type, commands, info) {
         const mutators = this.getCommandsMutators(type);
         if (!mutators.length) {
             return commands;
         }
         for (const mutator of mutators) {
             commands = this.normalizeCommands(type, commands);
-            commands = mutator(commands, data);
+            commands = mutator(commands, info);
         }
         return commands;
     }
@@ -80,7 +80,8 @@ export default class Mutator {
         this.schemaMutators[type] = [];
         this.commandsMutators[type] = [];
         if (this.extensions[type]) {
-            Statamic.$bard.replaceExtension(type, ({ extension }) => new this.extensions[type](extension.options));
+            const replace = this.extensions[type];
+            Statamic.$bard.replaceExtension(type, ({ extension }) => new replace(extension.options));
         }
     }
     
