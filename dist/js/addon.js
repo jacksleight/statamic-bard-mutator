@@ -19,6 +19,144 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Superscript": () => (/* binding */ Superscript),
 /* harmony export */   "Underline": () => (/* binding */ Underline)
 /* harmony export */ });
+/* harmony import */ var _Mixins_MutatesMark__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Mixins/MutatesMark */ "./resources/js/Mixins/MutatesMark.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+var extensions = Statamic.$bard.tiptap.extensions;
+var Bold = /*#__PURE__*/function (_MutatesMark) {
+  _inherits(Bold, _MutatesMark);
+
+  var _super = _createSuper(Bold);
+
+  function Bold() {
+    _classCallCheck(this, Bold);
+
+    return _super.apply(this, arguments);
+  }
+
+  return Bold;
+}((0,_Mixins_MutatesMark__WEBPACK_IMPORTED_MODULE_0__["default"])(extensions.Bold));
+var Code = /*#__PURE__*/function (_MutatesMark2) {
+  _inherits(Code, _MutatesMark2);
+
+  var _super2 = _createSuper(Code);
+
+  function Code() {
+    _classCallCheck(this, Code);
+
+    return _super2.apply(this, arguments);
+  }
+
+  return Code;
+}((0,_Mixins_MutatesMark__WEBPACK_IMPORTED_MODULE_0__["default"])(extensions.Code));
+var Italic = /*#__PURE__*/function (_MutatesMark3) {
+  _inherits(Italic, _MutatesMark3);
+
+  var _super3 = _createSuper(Italic);
+
+  function Italic() {
+    _classCallCheck(this, Italic);
+
+    return _super3.apply(this, arguments);
+  }
+
+  return Italic;
+}((0,_Mixins_MutatesMark__WEBPACK_IMPORTED_MODULE_0__["default"])(extensions.Italic));
+var Link = /*#__PURE__*/function (_MutatesMark4) {
+  _inherits(Link, _MutatesMark4);
+
+  var _super4 = _createSuper(Link);
+
+  function Link() {
+    _classCallCheck(this, Link);
+
+    return _super4.apply(this, arguments);
+  }
+
+  return Link;
+}((0,_Mixins_MutatesMark__WEBPACK_IMPORTED_MODULE_0__["default"])(extensions.Link));
+var Strike = /*#__PURE__*/function (_MutatesMark5) {
+  _inherits(Strike, _MutatesMark5);
+
+  var _super5 = _createSuper(Strike);
+
+  function Strike() {
+    _classCallCheck(this, Strike);
+
+    return _super5.apply(this, arguments);
+  }
+
+  return Strike;
+}((0,_Mixins_MutatesMark__WEBPACK_IMPORTED_MODULE_0__["default"])(extensions.Strike));
+var Subscript = /*#__PURE__*/function (_MutatesMark6) {
+  _inherits(Subscript, _MutatesMark6);
+
+  var _super6 = _createSuper(Subscript);
+
+  function Subscript() {
+    _classCallCheck(this, Subscript);
+
+    return _super6.apply(this, arguments);
+  }
+
+  return Subscript;
+}((0,_Mixins_MutatesMark__WEBPACK_IMPORTED_MODULE_0__["default"])(extensions.Subscript));
+var Superscript = /*#__PURE__*/function (_MutatesMark7) {
+  _inherits(Superscript, _MutatesMark7);
+
+  var _super7 = _createSuper(Superscript);
+
+  function Superscript() {
+    _classCallCheck(this, Superscript);
+
+    return _super7.apply(this, arguments);
+  }
+
+  return Superscript;
+}((0,_Mixins_MutatesMark__WEBPACK_IMPORTED_MODULE_0__["default"])(extensions.Superscript));
+var Underline = /*#__PURE__*/function (_MutatesMark8) {
+  _inherits(Underline, _MutatesMark8);
+
+  var _super8 = _createSuper(Underline);
+
+  function Underline() {
+    _classCallCheck(this, Underline);
+
+    return _super8.apply(this, arguments);
+  }
+
+  return Underline;
+}((0,_Mixins_MutatesMark__WEBPACK_IMPORTED_MODULE_0__["default"])(extensions.Underline));
+
+/***/ }),
+
+/***/ "./resources/js/Mixins/MutatesMark.js":
+/*!********************************************!*\
+  !*** ./resources/js/Mixins/MutatesMark.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -45,207 +183,103 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var extensions = Statamic.$bard.tiptap.extensions;
-var Bold = /*#__PURE__*/function (_extensions$Bold) {
-  _inherits(Bold, _extensions$Bold);
+var MutatesMark = function MutatesMark(superclass) {
+  return /*#__PURE__*/function (_superclass) {
+    _inherits(_class, _superclass);
 
-  var _super = _createSuper(Bold);
+    var _super = _createSuper(_class);
 
-  function Bold() {
-    _classCallCheck(this, Bold);
+    function _class() {
+      _classCallCheck(this, _class);
 
-    return _super.apply(this, arguments);
-  }
-
-  _createClass(Bold, [{
-    key: "schema",
-    get: function get() {
-      return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(Bold.prototype), "schema", this));
+      return _super.apply(this, arguments);
     }
-  }, {
-    key: "commands",
-    value: function commands(data) {
-      return BardMutator.mutator.mutateCommands(this.name, _get(_getPrototypeOf(Bold.prototype), "commands", this).call(this, data), data);
+
+    _createClass(_class, [{
+      key: "schema",
+      get: function get() {
+        return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(_class.prototype), "schema", this));
+      }
+    }, {
+      key: "commands",
+      value: function commands(data) {
+        return BardMutator.mutator.mutateCommands(this.name, data, _get(_getPrototypeOf(_class.prototype), "commands", this).call(this, data));
+      }
+    }]);
+
+    return _class;
+  }(superclass);
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MutatesMark);
+
+/***/ }),
+
+/***/ "./resources/js/Mixins/MutatesNode.js":
+/*!********************************************!*\
+  !*** ./resources/js/Mixins/MutatesNode.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var MutatesNode = function MutatesNode(superclass) {
+  return /*#__PURE__*/function (_superclass) {
+    _inherits(_class, _superclass);
+
+    var _super = _createSuper(_class);
+
+    function _class() {
+      _classCallCheck(this, _class);
+
+      return _super.apply(this, arguments);
     }
-  }]);
 
-  return Bold;
-}(extensions.Bold);
-var Code = /*#__PURE__*/function (_extensions$Code) {
-  _inherits(Code, _extensions$Code);
+    _createClass(_class, [{
+      key: "schema",
+      get: function get() {
+        return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(_class.prototype), "schema", this));
+      }
+    }, {
+      key: "commands",
+      value: function commands(data) {
+        return BardMutator.mutator.mutateCommands(this.name, data, _get(_getPrototypeOf(_class.prototype), "commands", this).call(this, data));
+      }
+    }]);
 
-  var _super2 = _createSuper(Code);
+    return _class;
+  }(superclass);
+};
 
-  function Code() {
-    _classCallCheck(this, Code);
-
-    return _super2.apply(this, arguments);
-  }
-
-  _createClass(Code, [{
-    key: "schema",
-    get: function get() {
-      return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(Code.prototype), "schema", this));
-    }
-  }, {
-    key: "commands",
-    value: function commands(data) {
-      return BardMutator.mutator.mutateCommands(this.name, _get(_getPrototypeOf(Code.prototype), "commands", this).call(this, data), data);
-    }
-  }]);
-
-  return Code;
-}(extensions.Code);
-var Italic = /*#__PURE__*/function (_extensions$Italic) {
-  _inherits(Italic, _extensions$Italic);
-
-  var _super3 = _createSuper(Italic);
-
-  function Italic() {
-    _classCallCheck(this, Italic);
-
-    return _super3.apply(this, arguments);
-  }
-
-  _createClass(Italic, [{
-    key: "schema",
-    get: function get() {
-      return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(Italic.prototype), "schema", this));
-    }
-  }, {
-    key: "commands",
-    value: function commands(data) {
-      return BardMutator.mutator.mutateCommands(this.name, _get(_getPrototypeOf(Italic.prototype), "commands", this).call(this, data), data);
-    }
-  }]);
-
-  return Italic;
-}(extensions.Italic);
-var Link = /*#__PURE__*/function (_extensions$Link) {
-  _inherits(Link, _extensions$Link);
-
-  var _super4 = _createSuper(Link);
-
-  function Link() {
-    _classCallCheck(this, Link);
-
-    return _super4.apply(this, arguments);
-  }
-
-  _createClass(Link, [{
-    key: "schema",
-    get: function get() {
-      return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(Link.prototype), "schema", this));
-    }
-  }, {
-    key: "commands",
-    value: function commands(data) {
-      return BardMutator.mutator.mutateCommands(this.name, _get(_getPrototypeOf(Link.prototype), "commands", this).call(this, data), data);
-    }
-  }]);
-
-  return Link;
-}(extensions.Link);
-var Strike = /*#__PURE__*/function (_extensions$Strike) {
-  _inherits(Strike, _extensions$Strike);
-
-  var _super5 = _createSuper(Strike);
-
-  function Strike() {
-    _classCallCheck(this, Strike);
-
-    return _super5.apply(this, arguments);
-  }
-
-  _createClass(Strike, [{
-    key: "schema",
-    get: function get() {
-      return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(Strike.prototype), "schema", this));
-    }
-  }, {
-    key: "commands",
-    value: function commands(data) {
-      return BardMutator.mutator.mutateCommands(this.name, _get(_getPrototypeOf(Strike.prototype), "commands", this).call(this, data), data);
-    }
-  }]);
-
-  return Strike;
-}(extensions.Strike);
-var Subscript = /*#__PURE__*/function (_extensions$Subscript) {
-  _inherits(Subscript, _extensions$Subscript);
-
-  var _super6 = _createSuper(Subscript);
-
-  function Subscript() {
-    _classCallCheck(this, Subscript);
-
-    return _super6.apply(this, arguments);
-  }
-
-  _createClass(Subscript, [{
-    key: "schema",
-    get: function get() {
-      return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(Subscript.prototype), "schema", this));
-    }
-  }, {
-    key: "commands",
-    value: function commands(data) {
-      return BardMutator.mutator.mutateCommands(this.name, _get(_getPrototypeOf(Subscript.prototype), "commands", this).call(this, data), data);
-    }
-  }]);
-
-  return Subscript;
-}(extensions.Subscript);
-var Superscript = /*#__PURE__*/function (_extensions$Superscri) {
-  _inherits(Superscript, _extensions$Superscri);
-
-  var _super7 = _createSuper(Superscript);
-
-  function Superscript() {
-    _classCallCheck(this, Superscript);
-
-    return _super7.apply(this, arguments);
-  }
-
-  _createClass(Superscript, [{
-    key: "schema",
-    get: function get() {
-      return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(Superscript.prototype), "schema", this));
-    }
-  }, {
-    key: "commands",
-    value: function commands(data) {
-      return BardMutator.mutator.mutateCommands(this.name, _get(_getPrototypeOf(Superscript.prototype), "commands", this).call(this, data), data);
-    }
-  }]);
-
-  return Superscript;
-}(extensions.Superscript);
-var Underline = /*#__PURE__*/function (_extensions$Underline) {
-  _inherits(Underline, _extensions$Underline);
-
-  var _super8 = _createSuper(Underline);
-
-  function Underline() {
-    _classCallCheck(this, Underline);
-
-    return _super8.apply(this, arguments);
-  }
-
-  _createClass(Underline, [{
-    key: "schema",
-    get: function get() {
-      return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(Underline.prototype), "schema", this));
-    }
-  }, {
-    key: "commands",
-    value: function commands(data) {
-      return BardMutator.mutator.mutateCommands(this.name, _get(_getPrototypeOf(Underline.prototype), "commands", this).call(this, data), data);
-    }
-  }]);
-
-  return Underline;
-}(extensions.Underline);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MutatesNode);
 
 /***/ }),
 
@@ -427,17 +461,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "TableHeader": () => (/* binding */ TableHeader),
 /* harmony export */   "TableRow": () => (/* binding */ TableRow)
 /* harmony export */ });
+/* harmony import */ var _Mixins_MutatesNode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Mixins/MutatesNode */ "./resources/js/Mixins/MutatesNode.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
-
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -453,11 +480,12 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+
 var _Statamic$$bard$tipta = Statamic.$bard.tiptap,
     core = _Statamic$$bard$tipta.core,
     extensions = _Statamic$$bard$tipta.extensions;
-var Blockquote = /*#__PURE__*/function (_extensions$Blockquot) {
-  _inherits(Blockquote, _extensions$Blockquot);
+var Blockquote = /*#__PURE__*/function (_MutatesNode) {
+  _inherits(Blockquote, _MutatesNode);
 
   var _super = _createSuper(Blockquote);
 
@@ -467,22 +495,10 @@ var Blockquote = /*#__PURE__*/function (_extensions$Blockquot) {
     return _super.apply(this, arguments);
   }
 
-  _createClass(Blockquote, [{
-    key: "schema",
-    get: function get() {
-      return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(Blockquote.prototype), "schema", this));
-    }
-  }, {
-    key: "commands",
-    value: function commands(data) {
-      return BardMutator.mutator.mutateCommands(this.name, data, _get(_getPrototypeOf(Blockquote.prototype), "commands", this).call(this, data));
-    }
-  }]);
-
   return Blockquote;
-}(extensions.Blockquote);
-var BulletList = /*#__PURE__*/function (_extensions$BulletLis) {
-  _inherits(BulletList, _extensions$BulletLis);
+}((0,_Mixins_MutatesNode__WEBPACK_IMPORTED_MODULE_0__["default"])(extensions.Blockquote));
+var BulletList = /*#__PURE__*/function (_MutatesNode2) {
+  _inherits(BulletList, _MutatesNode2);
 
   var _super2 = _createSuper(BulletList);
 
@@ -492,22 +508,10 @@ var BulletList = /*#__PURE__*/function (_extensions$BulletLis) {
     return _super2.apply(this, arguments);
   }
 
-  _createClass(BulletList, [{
-    key: "schema",
-    get: function get() {
-      return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(BulletList.prototype), "schema", this));
-    }
-  }, {
-    key: "commands",
-    value: function commands(data) {
-      return BardMutator.mutator.mutateCommands(this.name, data, _get(_getPrototypeOf(BulletList.prototype), "commands", this).call(this, data));
-    }
-  }]);
-
   return BulletList;
-}(extensions.BulletList);
-var CodeBlock = /*#__PURE__*/function (_extensions$CodeBlock) {
-  _inherits(CodeBlock, _extensions$CodeBlock);
+}((0,_Mixins_MutatesNode__WEBPACK_IMPORTED_MODULE_0__["default"])(extensions.BulletList));
+var CodeBlock = /*#__PURE__*/function (_MutatesNode3) {
+  _inherits(CodeBlock, _MutatesNode3);
 
   var _super3 = _createSuper(CodeBlock);
 
@@ -517,22 +521,10 @@ var CodeBlock = /*#__PURE__*/function (_extensions$CodeBlock) {
     return _super3.apply(this, arguments);
   }
 
-  _createClass(CodeBlock, [{
-    key: "schema",
-    get: function get() {
-      return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(CodeBlock.prototype), "schema", this));
-    }
-  }, {
-    key: "commands",
-    value: function commands(data) {
-      return BardMutator.mutator.mutateCommands(this.name, data, _get(_getPrototypeOf(CodeBlock.prototype), "commands", this).call(this, data));
-    }
-  }]);
-
   return CodeBlock;
-}(extensions.CodeBlock);
-var HardBreak = /*#__PURE__*/function (_extensions$HardBreak) {
-  _inherits(HardBreak, _extensions$HardBreak);
+}((0,_Mixins_MutatesNode__WEBPACK_IMPORTED_MODULE_0__["default"])(extensions.CodeBlock));
+var HardBreak = /*#__PURE__*/function (_MutatesNode4) {
+  _inherits(HardBreak, _MutatesNode4);
 
   var _super4 = _createSuper(HardBreak);
 
@@ -542,22 +534,10 @@ var HardBreak = /*#__PURE__*/function (_extensions$HardBreak) {
     return _super4.apply(this, arguments);
   }
 
-  _createClass(HardBreak, [{
-    key: "schema",
-    get: function get() {
-      return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(HardBreak.prototype), "schema", this));
-    }
-  }, {
-    key: "commands",
-    value: function commands(data) {
-      return BardMutator.mutator.mutateCommands(this.name, data, _get(_getPrototypeOf(HardBreak.prototype), "commands", this).call(this, data));
-    }
-  }]);
-
   return HardBreak;
-}(extensions.HardBreak);
-var Heading = /*#__PURE__*/function (_extensions$Heading) {
-  _inherits(Heading, _extensions$Heading);
+}((0,_Mixins_MutatesNode__WEBPACK_IMPORTED_MODULE_0__["default"])(extensions.HardBreak));
+var Heading = /*#__PURE__*/function (_MutatesNode5) {
+  _inherits(Heading, _MutatesNode5);
 
   var _super5 = _createSuper(Heading);
 
@@ -567,22 +547,10 @@ var Heading = /*#__PURE__*/function (_extensions$Heading) {
     return _super5.apply(this, arguments);
   }
 
-  _createClass(Heading, [{
-    key: "schema",
-    get: function get() {
-      return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(Heading.prototype), "schema", this));
-    }
-  }, {
-    key: "commands",
-    value: function commands(data) {
-      return BardMutator.mutator.mutateCommands(this.name, data, _get(_getPrototypeOf(Heading.prototype), "commands", this).call(this, data));
-    }
-  }]);
-
   return Heading;
-}(extensions.Heading);
-var HorizontalRule = /*#__PURE__*/function (_extensions$Horizonta) {
-  _inherits(HorizontalRule, _extensions$Horizonta);
+}((0,_Mixins_MutatesNode__WEBPACK_IMPORTED_MODULE_0__["default"])(extensions.Heading));
+var HorizontalRule = /*#__PURE__*/function (_MutatesNode6) {
+  _inherits(HorizontalRule, _MutatesNode6);
 
   var _super6 = _createSuper(HorizontalRule);
 
@@ -592,22 +560,10 @@ var HorizontalRule = /*#__PURE__*/function (_extensions$Horizonta) {
     return _super6.apply(this, arguments);
   }
 
-  _createClass(HorizontalRule, [{
-    key: "schema",
-    get: function get() {
-      return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(HorizontalRule.prototype), "schema", this));
-    }
-  }, {
-    key: "commands",
-    value: function commands(data) {
-      return BardMutator.mutator.mutateCommands(this.name, data, _get(_getPrototypeOf(HorizontalRule.prototype), "commands", this).call(this, data));
-    }
-  }]);
-
   return HorizontalRule;
-}(extensions.HorizontalRule);
-var Image = /*#__PURE__*/function (_extensions$Image) {
-  _inherits(Image, _extensions$Image);
+}((0,_Mixins_MutatesNode__WEBPACK_IMPORTED_MODULE_0__["default"])(extensions.HorizontalRule));
+var Image = /*#__PURE__*/function (_MutatesNode7) {
+  _inherits(Image, _MutatesNode7);
 
   var _super7 = _createSuper(Image);
 
@@ -617,22 +573,10 @@ var Image = /*#__PURE__*/function (_extensions$Image) {
     return _super7.apply(this, arguments);
   }
 
-  _createClass(Image, [{
-    key: "schema",
-    get: function get() {
-      return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(Image.prototype), "schema", this));
-    }
-  }, {
-    key: "commands",
-    value: function commands(data) {
-      return BardMutator.mutator.mutateCommands(this.name, data, _get(_getPrototypeOf(Image.prototype), "commands", this).call(this, data));
-    }
-  }]);
-
   return Image;
-}(extensions.Image);
-var ListItem = /*#__PURE__*/function (_extensions$ListItem) {
-  _inherits(ListItem, _extensions$ListItem);
+}((0,_Mixins_MutatesNode__WEBPACK_IMPORTED_MODULE_0__["default"])(extensions.Image));
+var ListItem = /*#__PURE__*/function (_MutatesNode8) {
+  _inherits(ListItem, _MutatesNode8);
 
   var _super8 = _createSuper(ListItem);
 
@@ -642,22 +586,10 @@ var ListItem = /*#__PURE__*/function (_extensions$ListItem) {
     return _super8.apply(this, arguments);
   }
 
-  _createClass(ListItem, [{
-    key: "schema",
-    get: function get() {
-      return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(ListItem.prototype), "schema", this));
-    }
-  }, {
-    key: "commands",
-    value: function commands(data) {
-      return BardMutator.mutator.mutateCommands(this.name, data, _get(_getPrototypeOf(ListItem.prototype), "commands", this).call(this, data));
-    }
-  }]);
-
   return ListItem;
-}(extensions.ListItem);
-var OrderedList = /*#__PURE__*/function (_extensions$OrderedLi) {
-  _inherits(OrderedList, _extensions$OrderedLi);
+}((0,_Mixins_MutatesNode__WEBPACK_IMPORTED_MODULE_0__["default"])(extensions.ListItem));
+var OrderedList = /*#__PURE__*/function (_MutatesNode9) {
+  _inherits(OrderedList, _MutatesNode9);
 
   var _super9 = _createSuper(OrderedList);
 
@@ -667,22 +599,10 @@ var OrderedList = /*#__PURE__*/function (_extensions$OrderedLi) {
     return _super9.apply(this, arguments);
   }
 
-  _createClass(OrderedList, [{
-    key: "schema",
-    get: function get() {
-      return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(OrderedList.prototype), "schema", this));
-    }
-  }, {
-    key: "commands",
-    value: function commands(data) {
-      return BardMutator.mutator.mutateCommands(this.name, data, _get(_getPrototypeOf(OrderedList.prototype), "commands", this).call(this, data));
-    }
-  }]);
-
   return OrderedList;
-}(extensions.OrderedList);
-var Paragraph = /*#__PURE__*/function (_core$Paragraph) {
-  _inherits(Paragraph, _core$Paragraph);
+}((0,_Mixins_MutatesNode__WEBPACK_IMPORTED_MODULE_0__["default"])(extensions.OrderedList));
+var Paragraph = /*#__PURE__*/function (_MutatesNode10) {
+  _inherits(Paragraph, _MutatesNode10);
 
   var _super10 = _createSuper(Paragraph);
 
@@ -692,22 +612,10 @@ var Paragraph = /*#__PURE__*/function (_core$Paragraph) {
     return _super10.apply(this, arguments);
   }
 
-  _createClass(Paragraph, [{
-    key: "schema",
-    get: function get() {
-      return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(Paragraph.prototype), "schema", this));
-    }
-  }, {
-    key: "commands",
-    value: function commands(data) {
-      return BardMutator.mutator.mutateCommands(this.name, data, _get(_getPrototypeOf(Paragraph.prototype), "commands", this).call(this, data));
-    }
-  }]);
-
   return Paragraph;
-}(core.Paragraph);
-var Table = /*#__PURE__*/function (_extensions$Table) {
-  _inherits(Table, _extensions$Table);
+}((0,_Mixins_MutatesNode__WEBPACK_IMPORTED_MODULE_0__["default"])(core.Paragraph));
+var Table = /*#__PURE__*/function (_MutatesNode11) {
+  _inherits(Table, _MutatesNode11);
 
   var _super11 = _createSuper(Table);
 
@@ -717,22 +625,10 @@ var Table = /*#__PURE__*/function (_extensions$Table) {
     return _super11.apply(this, arguments);
   }
 
-  _createClass(Table, [{
-    key: "schema",
-    get: function get() {
-      return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(Table.prototype), "schema", this));
-    }
-  }, {
-    key: "commands",
-    value: function commands(data) {
-      return BardMutator.mutator.mutateCommands(this.name, data, _get(_getPrototypeOf(Table.prototype), "commands", this).call(this, data));
-    }
-  }]);
-
   return Table;
-}(extensions.Table);
-var TableCell = /*#__PURE__*/function (_extensions$TableCell) {
-  _inherits(TableCell, _extensions$TableCell);
+}((0,_Mixins_MutatesNode__WEBPACK_IMPORTED_MODULE_0__["default"])(extensions.Table));
+var TableCell = /*#__PURE__*/function (_MutatesNode12) {
+  _inherits(TableCell, _MutatesNode12);
 
   var _super12 = _createSuper(TableCell);
 
@@ -742,22 +638,10 @@ var TableCell = /*#__PURE__*/function (_extensions$TableCell) {
     return _super12.apply(this, arguments);
   }
 
-  _createClass(TableCell, [{
-    key: "schema",
-    get: function get() {
-      return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(TableCell.prototype), "schema", this));
-    }
-  }, {
-    key: "commands",
-    value: function commands(data) {
-      return BardMutator.mutator.mutateCommands(this.name, data, _get(_getPrototypeOf(TableCell.prototype), "commands", this).call(this, data));
-    }
-  }]);
-
   return TableCell;
-}(extensions.TableCell);
-var TableHeader = /*#__PURE__*/function (_extensions$TableHead) {
-  _inherits(TableHeader, _extensions$TableHead);
+}((0,_Mixins_MutatesNode__WEBPACK_IMPORTED_MODULE_0__["default"])(extensions.TableCell));
+var TableHeader = /*#__PURE__*/function (_MutatesNode13) {
+  _inherits(TableHeader, _MutatesNode13);
 
   var _super13 = _createSuper(TableHeader);
 
@@ -767,22 +651,10 @@ var TableHeader = /*#__PURE__*/function (_extensions$TableHead) {
     return _super13.apply(this, arguments);
   }
 
-  _createClass(TableHeader, [{
-    key: "schema",
-    get: function get() {
-      return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(TableHeader.prototype), "schema", this));
-    }
-  }, {
-    key: "commands",
-    value: function commands(data) {
-      return BardMutator.mutator.mutateCommands(this.name, data, _get(_getPrototypeOf(TableHeader.prototype), "commands", this).call(this, data));
-    }
-  }]);
-
   return TableHeader;
-}(extensions.TableHeader);
-var TableRow = /*#__PURE__*/function (_extensions$TableRow) {
-  _inherits(TableRow, _extensions$TableRow);
+}((0,_Mixins_MutatesNode__WEBPACK_IMPORTED_MODULE_0__["default"])(extensions.TableHeader));
+var TableRow = /*#__PURE__*/function (_MutatesNode14) {
+  _inherits(TableRow, _MutatesNode14);
 
   var _super14 = _createSuper(TableRow);
 
@@ -792,20 +664,8 @@ var TableRow = /*#__PURE__*/function (_extensions$TableRow) {
     return _super14.apply(this, arguments);
   }
 
-  _createClass(TableRow, [{
-    key: "schema",
-    get: function get() {
-      return BardMutator.mutator.mutateSchema(this.name, _get(_getPrototypeOf(TableRow.prototype), "schema", this));
-    }
-  }, {
-    key: "commands",
-    value: function commands(data) {
-      return BardMutator.mutator.mutateCommands(this.name, data, _get(_getPrototypeOf(TableRow.prototype), "commands", this).call(this, data));
-    }
-  }]);
-
   return TableRow;
-}(extensions.TableRow);
+}((0,_Mixins_MutatesNode__WEBPACK_IMPORTED_MODULE_0__["default"])(extensions.TableRow));
 
 /***/ }),
 
