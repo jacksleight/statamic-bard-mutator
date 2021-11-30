@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.0 (2021-12-01)
+
+- Now only replaces classes of nodes/marks that are actually being mutated
+- Ability to mutate TipTap extension schemas and commands (requires Statamic 3.2.24+)
+
 ## 0.2.0 (2021-10-22)
 
 - [break] **Package Renamed:**  

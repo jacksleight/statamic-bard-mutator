@@ -202,8 +202,8 @@ var mutatesMark = function mutatesMark(superclass) {
       }
     }, {
       key: "commands",
-      value: function commands(data) {
-        return BardMutator.mutator.mutateCommands(this.name, _get(_getPrototypeOf(_class.prototype), "commands", this).call(this, data), data);
+      value: function commands(info) {
+        return BardMutator.mutator.mutateCommands(this.name, _get(_getPrototypeOf(_class.prototype), "commands", this).call(this, info), info);
       }
     }]);
 
@@ -270,8 +270,8 @@ var mutatesNode = function mutatesNode(superclass) {
       }
     }, {
       key: "commands",
-      value: function commands(data) {
-        return BardMutator.mutator.mutateCommands(this.name, _get(_getPrototypeOf(_class.prototype), "commands", this).call(this, data), data);
+      value: function commands(info) {
+        return BardMutator.mutator.mutateCommands(this.name, _get(_getPrototypeOf(_class.prototype), "commands", this).call(this, info), info);
       }
     }]);
 
@@ -314,7 +314,7 @@ var Mutator = /*#__PURE__*/function () {
   function Mutator(extensions) {
     _classCallCheck(this, Mutator);
 
-    _defineProperty(this, "extensions", {});
+    _defineProperty(this, "extensions", null);
 
     _defineProperty(this, "registered", []);
 
@@ -388,7 +388,7 @@ var Mutator = /*#__PURE__*/function () {
     }
   }, {
     key: "mutateCommands",
-    value: function mutateCommands(type, commands, data) {
+    value: function mutateCommands(type, commands, info) {
       var mutators = this.getCommandsMutators(type);
 
       if (!mutators.length) {
@@ -402,7 +402,7 @@ var Mutator = /*#__PURE__*/function () {
         for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
           var mutator = _step2.value;
           commands = this.normalizeCommands(type, commands);
-          commands = mutator(commands, data);
+          commands = mutator(commands, info);
         }
       } catch (err) {
         _iterator2.e(err);
@@ -424,8 +424,6 @@ var Mutator = /*#__PURE__*/function () {
   }, {
     key: "registerType",
     value: function registerType(type) {
-      var _this = this;
-
       if (this.registered.includes(type)) {
         return;
       }
@@ -435,9 +433,10 @@ var Mutator = /*#__PURE__*/function () {
       this.commandsMutators[type] = [];
 
       if (this.extensions[type]) {
+        var replace = this.extensions[type];
         Statamic.$bard.replaceExtension(type, function (_ref) {
           var extension = _ref.extension;
-          return new _this.extensions[type](extension.options);
+          return new replace(extension.options);
         });
       }
     }
