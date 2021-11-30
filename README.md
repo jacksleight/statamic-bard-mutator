@@ -197,14 +197,10 @@ Bard Mutator will replace all of the built-in node and mark classes with extende
     * strike
     * superscript
 
-## 🚨 Other Addons & Potential Incompatibilites
+## Compatibility
 
-Because of the way ProseMirror works Bard Mutator has to replace all of the built-in node and mark classes with its own. And it can only do that reliably if there are no other addons (or user code) trying to do the same thing.
+Because of the way ProseMirror and TipTap work Bard Mutator has to replace the built-in classes/extensions with its own. It can only do that reliably if there are no other addons (or user code) trying to do the same thing. To help minimise incompatibilities Bard Mutator will only replace the classes/extensions that are actually being mutated, everyting else is left alone.
 
-<!-- In fact, one of the main reasons I developed this was to make it possible for multiple addons to make modifications to the built-in nodes and marks without having to compete over the same set of classes. -->
+*However*, if you have other addons (or user code) that replace any of the classes/extensions that Bard Mutator is also replacing it probably won't work properly. Unfortunately I don’t think there’s a way around that. This does not affect custom nodes and marks.
 
-My other Bard addon ([Bard Paragraph Style](https://github.com/jacksleight/bard-paragraph-style)) is fully compatible with this. If Bard Mutator is installed it uses that under the hood instead of it's own node class.
-
-*However*, if you have other addons (or user code) that replace any of the built-in node or mark classes Bard Mutator probably won't work properly. Unfortunately I don’t think there’s any way I can fix that.
-
-This does not affect custom nodes and marks.
+My other Bard addons use Bard Mutator under the hood, so there are no issues with those. In fact the main reason I developed this in the first place was so multiple addons could make modifications to the built-in classes/extensions at the same time.

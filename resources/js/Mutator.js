@@ -1,4 +1,4 @@
-import { extendSchema, extendCommands } from "./utilities";
+import { extendSchema } from "./utilities";
 
 export default class Mutator {
 
@@ -30,10 +30,18 @@ export default class Mutator {
             return schema;
         }
         for (const mutator of mutators) {
+            schema = this.normalizeSchema(type, schema);
             schema = mutator(schema, { extendSchema });
         }
         return schema;
     }
+
+    normalizeSchema(type, schema) {
+        if (!schema.attrs) {
+            schema.attrs = {};
+        }
+        return schema;
+    };
 
     commands(type, callback) {
         this.registerType(type);
@@ -45,19 +53,26 @@ export default class Mutator {
         return this.commandsMutators[type] || [];
     }
     
-    mutateCommands(type, data, commands) {
+    mutateCommands(type, commands, data) {
         const mutators = this.getCommandsMutators(type);
         if (!mutators.length) {
             return commands;
         }
         for (const mutator of mutators) {
-            commands = mutator(data, commands, { extendCommands: (...args) => extendCommands(type, ...args) });
+            commands = this.normalizeCommands(type, commands);
+            commands = mutator(commands, data);
         }
         return commands;
     }
     
+    normalizeCommands(type, commands) {
+        if (typeof commands === 'function') {
+            commands = { [type]: commands };
+        }
+        return commands;
+    }
+
     registerType(type) {
-        
         if (this.registered.includes(type)) {
             return;
         }

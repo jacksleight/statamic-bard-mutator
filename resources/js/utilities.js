@@ -1,10 +1,3 @@
-export const normalizeSchema = schema => {
-    if (!schema.attrs) {
-        schema.attrs = {};
-    }
-    return schema;
-};
-
 export const normalizeParseDOM = parseDOM => {
     parseDOM.forEach(parseDOMItem => {
         if (!parseDOMItem.getAttrs) {
@@ -22,7 +15,6 @@ export const normalizeToDOMValue = value => {
 };
 
 export const extendSchema = (schema, { attrs, parseDOMAttrs, toDOMAttrs }) => {
-    normalizeSchema(schema);
     if (attrs) {
         Object.assign(schema.attrs, attrs);
     }
@@ -47,17 +39,4 @@ export const extendSchema = (schema, { attrs, parseDOMAttrs, toDOMAttrs }) => {
         };
     }
     return schema;
-}
-
-export const normalizeCommands = (name, commands) => {
-    if (typeof commands === 'function') {
-        commands = { [name]: commands }
-    }
-    return commands;
-}
-
-export const extendCommands = (name, commands, additional) => {
-    commands = normalizeCommands(name, commands);
-    Object.assign(commands, additional);
-    return commands;
 }

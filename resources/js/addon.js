@@ -13,7 +13,7 @@ import {
     TableCell,
     TableHeader,
     TableRow,
-} from './Nodes.js';
+} from './nodes.js';
 import {
     Bold,
     Code,
@@ -23,8 +23,10 @@ import {
     Underline,
     Subscript,
     Superscript,
-} from './Marks.js';
-import Mutator from './Mutator.js';
+} from './marks.js';
+import Mutator from './mutator.js';
+import mutatesNode from './mixins/mutates-node'
+import mutatesMark from './mixins/mutates-mark'
 
 const mutator = new Mutator({
     blockquote     : Blockquote,
@@ -53,4 +55,6 @@ const mutator = new Mutator({
 
 window.BardMutator = {
     mutator,
+    mutatesNode,
+    mutatesMark,
 };

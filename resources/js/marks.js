@@ -1,12 +1,12 @@
-import MutatesMark from './Mixins/MutatesMark'
+import mutatesMark from './mixins/mutates-mark'
 
 const { extensions } = Statamic.$bard.tiptap;
 
-export class Bold extends MutatesMark(extensions.Bold) {}
-export class Code extends MutatesMark(extensions.Code) {}
-export class Italic extends MutatesMark(extensions.Italic) {}
-export class Link extends MutatesMark(extensions.Link) {}
-export class Strike extends MutatesMark(extensions.Strike) {}
-export class Subscript extends MutatesMark(extensions.Subscript) {}
-export class Superscript extends MutatesMark(extensions.Superscript) {}
-export class Underline extends MutatesMark(extensions.Underline) {}
+export class Bold extends mutatesMark(extensions.Bold) {}
+export class Code extends mutatesMark(extensions.Code) {}
+export class Italic extends mutatesMark(extensions.Italic) {}
+export class Link extends mutatesMark(extensions.Link) {}
+export class Strike extends mutatesMark(extensions.Strike) {}
+export class Subscript extends mutatesMark(extensions.Subscript) {}
+export class Superscript extends mutatesMark(extensions.Superscript) {}
+export class Underline extends mutatesMark(extensions.Underline) {}
