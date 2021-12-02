@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1 (2021-12-02)
+
+- [fix] Addon JS script loading
+
 ## 1.0.0 (2021-12-01)
 
 - Now only replaces classes of nodes/marks that are actually being mutated
