@@ -2,12 +2,14 @@
 
 namespace JackSleight\StatamicBardMutator;
 
-use Composer\InstalledVersions;
-use Composer\Package\Version\VersionParser;
 use Statamic\Providers\AddonServiceProvider;
 
 class ServiceProvider extends AddonServiceProvider
 {
+    protected $scripts = [
+        __DIR__.'/../dist/js/addon.js',
+    ];
+
     public function register()
     {
         parent::register();
@@ -38,12 +40,5 @@ class ServiceProvider extends AddonServiceProvider
                 'superscript'     => [\ProseMirrorToHtml\Marks\Superscript::class, Marks\Superscript::class],
             ]);
         });
-    }
-
-    public function bootAddon()
-    {
-        if (InstalledVersions::satisfies(new VersionParser, 'statamic/cms', '>=3.2.24')) {
-            $this->registerScript(__DIR__.'/../dist/js/addon.js');
-        }
     }
 }
