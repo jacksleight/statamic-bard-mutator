@@ -170,7 +170,7 @@ return [
 
 ## Avaliable Nodes & Marks
 
-Bard Mutator will replace all of the built-in node and mark classes with extended versions that support mutation, except for Statamic's Set node. These are:
+Bard Mutator supports mutating the follwing nodes and marks:
 
 * **Nodes**
     * blockquote
@@ -196,6 +196,7 @@ Bard Mutator will replace all of the built-in node and mark classes with extende
     * underline
     * strike
     * superscript
+    * bts_span (part of [Bard Texstyle](https://github.com/jacksleight/statamic-bard-texstyle))
 
 ## Compatibility
 
