@@ -1,7 +1,7 @@
 export const normalizeParseDOM = parseDOM => {
     parseDOM.forEach(parseDOMItem => {
         if (!parseDOMItem.getAttrs) {
-            parseDOMItem.getAttrs = () => ({});
+            parseDOMItem.getAttrs = () => parseDOMItem.attrs || {};
         }
     });
     return parseDOM;
@@ -27,7 +27,7 @@ export const extendSchema = (schema, { attrs, parseDOMAttrs, toDOMAttrs }) => {
                 Object.assign(value, parseDOMAttrs(dom));
                 return value;
             };
-        });        
+        });
     }
     if (toDOMAttrs) {
         const toDOM = schema.toDOM;

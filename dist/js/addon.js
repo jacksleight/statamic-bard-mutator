@@ -751,7 +751,7 @@ var normalizeParseDOM = function normalizeParseDOM(parseDOM) {
   parseDOM.forEach(function (parseDOMItem) {
     if (!parseDOMItem.getAttrs) {
       parseDOMItem.getAttrs = function () {
-        return {};
+        return parseDOMItem.attrs || {};
       };
     }
   });
