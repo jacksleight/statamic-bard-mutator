@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1 (2021-12-03)
+
+- [fix] Fix JS error on earlier Statamic versions
+
 ## 1.0.1 (2021-12-02)
 
 - [fix] Addon JS script loading
