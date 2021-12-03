@@ -1,6 +1,55 @@
 /******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
+
+/***/ "./resources/js/boot.js":
+/*!******************************!*\
+  !*** ./resources/js/boot.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nodes_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nodes.js */ "./resources/js/nodes.js");
+/* harmony import */ var _marks_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./marks.js */ "./resources/js/marks.js");
+/* harmony import */ var _mutator_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mutator.js */ "./resources/js/mutator.js");
+/* harmony import */ var _mixins_mutates_node__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./mixins/mutates-node */ "./resources/js/mixins/mutates-node.js");
+/* harmony import */ var _mixins_mutates_mark__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./mixins/mutates-mark */ "./resources/js/mixins/mutates-mark.js");
+
+
+
+
+
+var mutator = new _mutator_js__WEBPACK_IMPORTED_MODULE_2__["default"]({
+  blockquote: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.Blockquote,
+  bullet_list: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.BulletList,
+  code_block: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.CodeBlock,
+  hard_break: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.HardBreak,
+  heading: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.Heading,
+  horizontal_rule: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.HorizontalRule,
+  image: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.Image,
+  list_item: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.ListItem,
+  ordered_list: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.OrderedList,
+  paragraph: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.Paragraph,
+  table: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.Table,
+  table_cell: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.TableCell,
+  table_header: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.TableHeader,
+  table_row: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.TableRow,
+  bold: _marks_js__WEBPACK_IMPORTED_MODULE_1__.Bold,
+  code: _marks_js__WEBPACK_IMPORTED_MODULE_1__.Code,
+  italic: _marks_js__WEBPACK_IMPORTED_MODULE_1__.Italic,
+  link: _marks_js__WEBPACK_IMPORTED_MODULE_1__.Link,
+  strike: _marks_js__WEBPACK_IMPORTED_MODULE_1__.Strike,
+  subscript: _marks_js__WEBPACK_IMPORTED_MODULE_1__.Subscript,
+  superscript: _marks_js__WEBPACK_IMPORTED_MODULE_1__.Superscript,
+  underline: _marks_js__WEBPACK_IMPORTED_MODULE_1__.Underline
+});
+window.BardMutator = {
+  mutator: mutator,
+  mutatesNode: _mixins_mutates_node__WEBPACK_IMPORTED_MODULE_3__["default"],
+  mutatesMark: _mixins_mutates_mark__WEBPACK_IMPORTED_MODULE_4__["default"]
+};
+
+/***/ }),
 
 /***/ "./resources/js/marks.js":
 /*!*******************************!*\
@@ -8,6 +57,7 @@
   \*******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Bold": () => (/* binding */ Bold),
@@ -153,6 +203,7 @@ var Underline = /*#__PURE__*/function (_mutatesMark8) {
   \*********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -221,6 +272,7 @@ var mutatesMark = function mutatesMark(superclass) {
   \*********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -289,6 +341,7 @@ var mutatesNode = function mutatesNode(superclass) {
   \*********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Mutator)
@@ -455,6 +508,7 @@ var Mutator = /*#__PURE__*/function () {
   \*******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Blockquote": () => (/* binding */ Blockquote),
@@ -686,6 +740,7 @@ var TableRow = /*#__PURE__*/function (_mutatesNode14) {
   \***********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "normalizeParseDOM": () => (/* binding */ normalizeParseDOM),
@@ -809,46 +864,9 @@ var __webpack_exports__ = {};
 /*!*******************************!*\
   !*** ./resources/js/addon.js ***!
   \*******************************/
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _nodes_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nodes.js */ "./resources/js/nodes.js");
-/* harmony import */ var _marks_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./marks.js */ "./resources/js/marks.js");
-/* harmony import */ var _mutator_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mutator.js */ "./resources/js/mutator.js");
-/* harmony import */ var _mixins_mutates_node__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./mixins/mutates-node */ "./resources/js/mixins/mutates-node.js");
-/* harmony import */ var _mixins_mutates_mark__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./mixins/mutates-mark */ "./resources/js/mixins/mutates-mark.js");
-
-
-
-
-
-var mutator = new _mutator_js__WEBPACK_IMPORTED_MODULE_2__["default"]({
-  blockquote: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.Blockquote,
-  bullet_list: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.BulletList,
-  code_block: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.CodeBlock,
-  hard_break: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.HardBreak,
-  heading: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.Heading,
-  horizontal_rule: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.HorizontalRule,
-  image: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.Image,
-  list_item: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.ListItem,
-  ordered_list: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.OrderedList,
-  paragraph: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.Paragraph,
-  table: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.Table,
-  table_cell: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.TableCell,
-  table_header: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.TableHeader,
-  table_row: _nodes_js__WEBPACK_IMPORTED_MODULE_0__.TableRow,
-  bold: _marks_js__WEBPACK_IMPORTED_MODULE_1__.Bold,
-  code: _marks_js__WEBPACK_IMPORTED_MODULE_1__.Code,
-  italic: _marks_js__WEBPACK_IMPORTED_MODULE_1__.Italic,
-  link: _marks_js__WEBPACK_IMPORTED_MODULE_1__.Link,
-  strike: _marks_js__WEBPACK_IMPORTED_MODULE_1__.Strike,
-  subscript: _marks_js__WEBPACK_IMPORTED_MODULE_1__.Subscript,
-  superscript: _marks_js__WEBPACK_IMPORTED_MODULE_1__.Superscript,
-  underline: _marks_js__WEBPACK_IMPORTED_MODULE_1__.Underline
-});
-window.BardMutator = {
-  mutator: mutator,
-  mutatesNode: _mixins_mutates_node__WEBPACK_IMPORTED_MODULE_3__["default"],
-  mutatesMark: _mixins_mutates_mark__WEBPACK_IMPORTED_MODULE_4__["default"]
-};
+if (typeof Statamic.$bard.tiptap.extensions !== 'undefined') {
+  __webpack_require__(/*! ./boot */ "./resources/js/boot.js");
+}
 })();
 
 /******/ })()
