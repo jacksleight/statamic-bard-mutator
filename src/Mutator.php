@@ -39,11 +39,11 @@ class Mutator
             if (isset($data->content)) {
                 foreach ($data->content as $i => $node) {
                     $context = new \stdClass;
+                    $context->name = $root->attrs->context;
                     $context->parent = $data;
                     $context->prev = $data->content[$i - 1] ?? null;
                     $context->next = $data->content[$i + 1] ?? null;
                     $context->index = $i;
-                    $context->handle = $root->attrs->handle;
                     $this->storeContext($node, $context);
                     $process($node);
                 }
@@ -51,11 +51,11 @@ class Mutator
             if (isset($data->marks)) {
                 foreach ($data->marks as $i => $mark) {
                     $context = new \stdClass;
+                    $context->name = $root->attrs->context;
                     $context->parent = $data;
                     $context->prev = $data->marks[$i - 1] ?? null;
                     $context->next = $data->marks[$i + 1] ?? null;
                     $context->index = $i;
-                    $context->handle = $root->attrs->handle;
                     $this->storeContext($mark, $context);
                     $process($mark);
                 }

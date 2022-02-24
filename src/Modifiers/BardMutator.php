@@ -16,12 +16,12 @@ class BardMutator extends Modifier
             return $value;
         }
 
-        $handle = array_get($params, 0);
+        $context = array_get($params, 0);
 
         $wrapped = [[
             'type' => 'bmu_root',
             'attrs' => [
-                'handle' => $handle,
+                'context' => $context,
             ],
             'content' => $value,
         ]];
