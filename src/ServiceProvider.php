@@ -10,6 +10,10 @@ class ServiceProvider extends AddonServiceProvider
         __DIR__.'/../dist/js/addon.js',
     ];
 
+    protected $modifiers = [
+        Modifiers\BardMutator::class,
+    ];
+
     public function register()
     {
         parent::register();

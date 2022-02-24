@@ -13,14 +13,57 @@ class Mutator
 
     protected $tagMutators = [];
 
+    protected $roots = [];
+
+    protected $contexts = [];
+
     public function __construct($extensions)
     {
         $this->extensions = $extensions;
+
+        Augmentor::addNode(Nodes\Root::class);
     }
 
     public function getMutatedTypes()
     {
         return array_keys($this->tagMutators);
+    }
+
+    public function processRoot($root)
+    {
+        if (in_array($root, $this->roots, true)) {
+            return;
+        }
+
+        $process = function ($data) use (&$process, $root) {
+            if (isset($data->content)) {
+                foreach ($data->content as $i => $node) {
+                    $context = new \stdClass;
+                    $context->parent = $data;
+                    $context->prev = $data->content[$i - 1] ?? null;
+                    $context->next = $data->content[$i + 1] ?? null;
+                    $context->index = $i;
+                    $context->handle = $root->attrs->handle;
+                    $this->storeContext($node, $context);
+                    $process($node);
+                }
+            }
+            if (isset($data->marks)) {
+                foreach ($data->marks as $i => $mark) {
+                    $context = new \stdClass;
+                    $context->parent = $data;
+                    $context->prev = $data->marks[$i - 1] ?? null;
+                    $context->next = $data->marks[$i + 1] ?? null;
+                    $context->index = $i;
+                    $context->handle = $root->attrs->handle;
+                    $this->storeContext($mark, $context);
+                    $process($mark);
+                }
+            }
+        };
+        $process($root);
+
+        $this->roots[] = $root;
     }
 
     public function tag($type, closure $mutator)
@@ -44,10 +87,11 @@ class Mutator
         }
 
         $data = $this->normalizeData($data);
+        $context = $this->fetchContext($data);
 
         foreach ($mutators as $mutator) {
             $tag = $this->normalizeTag($type, $tag);
-            $tag = $mutator($tag, $data);
+            $tag = $mutator($tag, $data, $context);
         }
 
         return $tag;
@@ -72,11 +116,41 @@ class Mutator
         if (! isset($data->attrs)) {
             $data->attrs = new \stdClass;
         }
-        if (! isset($data->content)) {
-            $data->content = [];
+        if ($this->isNode($data)) {
+            if (! isset($data->content)) {
+                $data->content = [];
+            }
+            if (! isset($data->marks)) {
+                $data->marks = [];
+            }
+        }
+        if ($this->isText($data)) {
+            if (! isset($data->text)) {
+                $data->text = null;
+            }
         }
 
         return $data;
+    }
+
+    public function storeContext($obj, $context)
+    {
+        $id = spl_object_id($obj);
+
+        $this->contexts[$id] = $context;
+
+        return $this;
+    }
+
+    public function fetchContext($obj)
+    {
+        $id = spl_object_id($obj);
+
+        if (! isset($this->contexts[$id])) {
+            return null;
+        }
+
+        return $this->contexts[$id];
     }
 
     protected function registerType($type)
@@ -95,6 +169,21 @@ class Mutator
                 Augmentor::replaceMark($search, $replace);
             }
         }
+    }
+
+    protected function isNode($data)
+    {
+        return is_a($this->extensions[$data->type][0], 'ProseMirrorToHtml\Nodes\Node', true);
+    }
+
+    protected function isMark($data)
+    {
+        return is_a($this->extensions[$data->type][0], 'ProseMirrorToHtml\Marks\Mark', true);
+    }
+
+    protected function isText($data)
+    {
+        return $data->type === 'text';
     }
 
     /**
