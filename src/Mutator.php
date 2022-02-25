@@ -15,7 +15,7 @@ class Mutator
 
     protected $roots = [];
 
-    protected $contexts = [];
+    protected $metas = [];
 
     public function __construct($extensions)
     {
@@ -38,25 +38,23 @@ class Mutator
         $process = function ($data) use (&$process, $root) {
             if (isset($data->content)) {
                 foreach ($data->content as $i => $node) {
-                    $context = new \stdClass;
-                    $context->name = $root->attrs->context;
-                    $context->parent = $data;
-                    $context->prev = $data->content[$i - 1] ?? null;
-                    $context->next = $data->content[$i + 1] ?? null;
-                    $context->index = $i;
-                    $this->storeContext($node, $context);
+                    $meta = new \stdClass;
+                    $meta->parent = $data;
+                    $meta->prev = $data->content[$i - 1] ?? null;
+                    $meta->next = $data->content[$i + 1] ?? null;
+                    $meta->index = $i;
+                    $this->storeMeta($node, $meta);
                     $process($node);
                 }
             }
             if (isset($data->marks)) {
                 foreach ($data->marks as $i => $mark) {
-                    $context = new \stdClass;
-                    $context->name = $root->attrs->context;
-                    $context->parent = $data;
-                    $context->prev = $data->marks[$i - 1] ?? null;
-                    $context->next = $data->marks[$i + 1] ?? null;
-                    $context->index = $i;
-                    $this->storeContext($mark, $context);
+                    $meta = new \stdClass;
+                    $meta->parent = $data;
+                    $meta->prev = $data->marks[$i - 1] ?? null;
+                    $meta->next = $data->marks[$i + 1] ?? null;
+                    $meta->index = $i;
+                    $this->storeMeta($mark, $meta);
                     $process($mark);
                 }
             }
@@ -87,11 +85,11 @@ class Mutator
         }
 
         $data = $this->normalizeData($data);
-        $context = $this->fetchContext($data);
+        $meta = $this->fetchMeta($data);
 
         foreach ($mutators as $mutator) {
             $tag = $this->normalizeTag($type, $tag);
-            $tag = $mutator($tag, $data, $context);
+            $tag = $mutator($tag, $data, $meta);
         }
 
         return $tag;
@@ -133,24 +131,24 @@ class Mutator
         return $data;
     }
 
-    public function storeContext($obj, $context)
+    public function storeMeta($obj, $meta)
     {
         $id = spl_object_id($obj);
 
-        $this->contexts[$id] = $context;
+        $this->metas[$id] = $meta;
 
         return $this;
     }
 
-    public function fetchContext($obj)
+    public function fetchMeta($obj)
     {
         $id = spl_object_id($obj);
 
-        if (! isset($this->contexts[$id])) {
+        if (! isset($this->metas[$id])) {
             return null;
         }
 
-        return $this->contexts[$id];
+        return $this->metas[$id];
     }
 
     protected function registerType($type)

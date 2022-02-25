@@ -12,17 +12,17 @@ class BardMutator extends Modifier
 
     public function index($value, $params)
     {
-        if (! is_array($value)) {
+        $raw = $value;
+
+        if ($raw instanceof Value) {
+            $raw = $raw->raw();
+        }
+        if (! is_array($raw)) {
             return $value;
         }
 
-        $context = array_get($params, 0);
-
         $wrapped = [[
             'type' => 'bmu_root',
-            'attrs' => [
-                'context' => $context,
-            ],
             'content' => $value,
         ]];
 
