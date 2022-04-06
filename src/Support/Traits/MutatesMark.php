@@ -8,7 +8,7 @@ trait MutatesMark
 {
     public function mutateTag($tag)
     {
-        return Mutator::mutateTag($this->markType, $this->mark, $tag);
+        return Mutator::mutateTag('mark', $this->markType, $this->mark, $tag);
     }
 
     public function tag()

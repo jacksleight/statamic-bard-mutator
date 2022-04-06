@@ -8,7 +8,7 @@ trait MutatesNode
 {
     public function mutateNode($tag)
     {
-        return Mutator::mutateTag($this->nodeType, $this->node, $tag);
+        return Mutator::mutateTag('node', $this->nodeType, $this->node, $tag);
     }
 
     public function tag()

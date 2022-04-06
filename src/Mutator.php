@@ -77,19 +77,26 @@ class Mutator
         return $this->tagMutators[$type] ?? [];
     }
 
-    public function mutateTag($type, $data, $tag)
+    public function mutateTag($kind, $type, $data, $tag)
     {
         $mutators = $this->getTagMutators($type);
         if (! count($mutators)) {
             return $tag;
         }
 
-        $data = $this->normalizeData($data);
+        $data = $this->normalizeData($data, $kind, $type);
         $meta = $this->fetchMeta($data);
 
         foreach ($mutators as $mutator) {
             $tag = $this->normalizeTag($type, $tag);
-            $tag = $mutator($tag, $data, $meta);
+            $tag = app()->call($mutator, [
+                'kind' => $kind,
+                'type' => $type,
+                'data' => $data,
+                $kind  => $data,
+                'tag'  => $tag,
+                'meta' => $meta,
+            ]);
         }
 
         return $tag;
@@ -109,12 +116,12 @@ class Mutator
         return $tag;
     }
 
-    protected function normalizeData($data)
+    protected function normalizeData($data, $kind, $type)
     {
         if (! isset($data->attrs)) {
             $data->attrs = new \stdClass;
         }
-        if ($this->isNode($data)) {
+        if ($kind === 'node') {
             if (! isset($data->content)) {
                 $data->content = [];
             }
@@ -122,7 +129,7 @@ class Mutator
                 $data->marks = [];
             }
         }
-        if ($this->isText($data)) {
+        if ($kind === 'node' && $type === 'text') {
             if (! isset($data->text)) {
                 $data->text = null;
             }
@@ -167,21 +174,6 @@ class Mutator
                 Augmentor::replaceMark($search, $replace);
             }
         }
-    }
-
-    protected function isNode($data)
-    {
-        return is_a($this->extensions[$data->type][0], 'ProseMirrorToHtml\Nodes\Node', true);
-    }
-
-    protected function isMark($data)
-    {
-        return is_a($this->extensions[$data->type][0], 'ProseMirrorToHtml\Marks\Mark', true);
-    }
-
-    protected function isText($data)
-    {
-        return $data->type === 'text';
     }
 
     /**

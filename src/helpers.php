@@ -1,16 +1,9 @@
 <?php
-
-namespace JackSleight\StatamicBardMutator\Modifiers;
-
 use Statamic\Fields\Value;
 use Statamic\Fieldtypes\Bard;
-use Statamic\Modifiers\Modifier;
 
-class BardMutator extends Modifier
-{
-    protected static $aliases = ['bmu'];
-
-    public function index($value)
+if (! function_exists('bard_mutator')) {
+    function bard_mutator($value)
     {
         $raw = $value;
 

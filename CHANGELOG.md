@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0 ()
+
+- [new] context
+- [new] service container
+
 ## 1.0.3 (2021-12-03)
 
 - [fix] Fix TipTap schema normalization

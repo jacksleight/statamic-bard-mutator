@@ -3,7 +3,10 @@
     "autoload": {
         "psr-4": {
             "JackSleight\\StatamicBardMutator\\": "src"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "extra": {
         "statamic": {
