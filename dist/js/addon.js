@@ -747,6 +747,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "normalizeToDOMValue": () => (/* binding */ normalizeToDOMValue),
 /* harmony export */   "extendSchema": () => (/* binding */ extendSchema)
 /* harmony export */ });
+/* harmony import */ var is_plain_object__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! is-plain-object */ "./node_modules/is-plain-object/dist/is-plain-object.mjs");
+
 var normalizeParseDOM = function normalizeParseDOM(parseDOM) {
   parseDOM.forEach(function (parseDOMItem) {
     if (!parseDOMItem.getAttrs) {
@@ -758,7 +760,7 @@ var normalizeParseDOM = function normalizeParseDOM(parseDOM) {
   return parseDOM;
 };
 var normalizeToDOMValue = function normalizeToDOMValue(value) {
-  if (!value[1] || !_.isPlainObject(value[1])) {
+  if (!value[1] || !(0,is_plain_object__WEBPACK_IMPORTED_MODULE_0__.isPlainObject)(value[1])) {
     value.splice(1, 0, {});
   }
 
@@ -799,6 +801,55 @@ var extendSchema = function extendSchema(schema, _ref) {
 
   return schema;
 };
+
+/***/ }),
+
+/***/ "./node_modules/is-plain-object/dist/is-plain-object.mjs":
+/*!***************************************************************!*\
+  !*** ./node_modules/is-plain-object/dist/is-plain-object.mjs ***!
+  \***************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "isPlainObject": () => (/* binding */ isPlainObject)
+/* harmony export */ });
+/*!
+ * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
+ *
+ * Copyright (c) 2014-2017, Jon Schlinkert.
+ * Released under the MIT License.
+ */
+
+function isObject(o) {
+  return Object.prototype.toString.call(o) === '[object Object]';
+}
+
+function isPlainObject(o) {
+  var ctor,prot;
+
+  if (isObject(o) === false) return false;
+
+  // If has modified constructor
+  ctor = o.constructor;
+  if (ctor === undefined) return true;
+
+  // If has modified prototype
+  prot = ctor.prototype;
+  if (isObject(prot) === false) return false;
+
+  // If constructor does not have an Object-specific method
+  if (prot.hasOwnProperty('isPrototypeOf') === false) {
+    return false;
+  }
+
+  // Most likely a plain Object
+  return true;
+}
+
+
+
 
 /***/ })
 
