@@ -10,9 +10,11 @@ class BardMutator extends Modifier
 {
     protected static $aliases = ['bmu'];
 
-    public function index($value)
+    public function index($value, $params, $context, $raw)
     {
-        $raw = $value;
+        // dd($value, $params, $context, $raw);
+        
+        // $raw = $value;
 
         if ($raw instanceof Value) {
             $raw = $raw->raw();
@@ -23,7 +25,7 @@ class BardMutator extends Modifier
 
         $wrapped = [[
             'type' => 'bmu_root',
-            'content' => $value,
+            'content' => $raw,
         ]];
 
         $value = new Value(
