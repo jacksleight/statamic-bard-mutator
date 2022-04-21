@@ -1,24 +1,24 @@
 <?php
 
-namespace JackSleight\StatamicBardMutator\Modifiers;
+namespace JackSleight\StatamicBardMutator\Tags;
 
 use Statamic\Fields\Value;
 use Statamic\Fieldtypes\Bard;
-use Statamic\Modifiers\Modifier;
+use Statamic\Tags\Tags;
+use Statamic\Support\Arr;
 
-class BardMutator extends Modifier
+class Mutator extends Tags
 {
-    protected static $aliases = ['bmu'];
+    protected static $handle = 'bmu';
 
-    public function index($value, $params, $context, $raw)
-    {
-        // dd($value, $params, $context, $raw);
+    public function wildcard(string $name)
+    {        
+        $value = Arr::get($this->context, $name);
         
-        // $raw = $value;
-
-        if ($raw instanceof Value) {
-            $raw = $raw->raw();
-        }
+        $raw = $value instanceof Value
+            ? $value->raw()
+            : $value;
+            
         if (! is_array($raw)) {
             return $value;
         }

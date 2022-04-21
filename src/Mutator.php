@@ -84,25 +84,18 @@ class Mutator
             return $tag;
         }
 
-        $data = $this->normalizeData($data, $kind, $type);
+        $data = $this->normalizeData($kind, $type, $data);
         $meta = $this->fetchMeta($data);
 
         foreach ($mutators as $mutator) {
-            $tag = $this->normalizeTag($type, $tag);
-            $tag = app()->call($mutator, [
-                'kind' => $kind,
-                'type' => $type,
-                'data' => $data,
-                $kind  => $data,
-                'tag'  => $tag,
-                'meta' => $meta,
-            ]);
+            $tag = $this->normalizeTag($kind, $type, $tag);
+            $tag = $mutator($tag, $data, $meta);
         }
 
         return $tag;
     }
 
-    protected function normalizeTag($type, $tag)
+    protected function normalizeTag($kind, $type, $tag)
     {
         $tag = (array) $tag;
         foreach ($tag as $i => $t) {
@@ -116,7 +109,7 @@ class Mutator
         return $tag;
     }
 
-    protected function normalizeData($data, $kind, $type)
+    protected function normalizeData($kind, $type, $data)
     {
         if (! isset($data->attrs)) {
             $data->attrs = new \stdClass;
