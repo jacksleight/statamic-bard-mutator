@@ -100,24 +100,20 @@ class Mutator
         return $tag;
     }
 
-    public function storeMeta($obj, $meta)
+    protected function storeMeta($data, $meta)
     {
-        $id = spl_object_id($obj);
+        $id = spl_object_id($data);
 
         $this->metas[$id] = $meta;
 
         return $this;
     }
 
-    public function fetchMeta($obj)
+    protected function fetchMeta($data)
     {
-        $id = spl_object_id($obj);
+        $id = spl_object_id($data);
 
-        if (! isset($this->metas[$id])) {
-            return null;
-        }
-
-        return $this->metas[$id];
+        return $this->metas[$id] ?? null;
     }
 
     protected function registerType($type)
@@ -125,8 +121,10 @@ class Mutator
         if (in_array($type, $this->registered)) {
             return;
         }
+
         $this->registered[] = $type;
         $this->tagMutators[$type] = [];
+        
         if (isset($this->extensions[$type])) {
             $search = $this->extensions[$type][0];
             $replace = $this->extensions[$type][1];
