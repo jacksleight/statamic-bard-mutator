@@ -11,6 +11,8 @@ class Mutator
 
     protected $registered = [];
 
+    protected $dataMutators = [];
+
     protected $tagMutators = [];
 
     protected $roots = [];
@@ -29,39 +31,25 @@ class Mutator
         return array_keys($this->tagMutators);
     }
 
-    public function processRoot($root)
+    public function data($type, closure $mutator)
     {
-        if (in_array($root, $this->roots, true)) {
+        $this->dataMutators[$type][] = $mutator;
+
+        return $this;
+    }
+
+    protected function mutateData($data)
+    {
+        $type = $data->type;
+
+        $mutators = $this->dataMutators[$type] ?? [];
+        if (! count($mutators)) {
             return;
         }
 
-        $process = function ($data) use (&$process, $root) {
-            if (isset($data->content)) {
-                foreach ($data->content as $i => $node) {
-                    $meta = new \stdClass;
-                    $meta->parent = $data;
-                    $meta->prev = $data->content[$i - 1] ?? null;
-                    $meta->next = $data->content[$i + 1] ?? null;
-                    $meta->index = $i;
-                    $this->storeMeta($node, $meta);
-                    $process($node);
-                }
-            }
-            if (isset($data->marks)) {
-                foreach ($data->marks as $i => $mark) {
-                    $meta = new \stdClass;
-                    $meta->parent = $data;
-                    $meta->prev = $data->marks[$i - 1] ?? null;
-                    $meta->next = $data->marks[$i + 1] ?? null;
-                    $meta->index = $i;
-                    $this->storeMeta($mark, $meta);
-                    $process($mark);
-                }
-            }
-        };
-        $process($root);
-
-        $this->roots[] = $root;
+        foreach ($mutators as $mutator) {
+            $mutator($data);
+        }
     }
 
     public function tag($type, closure $mutator)
@@ -72,30 +60,25 @@ class Mutator
         return $this;
     }
 
-    public function getTagMutators($type)
+    public function mutateTag($type, $data, $tag)
     {
-        return $this->tagMutators[$type] ?? [];
-    }
-
-    public function mutateTag($kind, $type, $data, $tag)
-    {
-        $mutators = $this->getTagMutators($type);
+        $mutators = $this->tagMutators[$type] ?? [];
         if (! count($mutators)) {
             return $tag;
         }
 
-        $data = $this->normalizeData($kind, $type, $data);
+        $data = $this->normalizeData($data);
         $meta = $this->fetchMeta($data);
 
         foreach ($mutators as $mutator) {
-            $tag = $this->normalizeTag($kind, $type, $tag);
+            $tag = $this->normalizeTag($tag);
             $tag = $mutator($tag, $data, $meta);
         }
 
         return $tag;
     }
 
-    protected function normalizeTag($kind, $type, $tag)
+    protected function normalizeTag($tag)
     {
         $tag = (array) $tag;
         foreach ($tag as $i => $t) {
@@ -107,28 +90,6 @@ class Mutator
         }
 
         return $tag;
-    }
-
-    protected function normalizeData($kind, $type, $data)
-    {
-        if (! isset($data->attrs)) {
-            $data->attrs = new \stdClass;
-        }
-        if ($kind === 'node') {
-            if (! isset($data->content)) {
-                $data->content = [];
-            }
-            if (! isset($data->marks)) {
-                $data->marks = [];
-            }
-        }
-        if ($kind === 'node' && $type === 'text') {
-            if (! isset($data->text)) {
-                $data->text = null;
-            }
-        }
-
-        return $data;
     }
 
     public function storeMeta($obj, $meta)
@@ -167,6 +128,62 @@ class Mutator
                 Augmentor::replaceMark($search, $replace);
             }
         }
+    }
+
+    public function processRoot($root)
+    {
+        if (in_array($root, $this->roots, true)) {
+            return;
+        }
+
+        $process = function ($data) use (&$process) {
+
+            $this->mutateData($data);
+
+            if (isset($data->content)) {
+                foreach ($data->content as $i => $node) {
+                    $meta = new \stdClass;
+                    $meta->parent = $data;
+                    $meta->prev = $data->content[$i - 1] ?? null;
+                    $meta->next = $data->content[$i + 1] ?? null;
+                    $meta->index = $i;
+                    $this->storeMeta($node, $meta);
+                    $process($node);
+                }
+            }
+
+            if (isset($data->marks)) {
+                foreach ($data->marks as $i => $mark) {
+                    $meta = new \stdClass;
+                    $meta->parent = $data;
+                    $meta->prev = $data->marks[$i - 1] ?? null;
+                    $meta->next = $data->marks[$i + 1] ?? null;
+                    $meta->index = $i;
+                    $this->storeMeta($mark, $meta);
+                    $process($mark);
+                }
+            }
+
+        };
+
+        $process($root);
+
+        $this->roots[] = $root;
+    }
+
+    /**
+     * @deprecated
+     */
+    protected function normalizeData($data)
+    {
+        if (! isset($data->attrs)) {
+            $data->attrs = new \stdClass;
+        }
+        if (! isset($data->content)) {
+            $data->content = [];
+        }
+
+        return $data;
     }
 
     /**
