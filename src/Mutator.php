@@ -38,11 +38,14 @@ class Mutator
         return $this;
     }
 
-    protected function mutateData($data)
+    public function getDataMutators($type)
     {
-        $type = $data->type;
+        return $this->dataMutators[$type] ?? [];
+    }
 
-        $mutators = $this->dataMutators[$type] ?? [];
+    protected function mutateData($type, $data)
+    {
+        $mutators = $this->getDataMutators($type);
         if (! count($mutators)) {
             return;
         }
@@ -60,9 +63,14 @@ class Mutator
         return $this;
     }
 
+    public function getTagMutators($type)
+    {
+        return $this->tagMutators[$type] ?? [];
+    }
+
     public function mutateTag($type, $data, $tag)
     {
-        $mutators = $this->tagMutators[$type] ?? [];
+        $mutators = $this->getTagMutators($type);
         if (! count($mutators)) {
             return $tag;
         }
@@ -138,7 +146,7 @@ class Mutator
 
         $process = function ($data) use (&$process) {
 
-            $this->mutateData($data);
+            $this->mutateData($data->type, $data);
 
             if (isset($data->content)) {
                 foreach ($data->content as $i => $node) {
