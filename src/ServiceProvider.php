@@ -11,7 +11,7 @@ class ServiceProvider extends AddonServiceProvider
     ];
 
     protected $tags = [
-        Tags\Mutator::class,
+        Tags\MutatorTag::class,
     ];
 
     public function register()

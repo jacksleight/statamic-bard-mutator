@@ -144,9 +144,10 @@ class Mutator
             return;
         }
 
-        $process = function ($data) use (&$process) {
+        $process = function ($data, $meta = null) use (&$process) {
 
             $this->mutateData($data->type, $data);
+            $this->storeMeta($data, $meta);
 
             if (isset($data->content)) {
                 foreach ($data->content as $i => $node) {
@@ -155,8 +156,7 @@ class Mutator
                     $meta->prev = $data->content[$i - 1] ?? null;
                     $meta->next = $data->content[$i + 1] ?? null;
                     $meta->index = $i;
-                    $this->storeMeta($node, $meta);
-                    $process($node);
+                    $process($node, $meta);
                 }
             }
 
@@ -167,8 +167,7 @@ class Mutator
                     $meta->prev = $data->marks[$i - 1] ?? null;
                     $meta->next = $data->marks[$i + 1] ?? null;
                     $meta->index = $i;
-                    $this->storeMeta($mark, $meta);
-                    $process($mark);
+                    $process($mark, $meta);
                 }
             }
 
