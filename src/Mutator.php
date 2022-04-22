@@ -67,10 +67,7 @@ class Mutator
         };
 
         foreach ($mutators as $mutator) {
-            app()->call($mutator, [
-                'data' => $data,
-                'collect' => $collect,
-            ]);
+            $mutator($data, $collect);
         }
     }
 

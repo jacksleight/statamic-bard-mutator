@@ -19,7 +19,7 @@ nav_order: 6
 
 ## Node Data
 
-Nodes mostly (but not always) map to block elements in the rendered HTML. They're used for things like paragraphs, headings and lists. Node data looks like this:
+Nodes mostly map to block elements in the rendered HTML. They're used for things like paragraphs, headings and lists. Node data looks like this:
 
 ```yaml
 -
@@ -45,7 +45,7 @@ Each node is an object with the following properties:
 
 ## Mark Data
 
-Marks mostly (but not always) map to inline elements in the rendered HTML. They're used for things like links, bold, and italic text. Marks are not nested in the same way they are in HTML. Instead they're applied to a node in a flat list. For example, a bold link is a text node with marks that look like this:
+Marks mostly map to inline elements in the rendered HTML. They're used for things like links, bold, and italic text. Marks are not nested in the same way they are in HTML. Instead they're applied to a node in a flat list. For example, a bold link is a text node with marks that look like this:
 
 ```yaml
 -
