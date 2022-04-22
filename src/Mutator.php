@@ -111,21 +111,6 @@ class Mutator
         return $this->tagMutators[$type] ?? [];
     }
 
-    /**
-     * @deprecated
-     */
-    protected function normalizeData($data)
-    {
-        if (! isset($data->attrs)) {
-            $data->attrs = new \stdClass;
-        }
-        if (! isset($data->content)) {
-            $data->content = [];
-        }
-
-        return $data;
-    }
-
     public function mutateTag($type, $data, $tag)
     {
         $mutators = $this->getTagMutators($type);
@@ -156,6 +141,21 @@ class Mutator
         }
 
         return $tag;
+    }
+
+    /**
+     * @deprecated
+     */
+    protected function normalizeData($data)
+    {
+        if (! isset($data->attrs)) {
+            $data->attrs = new \stdClass;
+        }
+        if (! isset($data->content)) {
+            $data->content = [];
+        }
+
+        return $data;
     }
 
     protected function buildMeta($parent, $prev, $next, $index)
