@@ -1,9 +1,8 @@
 # Changelog
 
-## 1.1.0 ()
+## 1.0.4 (2022-04-10)
 
-- [new] context
-- [new] service container
+- [fix] Fix utility function import
 
 ## 1.0.3 (2021-12-03)
 

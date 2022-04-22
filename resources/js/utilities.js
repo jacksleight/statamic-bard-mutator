@@ -1,3 +1,5 @@
+import { isPlainObject } from 'is-plain-object'
+
 export const normalizeParseDOM = parseDOM => {
     parseDOM.forEach(parseDOMItem => {
         if (!parseDOMItem.getAttrs) {
@@ -8,7 +10,7 @@ export const normalizeParseDOM = parseDOM => {
 };
 
 export const normalizeToDOMValue = value => {
-    if (!value[1] || !_.isPlainObject(value[1])) {
+    if (!value[1] || !isPlainObject(value[1])) {
         value.splice(1, 0, {});
     }
     return value;
