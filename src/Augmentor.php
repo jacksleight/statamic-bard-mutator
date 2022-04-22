@@ -8,14 +8,9 @@ class Augmentor extends StatamicAugmentor
 {
     public function convertToHtml($value)
     {
-        return parent::convertToHtml($this->injectRoot($value));
-    }
-
-    protected function injectRoot($value)
-    {
-        return [[
+        return parent::convertToHtml([[
             'type' => 'bmu_root',
             'content' => $value,
-        ]];
+        ]]);
     }
 }
