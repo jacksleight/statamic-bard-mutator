@@ -62,6 +62,7 @@ class Mutator
                 }
             };
             $step($data);
+
             return collect($items);
         };
 
@@ -82,19 +83,11 @@ class Mutator
         $process = function ($data, $meta = null) use (&$process) {
             $this->storeMeta($data, $meta);
             foreach (($data->content ?? []) as $i => $node) {
-                $meta = new \stdClass;
-                $meta->parent = $data;
-                $meta->prev = $data->content[$i - 1] ?? null;
-                $meta->next = $data->content[$i + 1] ?? null;
-                $meta->index = $i;
+                $meta = $this->buildMeta($data, $data->content[$i - 1] ?? null, $data->content[$i + 1] ?? null, $i);
                 $process($node, $meta);
             }
             foreach (($data->marks ?? []) as $i => $mark) {
-                $meta = new \stdClass;
-                $meta->parent = $data;
-                $meta->prev = $data->marks[$i - 1] ?? null;
-                $meta->next = $data->marks[$i + 1] ?? null;
-                $meta->index = $i;
+                $meta = $this->buildMeta($data, $data->marks[$i - 1] ?? null, $data->marks[$i + 1] ?? null, $i);
                 $process($mark, $meta);
             }
         };
@@ -163,6 +156,17 @@ class Mutator
         }
 
         return $tag;
+    }
+
+    protected function buildMeta($parent, $prev, $next, $index)
+    {
+        $meta = new \stdClass;
+        $meta->parent = $parent;
+        $meta->prev = $prev;
+        $meta->next = $next;
+        $meta->index = $index;
+
+        return $meta;
     }
 
     protected function storeMeta($data, $meta)
