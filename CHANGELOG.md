@@ -2,9 +2,9 @@
 
 ## 1.1.0 ()
 
-- [new] Tag mutators can now receive contextual metadata about the current node or mark (parent, siblings and index)
-- [new] Root mutators have been added, allowing you to manipulate the raw node and mark data before anything is rendered to HTML
-- [new] Brand new more detailed and helpful [documentation](https://jacksleight.github.io/statamic-bard-mutator/)
+- [new] Tag mutators can now get info on the current node/mark’s parent, siblings, and index
+- [new] Added root mutators which allow you to modify the raw node/mark data before any HTML is rendered
+- [new] Brand new better organised and helpful [documentation](https://jacksleight.github.io/statamic-bard-mutator/)
 
 ## 1.0.4 (2022-04-10)
 

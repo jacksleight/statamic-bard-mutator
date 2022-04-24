@@ -4,6 +4,7 @@ namespace JackSleight\StatamicBardMutator;
 
 use Closure;
 use Statamic\Fieldtypes\Bard\Augmentor;
+use JackSleight\StatamicBardMutator\Support\Data;
 
 class Mutator
 {
@@ -50,24 +51,8 @@ class Mutator
             return;
         }
 
-        $collect = function () use ($data) {
-            $items = [];
-            $step = function ($item) use (&$items, &$step) {
-                $items[] = $item;
-                foreach (($item->content ?? []) as $node) {
-                    $step($node);
-                }
-                foreach (($item->marks ?? []) as $mark) {
-                    $step($mark);
-                }
-            };
-            $step($data);
-
-            return collect($items);
-        };
-
         foreach ($mutators as $mutator) {
-            $mutator($data, $collect);
+            $mutator($data);
         }
     }
 
@@ -77,20 +62,10 @@ class Mutator
             return;
         }
 
-        $process = function ($data, $meta = null) use (&$process) {
-            $this->storeMeta($data, $meta);
-            foreach (($data->content ?? []) as $i => $node) {
-                $meta = $this->buildMeta($data, $data->content[$i - 1] ?? null, $data->content[$i + 1] ?? null, $i);
-                $process($node, $meta);
-            }
-            foreach (($data->marks ?? []) as $i => $mark) {
-                $meta = $this->buildMeta($data, $data->marks[$i - 1] ?? null, $data->marks[$i + 1] ?? null, $i);
-                $process($mark, $meta);
-            }
-        };
-
         $this->mutateRoot($root);
-        $process($root);
+        Data::walk($root, function ($data, $meta) {
+            $this->storeMeta($data, $meta);
+        });
 
         $this->roots[] = $root;
     }
@@ -153,17 +128,6 @@ class Mutator
         }
 
         return $data;
-    }
-
-    protected function buildMeta($parent, $prev, $next, $index)
-    {
-        $meta = new \stdClass;
-        $meta->parent = $parent;
-        $meta->prev = $prev;
-        $meta->next = $next;
-        $meta->index = $index;
-
-        return $meta;
     }
 
     protected function storeMeta($data, $meta)

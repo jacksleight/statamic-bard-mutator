@@ -34,13 +34,13 @@ You should add tag mutators in a service provider's `boot()` method. They will r
 
 * **tag (array):** The standard [tag value](data-formats.html#tag-values)
 * **data (object):** The raw [node](data-formats.html#node-data) and [mark](data-formats.html#mark-data) data
-* **meta (object, optional):** Contextual metadata about the current node or mark (see below)
+* **meta (array, optional):** Metadata about the current node or mark (see below)
 
 You should return a [tag value](data-formats.html#tag-values). You can add multiple tag mutators for the same node or mark, they'll be executed in the order they were added.
 
-### Contextual Metadata
+### Metadata
 
-The third `$meta` argument contains contextual metadata about the current node or mark and is only avalibale when using [the Bard Mutator tag](templating.html#the-bard-mutator-tag). It's an object that contains the following properties:
+The third `$meta` argument contains contextual metadata about the current node or mark and is only avalibale when using [the Bard Mutator tag](templating.html#the-bard-mutator-tag). It's an array that contains the following keys:
 
 * **parent (object):** The parent node
 * **next (object):** The next node/mark
@@ -56,19 +56,19 @@ Root mutators allow you to manipulate the raw [node](data-formats.html#node-data
 ```php
 use Closure;
 use JackSleight\StatamicBardMutator\Facades\Mutator;
+use JackSleight\StatamicBardMutator\Support\Data;
 
 Mutator::root(function ($data, Closure $collect) {
-    $collect()
-        ->filter(fn ($data) => ...)
-        ->each(function ($data) {
-            // do something complicated
-        });
+    Data::walk($data, function ($item, $meta) {
+        // do something complicated
+    });
 });
 ```
 
-You should add root mutators in a service provider's `boot()` method. They will receive two arguments:
+You should add root mutators in a service provider's `boot()` method. They will one argument:
 
 * **data (object):** The entire ProseMirror document within a special `bmu_root` node that's part of Bard Mutator
-* **collect (closure):** A function that will return a flat collection of all nodes and marks in the document
+
+A `Data::walk()` helper is also provided that will walk the entire document and call the provided callback for each node/mark.
 
 Root mutators do not return a value, you should just modify the node/mark objects directly. You can add multiple root mutators, they'll be executed in the order they were added.

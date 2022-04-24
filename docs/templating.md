@@ -21,7 +21,7 @@ All tag mutators will be applied whenever any Bard field is output, you don’t 
 
 ## The Bard Mutator Tag
 
-To use advanced features such as [contextual metadata](mutators.html#contextual-metadata) and [root mutators](mutators.html#root-mutators) you need to use the `bmu` tag. To do this update your template from this:
+To use advanced features such as [metadata](mutators.html#metadata) and [root mutators](mutators.html#root-mutators) you need to use the `bmu` tag. To do this update your template from this:
 
 ```html
 {% raw %}{{ my_content }}{% endraw %}
