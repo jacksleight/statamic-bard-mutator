@@ -65,10 +65,10 @@ Mutator::root(function ($data, Closure $collect) {
 });
 ```
 
-You should add root mutators in a service provider's `boot()` method. They will one argument:
+You should add root mutators in a service provider's `boot()` method. They will receive one argument:
 
 * **data (object):** The entire ProseMirror document within a special `bmu_root` node that's part of Bard Mutator
 
-A `Data::walk()` helper is also provided that will walk the entire document and call the provided callback for each node/mark.
+A `Data::walk()` helper is available that will walk the entire document recursively and call the provided callback for each node/mark.
 
 Root mutators do not return a value, you should just modify the node/mark objects directly. You can add multiple root mutators, they'll be executed in the order they were added.

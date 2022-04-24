@@ -7,9 +7,9 @@ nav_order: 1
 
 This Statamic addon allows you to modify the tags rendered by the Bard fieldtype, giving you full control over the final HTML. You can add, remove and modify attributes, wrap tags and content, or rename and replace tags entirely. You can also manipulate the raw node and mark data before anything is rendered to HTML, if you need to do something complicated.
 
-## How ProseMirror's rendering process works
+## How It Works
 
-First of all it might be useful to know how ProseMirror (the magic behind Bard's content format and rendering) handles the rendering process:
+This is how ProseMirror (the magic behind Bard's content format and rendering) handles the rendering process, and how Bard Mutator interacts with that process:
 
 1. The raw content is stored as a ProseMirror document in your entries, these documents consist of [nodes](data-formats.html#node-data) and [marks](data-formats.html#mark-data)
 2. Statamic's augmentation process passes this data to the ProseMirror renderer

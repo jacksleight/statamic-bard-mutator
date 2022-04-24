@@ -19,7 +19,7 @@ nav_order: 5
 
 ## Tag Mutators
 
-### Add a class to all bullet lists:
+### Add a class to all bullet lists
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
@@ -30,7 +30,7 @@ Mutator::tag('bullet_list', function ($tag) {
 });
 ```
 
-### Add `noopener` to all external links:
+### Add `noopener` to all external links
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
@@ -44,7 +44,7 @@ Mutator::tag('link', function ($tag) {
 });
 ```
 
-### Add an auto-generated ID to all level 2 headings:
+### Add an auto-generated ID to all level 2 headings
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
@@ -57,7 +57,7 @@ Mutator::tag('heading', function ($tag, $data) {
 });
 ```
 
-### Add a wrapper div around all tables:
+### Add a wrapper div around all tables
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
@@ -71,18 +71,46 @@ Mutator::tag('table', function ($tag) {
 });
 ```
 
-### Add a wrapper span around all list item content:
+### Add a wrapper span around all bullet list item content
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::tag('list_item', function ($tag) {
-    array_push($tag, 'span');
+Mutator::tag('list_item', function ($tag, $data, $meta) {
+    if ($meta['parent']->type === 'bullet_list') {
+        array_push($tag, 'span');
+    }
     return $tag;
 });
 ```
 
-### Convert all images to a custom element:
+### Remove paragraph tags inside list items
+
+```php
+use JackSleight\StatamicBardMutator\Facades\Mutator;
+
+Mutator::tag('paragraph', function ($tag, $data, $meta) {
+    if ($meta['parent']->type === 'list_item') {
+        array_shift($tag);
+    }
+    return $tag;
+});
+```
+
+### Wrap the first table row in a table head tag
+
+```php
+use JackSleight\StatamicBardMutator\Facades\Mutator;
+
+Mutator::tag('table_row', function ($tag, $data, $meta) {
+    if (! $meta['prev']) {
+        array_unshift($tag, 'thead');
+    }
+    return $tag;
+});
+```
+
+### Convert all images to a custom element
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
