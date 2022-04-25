@@ -3,8 +3,10 @@
 namespace JackSleight\StatamicBardMutator;
 
 use Closure;
-use Statamic\Fieldtypes\Bard\Augmentor;
 use JackSleight\StatamicBardMutator\Support\Data;
+use Statamic\Exceptions\NotBardValueException;
+use Statamic\Fields\Value;
+use Statamic\Fieldtypes\Bard;
 
 class Mutator
 {
@@ -25,6 +27,15 @@ class Mutator
         $this->extensions = $extensions;
 
         Augmentor::addNode(Nodes\Root::class);
+    }
+
+    public static function augment(Value $value)
+    {
+        if (! $value->fieldtype() instanceof Bard) {
+            throw new NotBardValueException();
+        }
+
+        return (new Augmentor($value->fieldtype()))->augment($value->raw());
     }
 
     public function getMutatedTypes()
