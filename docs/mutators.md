@@ -43,22 +43,22 @@ You should return a [tag value](data-formats.html#tag-values). You can add multi
 The third `$meta` argument contains metadata about the current node or mark and is only avalibale when using [the Bard Mutator tag](templating.html#the-bard-mutator-tag). It's an array that contains the following keys:
 
 * **parent (object):** The parent node
-* **next (object):** The next node/mark
 * **prev (object):** The previous node/mark
-* **index (object):** The index of the current node/mark
+* **next (object):** The next node/mark
+* **index (int):** The index of the current node/mark
+* **depth (int):** The depth of the current node/mark
 
 ---
 
 ## Root Mutators
 
-Root mutators allow you to manipulate the raw [node](data-formats.html#node-data) and [mark](data-formats.html#mark-data) data before anything is rendered to HTML. They're an advanced feature that give you access to the entire ProseMirror document and are only available when using [the Bard Mutator tag](templating.html#the-bard-mutator-tag).
+Root mutators allow you to make changes to the raw [node](data-formats.html#node-data) and [mark](data-formats.html#mark-data) data before rendering. They're an advanced feature that give you access to the entire ProseMirror document and are only available when using [the Bard Mutator tag](templating.html#the-bard-mutator-tag).
 
 ```php
-use Closure;
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 use JackSleight\StatamicBardMutator\Support\Data;
 
-Mutator::root(function ($data, Closure $collect) {
+Mutator::root(function ($data) {
     Data::walk($data, function ($item, $meta) {
         // do something complicated
     });
