@@ -3,21 +3,9 @@
 namespace JackSleight\StatamicBardMutator\Support;
 
 use Closure;
-use JackSleight\StatamicBardMutator\Augmentor;
-use Statamic\Fields\Value;
-use Statamic\Fieldtypes\Bard;
 
 class Data
 {
-    public static function augment(Value $value)
-    {
-        if (! $value->fieldtype() instanceof Bard) {
-            return $value;
-        }
-
-        return (new Augmentor($value->fieldtype()))->augment($value->raw());
-    }
-
     public static function walk($data, Closure $callback)
     {
         $step = function ($item, $meta = null) use (&$callback, &$step) {
