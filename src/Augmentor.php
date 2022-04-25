@@ -2,15 +2,13 @@
 
 namespace JackSleight\StatamicBardMutator;
 
+use JackSleight\StatamicBardMutator\Facades\Mutator;
 use Statamic\Fieldtypes\Bard\Augmentor as StatamicAugmentor;
 
 class Augmentor extends StatamicAugmentor
 {
     public function convertToHtml($value)
     {
-        return parent::convertToHtml([[
-            'type' => 'bmu_root',
-            'content' => $value,
-        ]]);
+        return parent::convertToHtml(Mutator::injectRoot($value));
     }
 }

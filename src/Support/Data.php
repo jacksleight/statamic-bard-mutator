@@ -16,6 +16,7 @@ class Data
                     'prev'   => $item->content[$i - 1] ?? null,
                     'next'   => $item->content[$i + 1] ?? null,
                     'index'  => $i,
+                    'depth'  => $meta['depth'] + 1,
                 ]);
             }
             foreach (($item->marks ?? []) as $i => $mark) {
@@ -24,9 +25,16 @@ class Data
                     'prev'   => $item->marks[$i - 1] ?? null,
                     'next'   => $item->marks[$i + 1] ?? null,
                     'index'  => $i,
+                    'depth'  => $meta['depth'] + 1,
                 ]);
             }
         };
-        $step($data);
+        $step($data, [
+            'parent' => null,
+            'prev'   => null,
+            'next'   => null,
+            'index'  => 0,
+            'depth'  => $data->type === 'bmu_root' ? -1 : 0,
+        ]);
     }
 }

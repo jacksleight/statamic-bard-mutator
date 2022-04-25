@@ -102,6 +102,10 @@ Mutator::tag('paragraph', function ($tag, $data, $meta) {
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
+Mutator::tag('table', function ($tag, $data, $meta) {
+    array_pop($tag); // remove the table's tbody
+    return $tag;
+});
 Mutator::tag('table_row', function ($tag, $data, $meta) {
     if (! $meta['prev']) {
         array_unshift($tag, 'thead');

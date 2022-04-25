@@ -39,6 +39,28 @@ class Mutator
         return $this;
     }
 
+    public function injectRoot($value)
+    {
+        return [[
+            'type' => 'bmu_root',
+            'content' => $value,
+        ]];
+    }
+
+    public function processRoot($data)
+    {
+        if (in_array($data, $this->roots, true)) {
+            return;
+        }
+
+        $this->mutateRoot($data);
+        Data::walk($data, function ($data, $meta) {
+            $this->storeMeta($data, $meta);
+        });
+
+        $this->roots[] = $data;
+    }
+
     public function getRootMutators()
     {
         return $this->rootMutators;
@@ -54,20 +76,6 @@ class Mutator
         foreach ($mutators as $mutator) {
             $mutator($data);
         }
-    }
-
-    public function processRoot($root)
-    {
-        if (in_array($root, $this->roots, true)) {
-            return;
-        }
-
-        $this->mutateRoot($root);
-        Data::walk($root, function ($data, $meta) {
-            $this->storeMeta($data, $meta);
-        });
-
-        $this->roots[] = $root;
     }
 
     public function tag($type, closure $mutator)

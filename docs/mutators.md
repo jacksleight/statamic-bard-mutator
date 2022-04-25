@@ -40,7 +40,7 @@ You should return a [tag value](data-formats.html#tag-values). You can add multi
 
 ### Metadata
 
-The third `$meta` argument contains contextual metadata about the current node or mark and is only avalibale when using [the Bard Mutator tag](templating.html#the-bard-mutator-tag). It's an array that contains the following keys:
+The third `$meta` argument contains metadata about the current node or mark and is only avalibale when using [the Bard Mutator tag](templating.html#the-bard-mutator-tag). It's an array that contains the following keys:
 
 * **parent (object):** The parent node
 * **next (object):** The next node/mark
