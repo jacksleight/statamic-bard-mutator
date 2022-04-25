@@ -12,7 +12,7 @@ This Statamic addon allows you to modify the tags rendered by the Bard fieldtype
 
 ## Examples
 
-Here are a couple of examples of what's possible. For more information and more examples check [the documentation](https://jacksleight.github.io/statamic-bard-mutator/).
+Here are a few examples of what's possible. For more information and more examples check [the documentation](https://jacksleight.github.io/statamic-bard-mutator/).
 
 ### Add `noopener` to all external links:
 
@@ -36,6 +36,19 @@ use JackSleight\StatamicBardMutator\Facades\Mutator;
 Mutator::tag('heading', function ($tag, $data) {
     if ($data->attrs->level === 2) {
         $tag[0]['attrs']['id'] = str_slug(collect($data->content)->implode('text', ''));
+    }
+    return $tag;
+});
+```
+
+### Remove paragraph tags inside list items
+
+```php
+use JackSleight\StatamicBardMutator\Facades\Mutator;
+
+Mutator::tag('paragraph', function ($tag, $data, $meta) {
+    if ($meta['parent']->type === 'list_item') {
+        array_shift($tag);
     }
     return $tag;
 });
