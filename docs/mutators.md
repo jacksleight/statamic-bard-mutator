@@ -40,7 +40,7 @@ You should return a [tag value](data-formats.html#tag-values). You can add multi
 
 ### Metadata
 
-The third `$meta` argument contains metadata about the current node or mark and is only avalibale when using [the Bard Mutator tag](templating.html#the-bard-mutator-tag). It's an array that contains the following keys:
+The third `$meta` argument contains metadata about the current node or mark and is only avalibale when using [the custom augmentor](rendering.html). It's an array that contains the following keys:
 
 * **parent (object):** The parent node
 * **prev (object):** The previous node/mark
@@ -52,7 +52,7 @@ The third `$meta` argument contains metadata about the current node or mark and 
 
 ## Root Mutators
 
-Root mutators allow you to make changes to the raw [node](data-formats.html#node-data) and [mark](data-formats.html#mark-data) data before rendering. They're an advanced feature that give you access to the entire ProseMirror document and are only available when using [the Bard Mutator tag](templating.html#the-bard-mutator-tag).
+Root mutators allow you to make changes to the raw [node](data-formats.html#node-data) and [mark](data-formats.html#mark-data) data before rendering. They're an advanced feature that give you access to the entire ProseMirror document and are only available when using [the custom augmentor](rendering.html).
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
