@@ -2,9 +2,8 @@
 
 namespace JackSleight\StatamicBardMutator\Tags;
 
-use JackSleight\StatamicBardMutator\Augmentor;
+use JackSleight\StatamicBardMutator\Support\Data;
 use Statamic\Fields\Value;
-use Statamic\Fieldtypes\Bard;
 use Statamic\Support\Arr;
 use Statamic\Tags\Tags;
 
@@ -16,10 +15,10 @@ class MutatorTag extends Tags
     {
         $value = Arr::get($this->context, $name);
 
-        if (! $value instanceof Value || ! $value->fieldtype() instanceof Bard) {
+        if (! $value instanceof Value) {
             return $value;
         }
 
-        return (new Augmentor($value->fieldtype()))->augment($value->raw());
+        return Data::augment($value);
     }
 }
