@@ -34,7 +34,7 @@ class Data
             'prev'   => null,
             'next'   => null,
             'index'  => 0,
-            'depth'  => $data->type === 'bmu_root' ? -1 : 0,
+            'depth'  => 0,
         ]);
     }
 }
