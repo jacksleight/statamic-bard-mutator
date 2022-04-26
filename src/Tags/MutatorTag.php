@@ -20,6 +20,6 @@ class MutatorTag extends Tags
             throw new NotValueException();
         }
 
-        return Mutator::augment($value);
+        return Mutator::render($value);
     }
 }

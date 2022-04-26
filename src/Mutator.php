@@ -6,6 +6,7 @@ use Closure;
 use JackSleight\StatamicBardMutator\Support\Data;
 use Statamic\Exceptions\NotBardValueException;
 use Statamic\Fields\Value;
+use Statamic\Fields\Values;
 use Statamic\Fieldtypes\Bard;
 
 class Mutator
@@ -27,15 +28,6 @@ class Mutator
         $this->extensions = $extensions;
 
         Augmentor::addNode(Nodes\Root::class);
-    }
-
-    public static function augment(Value $value)
-    {
-        if (! $value->fieldtype() instanceof Bard) {
-            throw new NotBardValueException();
-        }
-
-        return (new Augmentor($value->fieldtype()))->augment($value->raw());
     }
 
     public function getMutatedTypes()
@@ -182,6 +174,38 @@ class Mutator
                 Augmentor::replaceMark($search, $replace);
             }
         }
+    }
+
+    public function render(Value $value)
+    {
+        if (! $value->fieldtype() instanceof Bard) {
+            throw new NotBardValueException();
+        }
+
+        return (new Augmentor($value->fieldtype()))->augment($value->raw());
+    }
+
+    public function renderRecursive($value)
+    {
+        if ($value instanceof Value) {
+            if ($value->fieldtype() instanceof Bard) {
+                $value = $this->render($value);
+            } else {
+                $value = $value->value();
+            }
+        }
+
+        if (is_array($value)) {
+            foreach ($value as $key => $item) {
+                $value[$key] = $this->renderRecursive($item);
+            }
+        } else if ($value instanceof Values) {
+            foreach ($value as $key => $item) {
+                $value->getProxiedInstance()->put($key, $this->renderRecursive($item));
+            }
+        }
+
+        return $value;
     }
 
     /**
