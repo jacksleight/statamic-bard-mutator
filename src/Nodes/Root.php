@@ -8,14 +8,9 @@ class Root extends \ProseMirrorToHtml\Nodes\Node
 {
     protected $nodeType = 'bmu_root';
 
-    public function matching()
+    public function tag()
     {
-        if ($this->node->type !== $this->nodeType) {
-            return false;
-        }
-
         Mutator::processRoot($this->node);
-
-        return true;
+        return null;
     }
 }

@@ -15,9 +15,10 @@ class Mutator
 
     protected $registered = [];
 
-    protected $rootMutators = [];
-
-    protected $tagMutators = [];
+    protected $mutators = [
+        'data' => [],
+        'tag' => [],
+    ];
 
     protected $roots = [];
 
@@ -28,18 +29,6 @@ class Mutator
         $this->extensions = $extensions;
 
         Augmentor::addNode(Nodes\Root::class);
-    }
-
-    public function getMutatedTypes()
-    {
-        return array_keys($this->tagMutators);
-    }
-
-    public function root(closure $mutator)
-    {
-        $this->rootMutators[] = $mutator;
-
-        return $this;
     }
 
     public function injectRoot($value)
@@ -56,47 +45,46 @@ class Mutator
             return;
         }
 
-        $this->mutateRoot($data);
+        $this->roots[] = $data;
+        
         Data::walk($data, function ($data, $meta) {
             $this->storeMeta($data, $meta);
+            $this->mutateData($data->type, $data);
         });
-
-        $this->roots[] = $data;
     }
 
-    public function getRootMutators()
+    public function data($type, closure $mutator)
     {
-        return $this->rootMutators;
+        $this->mutators['data'][$type][] = $mutator;
+
+        return $this;
     }
 
-    protected function mutateRoot($data)
+    protected function mutateData($type, $data)
     {
-        $mutators = $this->getRootMutators();
+        $mutators = $this->mutators['data'][$type] ?? [];
         if (! count($mutators)) {
-            return;
+            return $data;
         }
 
+        $meta = $this->fetchMeta($data);
+
         foreach ($mutators as $mutator) {
-            $mutator($data);
+            $mutator($data, $meta);
         }
     }
 
     public function tag($type, closure $mutator)
     {
         $this->registerType($type);
-        $this->tagMutators[$type][] = $mutator;
+        $this->mutators['tag'][$type][] = $mutator;
 
         return $this;
     }
 
-    public function getTagMutators($type)
-    {
-        return $this->tagMutators[$type] ?? [];
-    }
-
     public function mutateTag($type, $data, $tag)
     {
-        $mutators = $this->getTagMutators($type);
+        $mutators = $this->mutators['tag'][$type] ?? [];
         if (! count($mutators)) {
             return $tag;
         }
@@ -176,6 +164,11 @@ class Mutator
         }
     }
 
+    public function getMutatedTypes()
+    {
+        return array_keys($this->mutators['tag']);
+    }
+
     public function render(Value $value)
     {
         if (! $value->fieldtype() instanceof Bard) {
@@ -185,28 +178,28 @@ class Mutator
         return (new Augmentor($value->fieldtype()))->augment($value->raw());
     }
 
-    public function renderRecursive($value)
-    {
-        if ($value instanceof Value) {
-            if ($value->fieldtype() instanceof Bard) {
-                $value = $this->render($value);
-            } else {
-                $value = $value->value();
-            }
-        }
+    // public function renderRecursive($value)
+    // {
+    //     if ($value instanceof Value) {
+    //         if ($value->fieldtype() instanceof Bard) {
+    //             $value = $this->render($value);
+    //         } else {
+    //             $value = $value->value();
+    //         }
+    //     }
 
-        if (is_array($value)) {
-            foreach ($value as $key => $item) {
-                $value[$key] = $this->renderRecursive($item);
-            }
-        } else if ($value instanceof Values) {
-            foreach ($value as $key => $item) {
-                $value->getProxiedInstance()->put($key, $this->renderRecursive($item));
-            }
-        }
+    //     if (is_array($value)) {
+    //         foreach ($value as $key => $item) {
+    //             $value[$key] = $this->renderRecursive($item);
+    //         }
+    //     } else if ($value instanceof Values) {
+    //         foreach ($value as $key => $item) {
+    //             $value->getProxiedInstance()->put($key, $this->renderRecursive($item));
+    //         }
+    //     }
 
-        return $value;
-    }
+    //     return $value;
+    // }
 
     /**
      * @deprecated

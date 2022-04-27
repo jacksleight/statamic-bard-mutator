@@ -91,7 +91,7 @@ use JackSleight\StatamicBardMutator\Facades\Mutator;
 
 Mutator::tag('paragraph', function ($tag, $data, $meta) {
     if ($meta['parent']->type === 'list_item') {
-        array_shift($tag);
+        return null;
     }
     return $tag;
 });
