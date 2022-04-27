@@ -10,6 +10,10 @@ blockquote {
     padding-left: $sp-5;
 }
 
+tbody tr:last-of-type td {
+    padding-bottom: 0.5rem !important;
+}
+
 @media (min-width: 31.25rem) {
     .site-title.site-title {
         font-size: 20px !important;

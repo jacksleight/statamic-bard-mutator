@@ -35,7 +35,7 @@ Mutators support mutating the following node and mark types.
 | code                  | ●            | ●             |       |
 | italic                | ●            | ●             |       |
 | link                  | ●            | ●             |       |
-| small                 | ●            | ●             |       |
+| small                 | ●            | ●             | Statamic 3.3.9+ |
 | strike                | ●            | ●             |       |
 | subscript             | ●            | ●             |       |
 | superscript           | ●            | ●             |       |
