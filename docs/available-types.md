@@ -5,30 +5,39 @@ nav_order: 7
 
 # Available Types
 
-Tag mutators support mutating the following node and mark types:
+Mutators support mutating the following node and mark types.
 
-* **Nodes**
-    * blockquote
-    * bullet_list
-    * code_block
-    * hard_break
-    * heading
-    * horizontal_rule
-    * image
-    * list_item
-    * ordered_list
-    * paragraph
-    * table
-    * table_cell
-    * table_header
-    * table_row
-* **Marks**
-    * bold
-    * code
-    * italic
-    * link
-    * subscript
-    * underline
-    * strike
-    * superscript
-    * bts_span (part of [Bard Texstyle](https://github.com/jacksleight/statamic-bard-texstyle))
+## Nodes
+
+| Type                  | Tag Mutators | Data Mutators | Notes |
+| --------------------- | :----------: | :-----------: | ----- |
+| blockquote            | ●            | ●             |       |
+| bullet_list           | ●            | ●             |       |
+| code_block            | ●            | ●             |       |
+| hard_break            | ●            | ●             |       |
+| heading               | ●            | ●             |       |
+| horizontal_rule       | ●            | ●             |       |
+| image                 | ●            | ●             |       |
+| list_item             | ●            | ●             |       |
+| ordered_list          | ●            | ●             |       |
+| paragraph             | ●            | ●             |       |
+| table                 | ●            | ●             |       |
+| table_cell            | ●            | ●             |       |
+| table_header          | ●            | ●             |       |
+| table_row             | ●            | ●             |       |
+| bmu_root              |              | ●             | Internal node that wraps all content |
+
+## Marks
+
+| Type                  | Tag Mutators | Data Mutators | Notes |
+| --------------------- | :----------: | :-----------: | ----- |
+| bold                  | ●            | ●             |       |
+| code                  | ●            | ●             |       |
+| italic                | ●            | ●             |       |
+| link                  | ●            | ●             |       |
+| small                 | ●            | ●             |       |
+| strike                | ●            | ●             |       |
+| subscript             | ●            | ●             |       |
+| superscript           | ●            | ●             |       |
+| underline             | ●            | ●             |       |
+| bts_span              | ●            | ●             | Part of [Bard Texstyle](https://github.com/jacksleight/statamic-bard-texstyle) |

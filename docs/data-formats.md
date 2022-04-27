@@ -69,7 +69,7 @@ Each mark is an object with the following properties:
 
 ## Tag Values
 
-When rendering HTML ProseMirror creates tag values from the node and mark data. These tag values represent HTML tags and are eventually converted to actual HTML.
+When rendering HTML ProseMirror creates tag values from the node and mark data. These tag values represent HTML tags and are used to generate the final HTML string.
 
 In their fully expanded format a tag value looks like this:
 

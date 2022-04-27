@@ -6,7 +6,6 @@ use Closure;
 use JackSleight\StatamicBardMutator\Support\Data;
 use Statamic\Exceptions\NotBardValueException;
 use Statamic\Fields\Value;
-use Statamic\Fields\Values;
 use Statamic\Fieldtypes\Bard;
 
 class Mutator
@@ -53,9 +52,11 @@ class Mutator
         });
     }
 
-    public function data($type, closure $mutator)
+    public function data($types, Closure $mutator)
     {
-        $this->mutators['data'][$type][] = $mutator;
+        foreach ((array) $types as $type) {
+            $this->mutators['data'][$type][] = $mutator;
+        }
 
         return $this;
     }
@@ -64,7 +65,7 @@ class Mutator
     {
         $mutators = $this->mutators['data'][$type] ?? [];
         if (! count($mutators)) {
-            return $data;
+            return;
         }
 
         $meta = $this->fetchMeta($data);
@@ -74,10 +75,12 @@ class Mutator
         }
     }
 
-    public function tag($type, closure $mutator)
+    public function tag($types, Closure $mutator)
     {
-        $this->registerType($type);
-        $this->mutators['tag'][$type][] = $mutator;
+        foreach ((array) $types as $type) {
+            $this->registerType($type);
+            $this->mutators['tag'][$type][] = $mutator;
+        }
 
         return $this;
     }
@@ -131,18 +134,14 @@ class Mutator
 
     protected function storeMeta($data, $meta)
     {
-        $id = spl_object_id($data);
-
-        $this->metas[$id] = $meta;
+        $this->metas[spl_object_id($data)] = $meta;
 
         return $this;
     }
 
     protected function fetchMeta($data)
     {
-        $id = spl_object_id($data);
-
-        return $this->metas[$id] ?? null;
+        return $this->metas[spl_object_id($data)] ?? null;
     }
 
     protected function registerType($type)
@@ -178,33 +177,10 @@ class Mutator
         return (new Augmentor($value->fieldtype()))->augment($value->raw());
     }
 
-    // public function renderRecursive($value)
-    // {
-    //     if ($value instanceof Value) {
-    //         if ($value->fieldtype() instanceof Bard) {
-    //             $value = $this->render($value);
-    //         } else {
-    //             $value = $value->value();
-    //         }
-    //     }
-
-    //     if (is_array($value)) {
-    //         foreach ($value as $key => $item) {
-    //             $value[$key] = $this->renderRecursive($item);
-    //         }
-    //     } else if ($value instanceof Values) {
-    //         foreach ($value as $key => $item) {
-    //             $value->getProxiedInstance()->put($key, $this->renderRecursive($item));
-    //         }
-    //     }
-
-    //     return $value;
-    // }
-
     /**
      * @deprecated
      */
-    public function node($type, closure $mutator)
+    public function node($type, Closure $mutator)
     {
         $this->tag($type, $mutator);
     }
@@ -212,7 +188,7 @@ class Mutator
     /**
      * @deprecated
      */
-    public function mark($type, closure $mutator)
+    public function mark($type, Closure $mutator)
     {
         $this->tag($type, $mutator);
     }

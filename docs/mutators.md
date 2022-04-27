@@ -36,13 +36,13 @@ You should add tag mutators in a service provider's `boot()` method. They will r
 * **data (object):** The raw [node](data-formats.html#node-data) and [mark](data-formats.html#mark-data) data
 * **meta (array, optional):** Metadata about the current node or mark (see below)
 
-You should return a [tag value](data-formats.html#tag-values). If you return `null` or an empty array no tags will be rendered but the content will be. You can add multiple tag mutators for the same node or mark, they'll be executed in the order they were added.
+You should return a [tag value](data-formats.html#tag-values). If you return `null` or an empty array no tags will be rendered but the content will be. You can add multiple tag mutators for the same type, they'll be executed in the order they were added.
 
 ---
 
 ## Data Mutators
 
-Data mutators allow you to make changes to the raw [node](data-formats.html#node-data) and [mark](data-formats.html#mark-data) data before rendering. They're an advanced feature that can give you access to the entire ProseMirror document and are only available when using Bard Mutator's [render method](rendering.html).
+Data mutators allow you to make changes to the raw [node](data-formats.html#node-data) and [mark](data-formats.html#mark-data) data before rendering. They're only available when using Bard Mutator's [render method](rendering.html).
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
@@ -57,13 +57,13 @@ You should add data mutators in a service provider's `boot()` method. They will 
 * **data (object):** The raw [node](data-formats.html#node-data) or [mark](data-formats.html#mark-data) data
 * **meta (array):** Metadata about the current node or mark (see below)
 
-Data mutators do not return a value, you can just modify the data objects directly. You can add multiple data mutators for the same node or mark, they'll be executed in the order they were added.
+Data mutators do not return a value, you can just modify the objects directly. You can add multiple data mutators for the same type, they'll be executed in the order they were added.
 
 ---
 
 ## Metadata
 
-The `$meta` argument contains metadata about the current node or mark and is only avalibale when using Bard Mutator's [render method](rendering.html). It's an array that contains the following keys:
+The `$meta` argument contains metadata about the current node or mark. It's only avalibale when using Bard Mutator's [render method](rendering.html). It's an array that contains the following keys:
 
 * **parent (object):** The parent node
 * **prev (object):** The previous node/mark

@@ -2,8 +2,10 @@
 
 ## 1.1.0 ()
 
-- [new] Metadata: Tag mutators can now get info on the current node/mark’s parent, siblings, index and depth
-- [new] Root Mutators: Make changes to the ProseMirror document before rendering
+- [new] Metadata: Mutators can now get info on the current node/mark’s parent, siblings, index and depth
+- [new] Data Mutators: Make changes to the node/mark data before any rendering
+- [new] Ability to specify multiple types when adding mutators
+- [new] Support the new "small" mark in Statamic 3.3.9
 - [new] Brand new [documentation](https://jacksleight.github.io/statamic-bard-mutator/) that's better organised and with more information and examples 
 
 ## 1.0.4 (2022-04-10)
