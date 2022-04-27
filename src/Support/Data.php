@@ -8,7 +8,7 @@ class Data
 {
     public static function walk($data, Closure $callback)
     {
-        $step = function ($item, $meta = null) use (&$callback, &$step) {
+        $step = function ($item, $meta) use (&$callback, &$step) {
             $callback($item, $meta);
             foreach (($item->content ?? []) as $i => $node) {
                 $step($node, [
