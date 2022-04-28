@@ -8,7 +8,7 @@
     "extra": {
         "statamic": {
             "name": "Bard Mutator",
-            "description": "This Statamic addon allows you to modify the tags rendered by the Bard fieldtype, giving you full control over the final HTML."
+            "description": "This Statamic addon allows you to modify the data and tags rendered by the Bard fieldtype, giving you full control over the final HTML."
         },
         "laravel": {
             "providers": [

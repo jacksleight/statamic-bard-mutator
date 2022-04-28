@@ -8,7 +8,7 @@
 
 <!-- /statamic:hide -->
 
-This Statamic addon allows you to modify the tags rendered by the Bard fieldtype, giving you full control over the final HTML. You can add, remove and modify attributes, wrap tags and content, or rename and replace tags entirely. You can also make changes the raw node and mark data before anything is rendered to HTML.
+This Statamic addon allows you to modify the data and tags rendered by the Bard fieldtype, giving you full control over the final HTML. You can add, remove and modify attributes, wrap tags and content, or rename and replace tags entirely. You can also make changes the raw data before anything is rendered to HTML.
 
 ## Examples
 
