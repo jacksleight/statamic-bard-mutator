@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0 ()
+
+- [new] Metadata: Mutators can now get info on the current node/mark’s parent, siblings, index and depth
+- [new] Data Mutators: Make changes to the node/mark data before before anything is rendered to HTML
+- [new] Ability to specify multiple types when adding mutators
+- [new] Support for the new "small" mark in Statamic 3.3.9
+- [new] Brand new [documentation](https://jacksleight.github.io/statamic-bard-mutator/) that's better organised and with more information and examples 
+
 ## 1.0.4 (2022-04-10)
 
 - [fix] Fix utility function import
@@ -40,7 +48,7 @@ This package has been renamed to `jacksleight/statamic-bard-mutator`. Sorry for 
 
 ## 0.1.2 (2021-09-23)
 
-- [break] Removed class configuration as it could potentially cause issues with future ProseMirror/Statamic updates or other addons, needs more thought
+- [break] Removed class configuration
 
 ## 0.1.1 (2021-09-23)
 
