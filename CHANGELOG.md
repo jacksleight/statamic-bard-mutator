@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.1.0 ()
+## 1.1.0 (2022-04-28)
 
 - [new] Metadata: Mutators can now get info on the current node/mark’s parent, siblings, index and depth
 - [new] Data Mutators: Make changes to the node/mark data before before anything is rendered to HTML
