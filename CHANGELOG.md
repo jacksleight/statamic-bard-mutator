@@ -3,7 +3,7 @@
 ## 1.1.0 (2022-04-28)
 
 - [new] Metadata: Mutators can now get info on the current node/mark’s parent, siblings, index and depth
-- [new] Data Mutators: Make changes to the node/mark data before before anything is rendered to HTML
+- [new] Data Mutators: Make changes to the node/mark data before anything is rendered to HTML
 - [new] Ability to specify multiple types when adding mutators
 - [new] Support for the new "small" mark in Statamic 3.3.9
 - [new] Brand new [documentation](https://jacksleight.github.io/statamic-bard-mutator/) that's better organised and with more information and examples 
