@@ -42,7 +42,7 @@ You should return a [tag value](data-formats.html). If you return `null` or an e
 
 ## Data Mutators
 
-Data mutators allow you to make changes to the raw [node and mark data](data-formats.html) before rendering. They're only available when using Bard Mutator's [render method](rendering.html).
+Data mutators allow you to make changes to the raw [node and mark data](data-formats.html) before anything is rendered to HTML. They're only available when using Bard Mutator's [render method](rendering.html).
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
