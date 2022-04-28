@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0 ()
+
+
+
 ## 1.1.0 (2022-04-28)
 
 - [new] Metadata: Mutators can now get info on the current node/mark’s parent, siblings, index and depth
