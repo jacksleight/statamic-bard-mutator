@@ -63,7 +63,7 @@ Data mutators do not return a value, you can just modify the objects directly. Y
 
 ## Metadata
 
-The `$meta` argument contains metadata about the current node or mark. It's only avalibale when using Bard Mutator's [render method](rendering.html). It's an array that contains the following keys:
+The `$meta` argument contains metadata about the current node or mark. It's only available when using Bard Mutator's [render method](rendering.html). It's an array that contains the following keys:
 
 * **parent (object):** The parent node
 * **prev (object):** The previous node/mark
