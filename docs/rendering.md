@@ -19,54 +19,34 @@ nav_order: 3
 
 All tag mutators will be applied whenever any Bard field is output, you don’t need to make any changes to your templates. However, only basic functionality is available with this method.
 
-To use advanced features such as [metadata](mutators.html#metadata) and [data mutators](mutators.html#data-mutators) you need to use Bard Mutator's render method, either via the Antlers `bmu` tag or directly.
+To use advanced features such as [metadata](mutators.html#metadata) and [data mutators](mutators.html#data-mutators) you need to use Bard Mutator's render method, either via `bmu` the tag or directly.
 
-## Antlers Tag
+## Tag
 
-To use the `bmu` tag update your template from this:
-
-```html
-{% raw %}{{ my_content }}{% endraw %}
-```
-
-To this:
+To use the `bmu` tag update your template as follows:
 
 ```html
 {% raw %}{{ bmu:my_content }}{% endraw %}
 ```
 
-## REST API
+Looping over sets is also supported:
 
-If you're using Statamic's REST API you can use a [custom resource](https://statamic.dev/rest-api#customizing-resources) and call the render method directly:
-
-```php
-use JackSleight\StatamicBardMutator\Facades\Mutator;
-
-class CustomEntryResource extends EntryResource
-{
-    public function toArray($request)
-    {
-        return [
-            'my_content' => Mutator::render($this->resource->augmentedValue('my_content')),
-        ] + parent::toArray($request);
-    }
-}
+```html
+{% raw %}{{ bmu:my_content }}
+    {{ if type == "text" }}
+        {{ text }}
+    {{ elseif type == "image" }}
+        <img src="{{ src }}">
+    {{ /if }}
+{{ /bmu:my_content }}{% endraw %}
 ```
 
-## GraphQL API
+## Direct
 
-If you're using Statamic's GraphQL API you can add a [custom field](https://statamic.dev/graphql#custom-fields) and call the render method directly:
+If you need to use Bard Mutator's render method outside of a template, for example when using the REST or GraphQL API's, you can call it directly:
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
-use Statamic\Facades\GraphQL;
 
-GraphQL::addField('Entry_Pages_Pages', 'my_content', function () {
-    return [
-        'type' => GraphQL::string(),
-        'resolve' => function ($entry) {
-            return Mutator::render($entry->augmentedValue('my_content'));
-        },
-    ];
-});
+$my_content = Mutator::render($entity->augmentedValue('my_content'));
 ```

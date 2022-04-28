@@ -32,17 +32,17 @@ Mutator::tag('bullet_list', function ($tag) {
 
 You should add tag mutators in a service provider's `boot()` method. They will receive two or three arguments depending on how you're using Bard Mutator:
 
-* **tag (array):** The standard [tag value](data-formats.html#tag-values)
-* **data (object):** The raw [node](data-formats.html#node-data) and [mark](data-formats.html#mark-data) data
+* **tag (array):** The standard [tag value](data-formats.html)
+* **data (object):** The raw [node and mark data](data-formats.html)
 * **meta (array, optional):** Metadata about the current node or mark (see below)
 
-You should return a [tag value](data-formats.html#tag-values). If you return `null` or an empty array no tags will be rendered but the content will be. You can add multiple tag mutators for the same type, they'll be executed in the order they were added.
+You should return a [tag value](data-formats.html). If you return `null` or an empty array no tags will be rendered but the content will be. You can add multiple tag mutators for the same type, they'll be executed in the order they were added.
 
 ---
 
 ## Data Mutators
 
-Data mutators allow you to make changes to the raw [node](data-formats.html#node-data) and [mark](data-formats.html#mark-data) data before rendering. They're only available when using Bard Mutator's [render method](rendering.html).
+Data mutators allow you to make changes to the raw [node and mark data](data-formats.html) before rendering. They're only available when using Bard Mutator's [render method](rendering.html).
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
@@ -54,7 +54,7 @@ Mutator::data('paragraph', function ($data, $meta) {
 
 You should add data mutators in a service provider's `boot()` method. They will receive two arguments:
 
-* **data (object):** The raw [node](data-formats.html#node-data) or [mark](data-formats.html#mark-data) data
+* **data (object):** The raw [node and mark data](data-formats.html)
 * **meta (array):** Metadata about the current node or mark (see below)
 
 Data mutators do not return a value, you can just modify the objects directly. You can add multiple data mutators for the same type, they'll be executed in the order they were added.
