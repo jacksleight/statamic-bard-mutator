@@ -41,7 +41,7 @@ Mutator::tag('heading', function ($tag, $data) {
 });
 ```
 
-### Remove paragraph tags inside list items
+### Remove paragraph nodes inside list items
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;

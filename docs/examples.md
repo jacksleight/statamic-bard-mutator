@@ -114,7 +114,7 @@ Mutator::tag('image', function ($tag) {
 
 ## Data Mutators
 
-### Remove paragraph tags inside list items
+### Remove paragraph nodes inside list items
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
