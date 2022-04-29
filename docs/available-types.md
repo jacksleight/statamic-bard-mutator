@@ -25,6 +25,7 @@ Mutators support mutating the following node and mark types.
 | table_cell            | ●            | ●             |       |
 | table_header          | ●            | ●             |       |
 | table_row             | ●            | ●             |       |
+| set                   |              | ●             |       |
 | bmu_root              |              | ●             | Internal node that wraps all content |
 
 ## Marks

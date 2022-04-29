@@ -19,12 +19,12 @@ nav_order: 5
 
 ## Tag Mutators
 
-### Add a class to all bullet lists
+### Add a class to all lists
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::tag('bullet_list', function ($tag) {
+Mutator::tag(['bullet_list', 'ordered_list'], function ($tag) {
     $tag[0]['attrs']['class'] = 'list';
     return $tag;
 });
@@ -84,19 +84,6 @@ Mutator::tag('list_item', function ($tag, $data, $meta) {
 });
 ```
 
-### Remove paragraph tags inside list items
-
-```php
-use JackSleight\StatamicBardMutator\Facades\Mutator;
-
-Mutator::tag('paragraph', function ($tag, $data, $meta) {
-    if ($meta['parent']->type === 'list_item') {
-        return null;
-    }
-    return $tag;
-});
-```
-
 ### Wrap the first table row in a table head tag
 
 ```php
@@ -122,5 +109,19 @@ use JackSleight\StatamicBardMutator\Facades\Mutator;
 Mutator::tag('image', function ($tag) {
     $tag[0]['tag'] = 'fancy-image';
     return $tag;
+});
+```
+
+## Data Mutators
+
+### Remove paragraph tags inside list items
+
+```php
+use JackSleight\StatamicBardMutator\Facades\Mutator;
+
+Mutator::data('list_item', function ($data) {
+    if (($data->content[0]->type ?? null) === 'paragraph') {
+        $data->content = $data->content[0]->content;
+    }
 });
 ```

@@ -46,11 +46,10 @@ Mutator::tag('heading', function ($tag, $data) {
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::tag('paragraph', function ($tag, $data, $meta) {
-    if ($meta['parent']->type === 'list_item') {
-        array_shift($tag);
+Mutator::data('list_item', function ($data) {
+    if (($data->content[0]->type ?? null) === 'paragraph') {
+        $data->content = $data->content[0]->content;
     }
-    return $tag;
 });
 ```
 

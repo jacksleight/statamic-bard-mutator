@@ -19,12 +19,12 @@ nav_order: 3
 
 ## Tag Mutators
 
-Tag mutators allow you to modify the [tag values](data-formats.html#tag-values) that ProseMirror converts to HTML. You can add, remove and modify attributes, wrap tags and content, or rename and replace tags entirely. Here's one example, there are more on the [examples](examples.html) page.
+Tag mutators allow you to modify the [tag values](data-formats.html#tag-values) that ProseMirror converts to HTML. You can add, remove and modify attributes, wrap tags and content, or rename and replace tags entirely. Here's a simple example that adds a class attribute to all lists, there are more on the [examples](examples.html) page.
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::tag('bullet_list', function ($tag) {
+Mutator::tag(['bullet_list', 'ordered_list'], function ($tag) {
     $tag[0]['attrs']['class'] = 'list';
     return $tag;
 });
