@@ -57,8 +57,6 @@ class Mutator
         foreach ((array) $types as $type) {
             $this->mutators['data'][$type][] = $mutator;
         }
-
-        return $this;
     }
 
     protected function mutateData($type, $data)
@@ -81,8 +79,6 @@ class Mutator
             $this->registerType($type);
             $this->mutators['tag'][$type][] = $mutator;
         }
-
-        return $this;
     }
 
     public function mutateTag($type, $data, $tag)
@@ -117,26 +113,9 @@ class Mutator
         return $tag;
     }
 
-    /**
-     * @deprecated
-     */
-    protected function normalizeData($data)
-    {
-        if (! isset($data->attrs)) {
-            $data->attrs = new \stdClass;
-        }
-        if (! isset($data->content)) {
-            $data->content = [];
-        }
-
-        return $data;
-    }
-
     protected function storeMeta($data, $meta)
     {
         $this->metas[spl_object_id($data)] = $meta;
-
-        return $this;
     }
 
     protected function fetchMeta($data)
@@ -163,11 +142,6 @@ class Mutator
         }
     }
 
-    public function getMutatedTypes()
-    {
-        return array_keys($this->mutators['tag']);
-    }
-
     public function render(Value $value)
     {
         if (! $value->fieldtype() instanceof Bard) {
@@ -175,6 +149,21 @@ class Mutator
         }
 
         return (new Augmentor($value->fieldtype()))->augment($value->raw());
+    }
+
+    /**
+     * @deprecated
+     */
+    protected function normalizeData($data)
+    {
+        if (! isset($data->attrs)) {
+            $data->attrs = new \stdClass;
+        }
+        if (! isset($data->content)) {
+            $data->content = [];
+        }
+
+        return $data;
     }
 
     /**
