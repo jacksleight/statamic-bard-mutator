@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.1 ()
+
+- Clean up some unused methods
+- Support `name` parameter in tag
+
 ## 1.1.0 (2022-04-28)
 
 - [new] Metadata: Mutators can now get info on the current node/mark’s parent, siblings, index and depth
