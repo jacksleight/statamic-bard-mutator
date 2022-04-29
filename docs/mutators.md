@@ -19,7 +19,7 @@ nav_order: 3
 
 ## Tag Mutators
 
-Tag mutators allow you to modify the [tag values](data-formats.html#tag-values) that ProseMirror converts to HTML. You can add, remove and modify attributes, wrap tags and content, or rename and replace tags entirely. Here's a simple example that adds a class attribute to all lists, there are more on the [examples](examples.html) page.
+Tag mutators allow you to modify the [tag values](data-formats.html#tag-values) that ProseMirror converts to HTML. You can add, remove and modify attributes, wrap tags and content, or rename and replace tags entirely. Here's an example that adds a class attribute to all lists, there are more on the [examples](examples.html) page.
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
@@ -42,13 +42,15 @@ You should return a [tag value](data-formats.html). If you return `null` or an e
 
 ## Data Mutators
 
-Data mutators allow you to make changes to the raw [node and mark data](data-formats.html) before anything is rendered to HTML. They're only available when using Bard Mutator's [render method](rendering.html).
+Data mutators allow you to make changes to the raw [node and mark data](data-formats.html) before anything is rendered to HTML. They're only available when using Bard Mutator's [render method](rendering.html). Here's an example that removes the paragraph nodes inside list items.
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::data('paragraph', function ($data, $meta) {
-    // ...
+Mutator::data('list_item', function ($data) {
+    if (($data->content[0]->type ?? null) === 'paragraph') {
+        $data->content = $data->content[0]->content;
+    }
 });
 ```
 
