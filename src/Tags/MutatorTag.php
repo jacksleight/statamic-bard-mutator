@@ -14,6 +14,15 @@ class MutatorTag extends Tags
 
     public function wildcard(string $name)
     {
+        $this->params->put('name', $name);
+
+        return $this->index();
+    }
+
+    public function index()
+    {
+        $name = $this->params->get('name');
+
         $value = Arr::get($this->context, $name);
 
         if (! $value instanceof Value) {
