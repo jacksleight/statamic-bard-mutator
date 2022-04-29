@@ -23,7 +23,7 @@ class MutatorTag extends Tags
     {
         $name = $this->params->get('name');
 
-        $value = Arr::get($this->context, $name);
+        $value = $this->context->get($name);
 
         if (! $value instanceof Value) {
             throw new NotValueException();
