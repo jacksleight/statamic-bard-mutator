@@ -14,7 +14,7 @@ This Statamic addon allows you to modify the data and tags rendered by the Bard 
 
 Here are a few examples of what's possible. For more information and more examples check [the documentation](https://jacksleight.github.io/statamic-bard-mutator/).
 
-### Add `noopener` to all external links:
+### Add `noopener` to all external links
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
@@ -28,7 +28,7 @@ Mutator::tag('link', function ($tag) {
 });
 ```
 
-### Add an auto-generated ID to all level 2 headings:
+### Add an auto-generated ID to all level 2 headings
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
