@@ -10,3 +10,5 @@ In order to run tag mutators Bard Mutator has to replace the built-in classes/ex
 *However*, if you have other addons (or user code) that replace any of the classes/extensions that Bard Mutator is also replacing it probably won't work properly. Unfortunately I don’t think there’s a way around that. This does not affect custom nodes and marks.
 
 My other Bard addons use Bard Mutator under the hood, so those are fully compatible. In fact the main reason I developed this in the first place was so multiple addons could make modifications to the built-in classes/extensions at the same time.
+
+Bard Mutator does not support Bard's `save_html` option or legacy format.
