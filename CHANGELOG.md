@@ -2,8 +2,8 @@
 
 ## 1.1.1 ()
 
-- Clean up some unused methods
-- Support `name` parameter in tag
+- Support `name` and  `value` parameters in tag
+- Update Statamic version requirement
 
 ## 1.1.0 (2022-04-28)
 

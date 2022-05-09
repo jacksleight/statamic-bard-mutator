@@ -22,8 +22,9 @@ class MutatorTag extends Tags
     public function index()
     {
         $name = $this->params->get('name');
+        $value = $this->params->get('value');
 
-        $value = $this->context->get($name);
+        $value = $value ?? $this->context->get($name);
 
         if (! $value instanceof Value) {
             throw new NotValueException();
