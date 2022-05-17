@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0 ()
+
+- 
+
 ## 1.1.1 (2022-05-09)
 
 - Support `name` and  `value` parameters in tag
