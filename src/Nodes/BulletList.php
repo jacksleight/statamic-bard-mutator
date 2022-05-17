@@ -4,7 +4,7 @@ namespace JackSleight\StatamicBardMutator\Nodes;
 
 use JackSleight\StatamicBardMutator\Support\Traits\MutatesNode;
 
-class BulletList extends \ProseMirrorToHtml\Nodes\BulletList
+class BulletList extends \Tiptap\Nodes\BulletList
 {
     use MutatesNode;
 }

@@ -4,7 +4,7 @@ namespace JackSleight\StatamicBardMutator\Nodes;
 
 use JackSleight\StatamicBardMutator\Support\Traits\MutatesNode;
 
-class HorizontalRule extends \ProseMirrorToHtml\Nodes\HorizontalRule
+class HorizontalRule extends \Tiptap\Nodes\HorizontalRule
 {
     use MutatesNode;
 }

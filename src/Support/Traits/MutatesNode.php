@@ -6,13 +6,13 @@ use JackSleight\StatamicBardMutator\Facades\Mutator;
 
 trait MutatesNode
 {
-    public function mutateNode($tag)
+    public function mutateNode($tag, $node)
     {
-        return Mutator::mutateTag($this->nodeType, $this->node, $tag);
+        return Mutator::mutateTag($node->type, $node, $tag);
     }
 
-    public function tag()
+    public function renderHTML($node, $HTMLAttributes = [])
     {
-        return $this->mutateNode(parent::tag());
+        return $this->mutateNode(parent::renderHTML($node, $HTMLAttributes), $node);
     }
 }
