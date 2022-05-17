@@ -4,7 +4,7 @@ namespace JackSleight\StatamicBardMutator\Marks;
 
 use JackSleight\StatamicBardMutator\Support\Traits\MutatesMark;
 
-class Italic extends \ProseMirrorToHtml\Marks\Italic
+class Italic extends \Tiptap\Marks\Italic
 {
     use MutatesMark;
 }

@@ -27,7 +27,9 @@ class Mutator
     {
         $this->extensions = $extensions;
 
-        Augmentor::addNode(Nodes\Root::class);
+        Augmentor::addExtensions([
+            'bmu_root' => new Nodes\Root(),
+        ]);
     }
 
     public function injectRoot($value)
@@ -45,7 +47,7 @@ class Mutator
         }
 
         $this->roots[] = $data;
-        
+
         Data::walk($data, function ($data, $meta) {
             $this->storeMeta($data, $meta);
             $this->mutateData($data->type, $data);
@@ -88,11 +90,10 @@ class Mutator
             return $tag;
         }
 
-        $data = $this->normalizeData($data);
         $meta = $this->fetchMeta($data);
 
         foreach ($mutators as $mutator) {
-            $tag = $this->normalizeTag($tag);
+            // $tag = $this->normalizeTag($tag); !!!!!!!!!
             $tag = $mutator($tag, $data, $meta);
         }
 
@@ -132,13 +133,8 @@ class Mutator
         $this->registered[] = $type;
 
         if (isset($this->extensions[$type])) {
-            $search = $this->extensions[$type][0];
-            $replace = $this->extensions[$type][1];
-            if (is_a($search, 'ProseMirrorToHtml\Nodes\Node', true)) {
-                Augmentor::replaceNode($search, $replace);
-            } elseif (is_a($search, 'ProseMirrorToHtml\Marks\Mark', true)) {
-                Augmentor::replaceMark($search, $replace);
-            }
+            $class = $this->extensions[$type];
+            Augmentor::replaceExtension($type, new $class());
         }
     }
 
@@ -149,36 +145,5 @@ class Mutator
         }
 
         return (new Augmentor($value->fieldtype()))->augment($value->raw());
-    }
-
-    /**
-     * @deprecated
-     */
-    protected function normalizeData($data)
-    {
-        if (! isset($data->attrs)) {
-            $data->attrs = new \stdClass;
-        }
-        if (! isset($data->content)) {
-            $data->content = [];
-        }
-
-        return $data;
-    }
-
-    /**
-     * @deprecated
-     */
-    public function node($type, Closure $mutator)
-    {
-        $this->tag($type, $mutator);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function mark($type, Closure $mutator)
-    {
-        $this->tag($type, $mutator);
     }
 }
