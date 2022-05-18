@@ -3,25 +3,24 @@
 namespace Tests;
 
 use JackSleight\StatamicBardMutator\Facades\Mutator;
-use Statamic\Support\Str;
 
-class TagMutatorTest extends TestCase
+class HtmlMutatorTest extends TestCase
 {
     protected $nodes = [
-        'blockquote'      => [],
-        'bullet_list'     => [],
-        'code_block'      => [],
-        'hard_break'      => [],
-        'heading'         => ['level' => 1],
-        'horizontal_rule' => [],
-        'image'           => ['src' => 'test.jpg'],
-        'list_item'       => [],
-        'ordered_list'    => [],
-        'paragraph'       => [],
-        'table_cell'      => [],
-        'table_header'    => [],
-        'table_row'       => [],
-        'table'           => [],
+        'blockquote'     => [],
+        'bulletList'     => [],
+        'codeBlock'      => [],
+        'hardBreak'      => [],
+        'heading'        => ['level' => 1],
+        'horizontalRule' => [],
+        'image'          => ['src' => 'test.jpg'],
+        'listItem'       => [],
+        'orderedList'    => [],
+        'paragraph'      => [],
+        'tableCell'      => [],
+        'tableHeader'    => [],
+        'tableRow'       => [],
+        'table'          => [],
     ];
 
     protected $marks = [
@@ -41,44 +40,41 @@ class TagMutatorTest extends TestCase
         parent::setUp();
 
         foreach ($this->nodes as $type => $attrs) {
-            Mutator::tag($type, function ($tag) {
-                $tag[0]['attrs']['class'] = 'test-tag';
+            Mutator::html($type, function ($html) {
+                $html[1]['class'] = 'test-html';
 
-                return $tag;
+                return $html;
             });
         }
         foreach ($this->marks as $type => $attrs) {
-            Mutator::tag($type, function ($tag) {
-                $tag[0]['attrs']['class'] = 'test-tag';
+            Mutator::html($type, function ($html) {
+                $html[1]['class'] = 'test-html';
 
-                return $tag;
+                return $html;
             });
         }
 
-        Mutator::tag('table', function ($tag) {
-            array_unshift($tag, [
-                'tag' => 'div',
-                'attrs' => ['class' => 'table-wrapper'],
-            ]);
+        Mutator::html('table', function ($html) {
+            $html = ['div', ['class' => 'table-wrapper'], $html];
 
-            return $tag;
+            return $html;
         });
 
-        Mutator::tag('list_item', function ($tag, $data, $meta) {
+        Mutator::html('listItem', function ($html, $data, $meta) {
             if ($meta['parent']->type === 'bulletList') {
-                array_push($tag, 'span');
+                $html[2] = ['span', [], 0];
             }
 
-            return $tag;
+            return $html;
         });
 
-        Mutator::tag('image', function ($tag) {
-            $tag[0]['tag'] = 'fancy-image';
+        Mutator::html('image', function ($html) {
+            $html[0] = 'fancy-image';
 
-            return $tag;
+            return $html;
         });
 
-        Mutator::data('list_item', function ($data) {
+        Mutator::data('listItem', function ($data) {
             if (($data->content[0]->type ?? null) === 'paragraph') {
                 $data->content = $data->content[0]->content;
             }
@@ -89,8 +85,8 @@ class TagMutatorTest extends TestCase
     public function it_mutates_all_nodes()
     {
         foreach ($this->nodes as $type => $attrs) {
-            $value = $this->getTestNode(Str::camel($type), $attrs);
-            $this->assertStringContainsString('class="test-tag"', Mutator::render($value));
+            $value = $this->getTestNode($type, $attrs);
+            $this->assertStringContainsString('class="test-html"', Mutator::render($value));
         }
     }
 
@@ -99,7 +95,7 @@ class TagMutatorTest extends TestCase
     {
         foreach ($this->marks as $type => $attrs) {
             $value = $this->getTestMark($type, $attrs);
-            $this->assertStringContainsString('class="test-tag"', Mutator::render($value));
+            $this->assertStringContainsString('class="test-html"', Mutator::render($value));
         }
     }
 

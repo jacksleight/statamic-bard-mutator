@@ -16,6 +16,7 @@ class Mutator
 
     protected $mutators = [
         'data' => [],
+        'html' => [],
         'tag' => [],
     ];
 
@@ -57,6 +58,7 @@ class Mutator
     public function data($types, Closure $mutator)
     {
         foreach ((array) $types as $type) {
+            $type = $this->mapType($type);
             $this->mutators['data'][$type][] = $mutator;
         }
     }
@@ -75,43 +77,50 @@ class Mutator
         }
     }
 
-    public function tag($types, Closure $mutator)
+    public function html($types, Closure $mutator)
     {
         foreach ((array) $types as $type) {
+            $type = $this->mapType($type);
             $this->registerType($type);
-            $this->mutators['tag'][$type][] = $mutator;
+            $this->mutators['html'][$type][] = $mutator;
         }
     }
 
-    public function mutateTag($type, $data, $tag)
+    public function mutateHtmlCompat($data, $html)
     {
-        $mutators = $this->mutators['tag'][$type] ?? [];
+        $html = $this->mutateHtml($data, $html);
+        $html = $this->mutateHtmlAsTag($data, $html);
+
+        return $html;
+    }
+
+    public function mutateHtml($data, $html)
+    {
+        $mutators = $this->mutators['html'][$data->type] ?? [];
         if (! count($mutators)) {
-            return $tag;
+            return $html;
         }
 
         $meta = $this->fetchMeta($data);
 
         foreach ($mutators as $mutator) {
-            // $tag = $this->normalizeTag($tag); !!!!!!!!!
-            $tag = $mutator($tag, $data, $meta);
+            $html = $this->normalizeHtml($html);
+            $html = $mutator($html, $data, $meta);
         }
 
-        return $tag;
+        return $html;
     }
 
-    protected function normalizeTag($tag)
+    protected function normalizeHtml($html)
     {
-        $tag = (array) $tag;
-        foreach ($tag as $i => $t) {
-            if (is_string($t)) {
-                $t = ['tag' => $t];
-            }
-            $t += ['tag' => null, 'attrs' => []];
-            $tag[$i] = $t;
+        if (! isset($html[1]) || ! is_array($html[1])) {
+            array_splice($html, 1, 0, [[]]);
+        }
+        if (isset($html[2]) && is_array($html[2])) {
+            $html[2] = $this->normalizeHtml($html[2]);
         }
 
-        return $tag;
+        return $html;
     }
 
     protected function storeMeta($data, $meta)
@@ -145,5 +154,103 @@ class Mutator
         }
 
         return (new Augmentor($value->fieldtype()))->augment($value->raw());
+    }
+
+    protected function mapType($type)
+    {
+        return [
+            'bullet_list'     => 'bulletList',
+            'code_block'      => 'codeBlock',
+            'hard_break'      => 'hardBreak',
+            'horizontal_rule' => 'horizontalRule',
+            'list_item'       => 'listItem',
+            'ordered_list'    => 'orderedList',
+            'table_cell'      => 'tableCell',
+            'table_header'    => 'tableHeader',
+            'table_row'       => 'tableRow',
+        ][$type] ?? $type;
+    }
+
+    /**
+     * @deprecated
+     */
+    public function tag($types, Closure $mutator)
+    {
+        foreach ((array) $types as $type) {
+            $type = $this->mapType($type);
+            $this->registerType($type);
+            $this->mutators['tag'][$type][] = $mutator;
+        }
+    }
+
+    /**
+     * @deprecated
+     */
+    public function mutateHtmlAsTag($data, $html)
+    {
+        $mutators = $this->mutators['tag'][$data->type] ?? [];
+        if (! count($mutators)) {
+            return $html;
+        }
+
+        $meta = $this->fetchMeta($data);
+
+        $html = $this->normalizeHtml($html);
+        $tag = $this->htmlToTag($html);
+        foreach ($mutators as $mutator) {
+            $tag = $this->normalizeTag($tag);
+            $tag = $mutator($tag, $data, $meta);
+        }
+        $tag = $this->normalizeTag($tag);
+        $html = $this->tagToHtml($tag);
+
+        return $html;
+    }
+
+    /**
+     * @deprecated
+     */
+    protected function normalizeTag($tag)
+    {
+        $tag = (array) $tag;
+        foreach ($tag as $i => $t) {
+            if (is_string($t)) {
+                $t = ['tag' => $t];
+            }
+            $t += ['tag' => null, 'attrs' => []];
+            $tag[$i] = $t;
+        }
+
+        return $tag;
+    }
+
+    /**
+     * @deprecated
+     */
+    protected function htmlToTag($html)
+    {
+        $tag = [[
+            'tag'   => $html[0],
+            'attrs' => $html[1],
+        ]];
+        if (isset($html[2]) && is_array($html[2])) {
+            $tag = array_merge($tag, $this->htmlToTag($html[2]));
+        }
+
+        return $tag;
+    }
+
+    /**
+     * @deprecated
+     */
+    protected function tagToHtml($tag)
+    {
+        $first = array_shift($tag);
+        $html = [$first['tag'], $first['attrs'], 0];
+        if (count($tag)) {
+            $html[2] = $this->tagToHtml($tag);
+        }
+
+        return $html;
     }
 }

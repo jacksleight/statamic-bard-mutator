@@ -6,13 +6,8 @@ use JackSleight\StatamicBardMutator\Facades\Mutator;
 
 trait MutatesMark
 {
-    public function mutateTag($tag)
+    public function renderHTML($mark, $HTMLAttributes = [])
     {
-        return Mutator::mutateTag($this->markType, $this->mark, $tag);
-    }
-
-    public function tag()
-    {
-        return $this->mutateTag(parent::tag());
+        return Mutator::mutateHtmlCompat($mark, parent::renderHTML($mark, $HTMLAttributes));
     }
 }
