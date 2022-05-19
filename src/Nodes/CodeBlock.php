@@ -2,9 +2,9 @@
 
 namespace JackSleight\StatamicBardMutator\Nodes;
 
-use JackSleight\StatamicBardMutator\Support\Traits\MutatesNode;
+use JackSleight\StatamicBardMutator\Support\Traits\MutatesExtension;
 
 class CodeBlock extends \Tiptap\Nodes\CodeBlock
 {
-    use MutatesNode;
+    use MutatesExtension;
 }

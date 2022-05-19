@@ -4,9 +4,11 @@ namespace JackSleight\StatamicBardMutator;
 
 use Closure;
 use JackSleight\StatamicBardMutator\Support\Data;
+use JackSleight\StatamicBardMutator\Support\Value;
 use Statamic\Exceptions\NotBardValueException;
-use Statamic\Fields\Value;
+use Statamic\Fields\Value as StatamicValue;
 use Statamic\Fieldtypes\Bard;
+use Statamic\Support\Arr;
 
 class Mutator
 {
@@ -14,11 +16,7 @@ class Mutator
 
     protected $registered = [];
 
-    protected $mutators = [
-        'data' => [],
-        'html' => [],
-        'tag' => [],
-    ];
+    protected $mutators = [];
 
     protected $roots = [];
 
@@ -55,17 +53,58 @@ class Mutator
         });
     }
 
-    public function data($types, Closure $mutator)
+    public function mutator($types, $kind, Closure $mutator)
     {
         foreach ((array) $types as $type) {
-            $type = $this->mapType($type);
-            $this->mutators['data'][$type][] = $mutator;
+            if ($kind !== 'data') {
+                $this->registerType($type);
+            }
+            if (!isset($this->mutators[$type])) {
+                $this->mutators[$type] = [];
+            }
+            if (!isset($this->mutators[$type][$kind])) {
+                $this->mutators[$type][$kind] = [];
+            }
+            $this->mutators[$type][$kind][] = $mutator;
         }
     }
 
-    protected function mutateData($type, $data)
+    public function type($types, array $mutators)
     {
-        $mutators = $this->mutators['data'][$type] ?? [];
+        foreach ($mutators as $kind => $mutator) {
+            $this->mutator($types, $kind, $mutator);
+        }
+    }
+
+    public function data($types, Closure $mutator)
+    {
+        $this->mutator($types, 'data', $mutator);
+    }
+
+    public function renderHtml($types, Closure $mutator)
+    {
+        $this->mutator($types, 'renderHtml', $mutator);
+    }
+
+    public function parseHtml($types, Closure $mutator)
+    {
+        $this->mutator($types, 'parseHtml', $mutator);
+    }
+
+    public function __call($method, $args)
+    {
+        $this->type($method, is_array($args[0])
+            ? $args[0]
+            : Arr::removeNullValues([
+                'renderHtml' => $args[0] ?? null,
+                'parseHtml' => $args[1] ?? null,
+            ])
+        );
+    }
+
+    public function mutateData($type, $data)
+    {
+        $mutators = $this->mutators[$type]['data'] ?? [];
         if (! count($mutators)) {
             return;
         }
@@ -73,54 +112,35 @@ class Mutator
         $meta = $this->fetchMeta($data);
 
         foreach ($mutators as $mutator) {
-            $mutator($data, $meta);
+            app()->call($mutator, [
+                'type' => $type,
+                'meta' => $meta,
+                'data' => $data,
+            ]);
         }
     }
 
-    public function html($types, Closure $mutator)
+    public function mutate($kind, $type, $value, array $params = [])
     {
-        foreach ((array) $types as $type) {
-            $type = $this->mapType($type);
-            $this->registerType($type);
-            $this->mutators['html'][$type][] = $mutator;
-        }
-    }
-
-    public function mutateHtmlCompat($data, $html)
-    {
-        $html = $this->mutateHtml($data, $html);
-        $html = $this->mutateHtmlAsTag($data, $html);
-
-        return $html;
-    }
-
-    public function mutateHtml($data, $html)
-    {
-        $mutators = $this->mutators['html'][$data->type] ?? [];
+        $mutators = $this->mutators[$type][$kind] ?? [];
         if (! count($mutators)) {
-            return $html;
+            return $value;
         }
 
-        $meta = $this->fetchMeta($data);
+        $meta = isset($params['data'])
+            ? $this->fetchMeta($params['data'])
+            : null;;
 
         foreach ($mutators as $mutator) {
-            $html = $this->normalizeHtml($html);
-            $html = $mutator($html, $data, $meta);
+            $value = Value::normalize($kind, $value);
+            $value = app()->call($mutator, [
+                'type'  => $type,
+                'meta'  => $meta,
+                'value' => $value,
+            ] + $params);
         }
 
-        return $html;
-    }
-
-    protected function normalizeHtml($html)
-    {
-        if (! isset($html[1]) || ! is_array($html[1])) {
-            array_splice($html, 1, 0, [[]]);
-        }
-        if (isset($html[2]) && is_array($html[2])) {
-            $html[2] = $this->normalizeHtml($html[2]);
-        }
-
-        return $html;
+        return $value;
     }
 
     protected function storeMeta($data, $meta)
@@ -147,7 +167,7 @@ class Mutator
         }
     }
 
-    public function render(Value $value)
+    public function render(StatamicValue $value)
     {
         if (! $value->fieldtype() instanceof Bard) {
             throw new NotBardValueException();
@@ -156,101 +176,13 @@ class Mutator
         return (new Augmentor($value->fieldtype()))->augment($value->raw());
     }
 
-    protected function mapType($type)
-    {
-        return [
-            'bullet_list'     => 'bulletList',
-            'code_block'      => 'codeBlock',
-            'hard_break'      => 'hardBreak',
-            'horizontal_rule' => 'horizontalRule',
-            'list_item'       => 'listItem',
-            'ordered_list'    => 'orderedList',
-            'table_cell'      => 'tableCell',
-            'table_header'    => 'tableHeader',
-            'table_row'       => 'tableRow',
-        ][$type] ?? $type;
-    }
-
     /**
      * @deprecated
      */
     public function tag($types, Closure $mutator)
     {
-        foreach ((array) $types as $type) {
-            $type = $this->mapType($type);
-            $this->registerType($type);
-            $this->mutators['tag'][$type][] = $mutator;
-        }
-    }
-
-    /**
-     * @deprecated
-     */
-    public function mutateHtmlAsTag($data, $html)
-    {
-        $mutators = $this->mutators['tag'][$data->type] ?? [];
-        if (! count($mutators)) {
-            return $html;
-        }
-
-        $meta = $this->fetchMeta($data);
-
-        $html = $this->normalizeHtml($html);
-        $tag = $this->htmlToTag($html);
-        foreach ($mutators as $mutator) {
-            $tag = $this->normalizeTag($tag);
-            $tag = $mutator($tag, $data, $meta);
-        }
-        $tag = $this->normalizeTag($tag);
-        $html = $this->tagToHtml($tag);
-
-        return $html;
-    }
-
-    /**
-     * @deprecated
-     */
-    protected function normalizeTag($tag)
-    {
-        $tag = (array) $tag;
-        foreach ($tag as $i => $t) {
-            if (is_string($t)) {
-                $t = ['tag' => $t];
-            }
-            $t += ['tag' => null, 'attrs' => []];
-            $tag[$i] = $t;
-        }
-
-        return $tag;
-    }
-
-    /**
-     * @deprecated
-     */
-    protected function htmlToTag($html)
-    {
-        $tag = [[
-            'tag'   => $html[0],
-            'attrs' => $html[1],
-        ]];
-        if (isset($html[2]) && is_array($html[2])) {
-            $tag = array_merge($tag, $this->htmlToTag($html[2]));
-        }
-
-        return $tag;
-    }
-
-    /**
-     * @deprecated
-     */
-    protected function tagToHtml($tag)
-    {
-        $first = array_shift($tag);
-        $html = [$first['tag'], $first['attrs'], 0];
-        if (count($tag)) {
-            $html[2] = $this->tagToHtml($tag);
-        }
-
-        return $html;
+        $this->mutator($types, 'renderHtml', function ($value, $data, $meta) use ($mutator) {
+            return Value::tagToHtml(Value::normalizeTag($mutator(Value::htmlToTag($value), $data, $meta)));
+        });
     }
 }

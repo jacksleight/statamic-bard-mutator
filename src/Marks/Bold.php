@@ -2,9 +2,9 @@
 
 namespace JackSleight\StatamicBardMutator\Marks;
 
-use JackSleight\StatamicBardMutator\Support\Traits\MutatesMark;
+use JackSleight\StatamicBardMutator\Support\Traits\MutatesExtension;
 
 class Bold extends \Tiptap\Marks\Bold
 {
-    use MutatesMark;
+    use MutatesExtension;
 }

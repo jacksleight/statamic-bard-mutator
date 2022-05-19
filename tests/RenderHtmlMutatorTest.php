@@ -4,7 +4,7 @@ namespace Tests;
 
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-class HtmlMutatorTest extends TestCase
+class RenderHtmlMutatorTest extends TestCase
 {
     protected $nodes = [
         'blockquote'     => [],
@@ -40,38 +40,38 @@ class HtmlMutatorTest extends TestCase
         parent::setUp();
 
         foreach ($this->nodes as $type => $attrs) {
-            Mutator::html($type, function ($html) {
-                $html[1]['class'] = 'test-html';
+            Mutator::renderHtml($type, function ($value) {
+                $value[1]['class'] = 'test-html';
 
-                return $html;
+                return $value;
             });
         }
         foreach ($this->marks as $type => $attrs) {
-            Mutator::html($type, function ($html) {
-                $html[1]['class'] = 'test-html';
+            Mutator::renderHtml($type, function ($value) {
+                $value[1]['class'] = 'test-html';
 
-                return $html;
+                return $value;
             });
         }
 
-        Mutator::html('table', function ($html) {
-            $html = ['div', ['class' => 'table-wrapper'], $html];
+        Mutator::renderHtml('table', function ($value) {
+            $value = ['div', ['class' => 'table-wrapper'], $value];
 
-            return $html;
+            return $value;
         });
 
-        Mutator::html('listItem', function ($html, $data, $meta) {
+        Mutator::renderHtml('listItem', function ($value, $meta) {
             if ($meta['parent']->type === 'bulletList') {
-                $html[2] = ['span', [], 0];
+                $value[2] = ['span', [], 0];
             }
 
-            return $html;
+            return $value;
         });
 
-        Mutator::html('image', function ($html) {
-            $html[0] = 'fancy-image';
+        Mutator::renderHtml('image', function ($value) {
+            $value[0] = 'fancy-image';
 
-            return $html;
+            return $value;
         });
 
         Mutator::data('listItem', function ($data) {

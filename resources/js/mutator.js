@@ -1,4 +1,4 @@
-import { extendSchema } from "./utilities";
+import mutatesExtension from "./mixins/mutates-extension";
 
 export default class Mutator {
 
@@ -6,70 +6,40 @@ export default class Mutator {
 
     registered = []
 
-    schemaMutators = {}
-
-    commandsMutators = {}
+    mutators = {}
 
     constructor(extensions) {
         this.extensions = extensions;
     }
 
-    schema(type, callback) {
+    mutator(type, kind, callback) {
+        // @todo multiple types
         this.registerType(type);
-        this.schemaMutators[type].push(callback);
-        return this;
+        if (!this.mutators[type]) {
+            this.mutators[type] = [];
+        }
+        if (!this.mutators[type][kind]) {
+            this.mutators[type][kind] = [];
+        }
+        this.mutators[type][kind].push(callback);
     }
 
-    getSchemaMutators(type) {
-        return this.schemaMutators[type] || [];
-    }
-
-    mutateSchema(type, schema) {
-        const mutators = this.getSchemaMutators(type);
+    mutate(kind, type, value, params = {}) {
+        // @todo normalization
+        const mutators = this.mutators[type] && this.mutators[type][kind]
+            ? this.mutators[type][kind]
+            : [];
         if (!mutators.length) {
-            return schema;
+            return value;
         }
         for (const mutator of mutators) {
-            schema = this.normalizeSchema(type, schema);
-            schema = mutator(schema, { extendSchema });
+            value = mutator({
+                type,
+                value,
+                ...params,
+            });
         }
-        return schema;
-    }
-
-    normalizeSchema(type, schema) {
-        if (!schema.attrs) {
-            schema.attrs = {};
-        }
-        return schema;
-    };
-
-    commands(type, callback) {
-        this.registerType(type);
-        this.commandsMutators[type].push(callback);
-        return this;
-    }
-    
-    getCommandsMutators(type) {
-        return this.commandsMutators[type] || [];
-    }
-    
-    mutateCommands(type, commands, info) {
-        const mutators = this.getCommandsMutators(type);
-        if (!mutators.length) {
-            return commands;
-        }
-        for (const mutator of mutators) {
-            commands = this.normalizeCommands(type, commands);
-            commands = mutator(commands, info);
-        }
-        return commands;
-    }
-    
-    normalizeCommands(type, commands) {
-        if (typeof commands === 'function') {
-            commands = { [type]: commands };
-        }
-        return commands;
+        return value;
     }
 
     registerType(type) {
@@ -77,12 +47,11 @@ export default class Mutator {
             return;
         }
         this.registered.push(type);
-        this.schemaMutators[type] = [];
-        this.commandsMutators[type] = [];
         if (this.extensions[type]) {
-            const replace = this.extensions[type];
-            Statamic.$bard.replaceExtension(type, ({ extension }) => new replace(extension.options));
+            Statamic.$bard.replaceExtension(type, ({ extension }) => {
+                return extension.extend(mutatesExtension);
+            });
         }
     }
-    
+        
 }

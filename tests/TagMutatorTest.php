@@ -3,25 +3,24 @@
 namespace Tests;
 
 use JackSleight\StatamicBardMutator\Facades\Mutator;
-use Statamic\Support\Str;
 
 class TagMutatorTest extends TestCase
 {
     protected $nodes = [
-        'blockquote'      => [],
-        'bullet_list'     => [],
-        'code_block'      => [],
-        'hard_break'      => [],
-        'heading'         => ['level' => 1],
-        'horizontal_rule' => [],
-        'image'           => ['src' => 'test.jpg'],
-        'list_item'       => [],
-        'ordered_list'    => [],
-        'paragraph'       => [],
-        'table_cell'      => [],
-        'table_header'    => [],
-        'table_row'       => [],
-        'table'           => [],
+        'blockquote'     => [],
+        'bulletList'     => [],
+        'codeBlock'      => [],
+        'hardBreak'      => [],
+        'heading'        => ['level' => 1],
+        'horizontalRule' => [],
+        'image'          => ['src' => 'test.jpg'],
+        'listItem'       => [],
+        'orderedList'    => [],
+        'paragraph'      => [],
+        'tableCell'      => [],
+        'tableHeader'    => [],
+        'tableRow'       => [],
+        'table'          => [],
     ];
 
     protected $marks = [
@@ -47,6 +46,7 @@ class TagMutatorTest extends TestCase
                 return $tag;
             });
         }
+
         foreach ($this->marks as $type => $attrs) {
             Mutator::tag($type, function ($tag) {
                 $tag[0]['attrs']['class'] = 'test-tag';
@@ -64,7 +64,7 @@ class TagMutatorTest extends TestCase
             return $tag;
         });
 
-        Mutator::tag('list_item', function ($tag, $data, $meta) {
+        Mutator::tag('listItem', function ($tag, $data, $meta) {
             if ($meta['parent']->type === 'bulletList') {
                 array_push($tag, 'span');
             }
@@ -77,19 +77,13 @@ class TagMutatorTest extends TestCase
 
             return $tag;
         });
-
-        Mutator::data('list_item', function ($data) {
-            if (($data->content[0]->type ?? null) === 'paragraph') {
-                $data->content = $data->content[0]->content;
-            }
-        });
     }
 
     /** @test */
     public function it_mutates_all_nodes()
     {
         foreach ($this->nodes as $type => $attrs) {
-            $value = $this->getTestNode(Str::camel($type), $attrs);
+            $value = $this->getTestNode($type, $attrs);
             $this->assertStringContainsString('class="test-tag"', Mutator::render($value));
         }
     }
@@ -142,19 +136,5 @@ class TagMutatorTest extends TestCase
             ],
         ]]);
         $this->assertStringContainsString('<fancy-image', Mutator::render($value));
-    }
-
-    /** @test */
-    public function it_removes_paragraph_nodes_inside_list_items()
-    {
-        $value = $this->getTestValue([[
-            'type'    => 'listItem',
-            'content' => [[
-                'type'    => 'paragraph',
-                'content' => [],
-            ]],
-        ]]);
-        $this->assertStringContainsString('<li', Mutator::render($value));
-        $this->assertStringNotContainsString('<p', Mutator::render($value));
     }
 }
