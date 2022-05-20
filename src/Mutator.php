@@ -59,17 +59,17 @@ class Mutator
             if ($kind !== 'data') {
                 $this->registerType($type);
             }
-            if (!isset($this->mutators[$type])) {
+            if (! isset($this->mutators[$type])) {
                 $this->mutators[$type] = [];
             }
-            if (!isset($this->mutators[$type][$kind])) {
+            if (! isset($this->mutators[$type][$kind])) {
                 $this->mutators[$type][$kind] = [];
             }
             $this->mutators[$type][$kind][] = $mutator;
         }
     }
 
-    public function type($types, array $mutators)
+    public function set($types, array $mutators)
     {
         foreach ($mutators as $kind => $mutator) {
             $this->mutator($types, $kind, $mutator);
@@ -81,23 +81,23 @@ class Mutator
         $this->mutator($types, 'data', $mutator);
     }
 
-    public function renderHtml($types, Closure $mutator)
+    public function renderHTML($types, Closure $mutator)
     {
-        $this->mutator($types, 'renderHtml', $mutator);
+        $this->mutator($types, 'renderHTML', $mutator);
     }
 
-    public function parseHtml($types, Closure $mutator)
+    public function parseHTML($types, Closure $mutator)
     {
-        $this->mutator($types, 'parseHtml', $mutator);
+        $this->mutator($types, 'parseHTML', $mutator);
     }
 
     public function __call($method, $args)
     {
-        $this->type($method, is_array($args[0])
+        $this->set($method, is_array($args[0])
             ? $args[0]
             : Arr::removeNullValues([
-                'renderHtml' => $args[0] ?? null,
-                'parseHtml' => $args[1] ?? null,
+                'renderHTML' => $args[0] ?? null,
+                'parseHTML' => $args[1] ?? null,
             ])
         );
     }
@@ -129,7 +129,7 @@ class Mutator
 
         $meta = isset($params['data'])
             ? $this->fetchMeta($params['data'])
-            : null;;
+            : null;
 
         foreach ($mutators as $mutator) {
             $value = Value::normalize($kind, $value);
@@ -181,7 +181,7 @@ class Mutator
      */
     public function tag($types, Closure $mutator)
     {
-        $this->mutator($types, 'renderHtml', function ($value, $data, $meta) use ($mutator) {
+        $this->mutator($types, 'renderHTML', function ($value, $data, $meta) use ($mutator) {
             return Value::tagToHtml(Value::normalizeTag($mutator(Value::htmlToTag($value), $data, $meta)));
         });
     }

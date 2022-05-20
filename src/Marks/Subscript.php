@@ -2,7 +2,7 @@
 
 namespace JackSleight\StatamicBardMutator\Marks;
 
-use JackSleight\StatamicBardMutator\Support\Traits\MutatesExtension;
+use JackSleight\StatamicBardMutator\Traits\MutatesExtension;
 
 class Subscript extends \Tiptap\Marks\Subscript
 {

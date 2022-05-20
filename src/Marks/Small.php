@@ -2,7 +2,7 @@
 
 namespace JackSleight\StatamicBardMutator\Marks;
 
-use JackSleight\StatamicBardMutator\Support\Traits\MutatesExtension;
+use JackSleight\StatamicBardMutator\Traits\MutatesExtension;
 
 class Small extends \Statamic\Fieldtypes\Bard\Marks\Small
 {

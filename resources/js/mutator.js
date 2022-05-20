@@ -1,4 +1,4 @@
-import mutatesExtension from "./mixins/mutates-extension";
+import mutatesExtension from "./traits/mutates-extension";
 
 export default class Mutator {
 
@@ -47,11 +47,9 @@ export default class Mutator {
             return;
         }
         this.registered.push(type);
-        if (this.extensions[type]) {
-            Statamic.$bard.replaceExtension(type, ({ extension }) => {
-                return extension.extend(mutatesExtension);
-            });
+        if (this.extensions.includes(type)) {
+            Statamic.$bard.replaceExtension(type, ({ extension }) => extension.extend(mutatesExtension));
         }
     }
-        
+
 }
