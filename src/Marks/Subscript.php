@@ -2,9 +2,9 @@
 
 namespace JackSleight\StatamicBardMutator\Marks;
 
-use JackSleight\StatamicBardMutator\Traits\MutatesExtension;
+use JackSleight\StatamicBardMutator\Traits\Mutates;
 
 class Subscript extends \Tiptap\Marks\Subscript
 {
-    use MutatesExtension;
+    use Mutates;
 }

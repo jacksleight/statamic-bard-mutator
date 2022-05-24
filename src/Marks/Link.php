@@ -2,9 +2,9 @@
 
 namespace JackSleight\StatamicBardMutator\Marks;
 
-use JackSleight\StatamicBardMutator\Traits\MutatesExtension;
+use JackSleight\StatamicBardMutator\Traits\Mutates;
 
 class Link extends \Statamic\Fieldtypes\Bard\LinkMark
 {
-    use MutatesExtension;
+    use Mutates;
 }

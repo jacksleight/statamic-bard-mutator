@@ -40,27 +40,27 @@ class RenderHtmlMutatorTest extends TestCase
         parent::setUp();
 
         foreach ($this->nodes as $type => $attrs) {
-            Mutator::renderHTML($type, function ($value) {
+            Mutator::html($type, function ($value) {
                 $value[1]['class'] = 'test-html';
 
                 return $value;
             });
         }
         foreach ($this->marks as $type => $attrs) {
-            Mutator::renderHTML($type, function ($value) {
+            Mutator::html($type, function ($value) {
                 $value[1]['class'] = 'test-html';
 
                 return $value;
             });
         }
 
-        Mutator::renderHTML('table', function ($value) {
+        Mutator::html('table', function ($value) {
             $value = ['div', ['class' => 'table-wrapper'], $value];
 
             return $value;
         });
 
-        Mutator::renderHTML('listItem', function ($value, $meta) {
+        Mutator::html('listItem', function ($value, $meta) {
             if ($meta['parent']->type === 'bulletList') {
                 $value[2] = ['span', [], 0];
             }
@@ -68,7 +68,7 @@ class RenderHtmlMutatorTest extends TestCase
             return $value;
         });
 
-        Mutator::renderHTML('image', function ($value) {
+        Mutator::html('image', function ($value) {
             $value[0] = 'fancy-image';
 
             return $value;

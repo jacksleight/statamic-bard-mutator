@@ -2,9 +2,9 @@
 
 namespace JackSleight\StatamicBardMutator\Marks;
 
-use JackSleight\StatamicBardMutator\Traits\MutatesExtension;
+use JackSleight\StatamicBardMutator\Traits\Mutates;
 
 class Code extends \Tiptap\Marks\Code
 {
-    use MutatesExtension;
+    use Mutates;
 }

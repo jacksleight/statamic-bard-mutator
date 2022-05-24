@@ -8,7 +8,6 @@ use JackSleight\StatamicBardMutator\Support\Value;
 use Statamic\Exceptions\NotBardValueException;
 use Statamic\Fields\Value as StatamicValue;
 use Statamic\Fieldtypes\Bard;
-use Statamic\Support\Arr;
 
 class Mutator
 {
@@ -53,7 +52,7 @@ class Mutator
         });
     }
 
-    public function mutator($types, $kind, Closure $mutator)
+    public function mutator($types, $kind, Closure $mutator, $config = [])
     {
         foreach ((array) $types as $type) {
             if ($kind !== 'data') {
@@ -65,47 +64,53 @@ class Mutator
             if (! isset($this->mutators[$type][$kind])) {
                 $this->mutators[$type][$kind] = [];
             }
-            $this->mutators[$type][$kind][] = $mutator;
+            $this->mutators[$type][$kind][] = $config + [
+                'function' => $mutator,
+                'priority' => 100,
+            ];
         }
     }
 
-    public function set($types, array $mutators)
+    public function data($types, Closure $mutator, $config = [])
     {
-        foreach ($mutators as $kind => $mutator) {
-            $this->mutator($types, $kind, $mutator);
+        $this->mutator($types, 'data', $mutator, $config);
+    }
+
+    public function parseHtml($types, Closure $mutator, $config = [])
+    {
+        $this->mutator($types, 'parseHtml', $mutator, $config);
+    }
+
+    public function renderHtml($types, Closure $mutator, $config = [])
+    {
+        $this->mutator($types, 'renderHtml', $mutator, $config);
+    }
+
+    public function html($types, Closure $renderHtml, Closure $parseHtml = null, $config = [])
+    {
+        $this->renderHtml($types, $renderHtml, $config);
+        if ($parseHtml) {
+            $this->parseHtml($types, $parseHtml, $config);
         }
     }
 
-    public function data($types, Closure $mutator)
+    protected function mutators($type, $kind)
     {
-        $this->mutator($types, 'data', $mutator);
-    }
+        $mutators = $this->mutators[$type][$kind] ?? [];
+        if (! count($mutators)) {
+            return false;
+        }
 
-    public function renderHTML($types, Closure $mutator)
-    {
-        $this->mutator($types, 'renderHTML', $mutator);
-    }
-
-    public function parseHTML($types, Closure $mutator)
-    {
-        $this->mutator($types, 'parseHTML', $mutator);
-    }
-
-    public function __call($method, $args)
-    {
-        $this->set($method, is_array($args[0])
-            ? $args[0]
-            : Arr::removeNullValues([
-                'renderHTML' => $args[0] ?? null,
-                'parseHTML' => $args[1] ?? null,
-            ])
-        );
+        return collect($mutators)
+            ->sortBy('priority')
+            ->pluck('function')
+            ->all();
     }
 
     public function mutateData($type, $data)
     {
-        $mutators = $this->mutators[$type]['data'] ?? [];
-        if (! count($mutators)) {
+        $mutators = $this->mutators($type, 'data');
+        if (! $mutators) {
             return;
         }
 
@@ -122,9 +127,9 @@ class Mutator
 
     public function mutate($kind, $type, $value, array $params = [])
     {
-        $mutators = $this->mutators[$type][$kind] ?? [];
-        if (! count($mutators)) {
-            return $value;
+        $mutators = $this->mutators($type, $kind);
+        if (! $mutators) {
+            return;
         }
 
         $meta = isset($params['data'])
@@ -162,8 +167,8 @@ class Mutator
         $this->registered[] = $type;
 
         if (isset($this->extensions[$type])) {
-            $class = $this->extensions[$type];
-            Augmentor::replaceExtension($type, new $class());
+            $extension = $this->extensions[$type];
+            Augmentor::replaceExtension($type, $extension);
         }
     }
 
@@ -181,7 +186,7 @@ class Mutator
      */
     public function tag($types, Closure $mutator)
     {
-        $this->mutator($types, 'renderHTML', function ($value, $data, $meta) use ($mutator) {
+        $this->renderHtml($types, function ($value, $data, $meta) use ($mutator) {
             return Value::tagToHtml(Value::normalizeTag($mutator(Value::htmlToTag($value), $data, $meta)));
         });
     }
