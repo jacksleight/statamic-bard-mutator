@@ -1,11 +1,23 @@
 ---
-title: Upgrade to 2.0
+title: Upgrade 1.0 to 2.0
 nav_order: 9
 ---
 
-# Upgrade to 2.0
+# Upgrade from 1.0 to 2.0
+{:.no_toc}
 
-Bard Mutator 2.0 integrates with the new TipTap PHP library in Statamic 3.4, which works differently from the previous ProseMirror library. As Bard Mutator provides low-level access to the TipTap/ProseMirror rendering process it also works differently now.
+<details open markdown="block">
+  <summary>
+      Table of contents
+  </summary>
+  {: .text-delta }
+* TOC
+{:toc}
+</details>
+
+---
+
+Bard Mutator 2.0 integrates with the new TipTap PHP library in Statamic 3.4, which works differently from the previous TipTap library. As Bard Mutator provides low-level access to the TipTap rendering process it also works differently now.
 
 High impact breaking changes have been kept to a minimum, but a core feature has been deprecated and replaced with a new version.
 
@@ -35,7 +47,7 @@ The previously deprecated `Mutator:node()` and `Mutator:mark()` methods have bee
 
 Tag rendering isn’t the same in TipTap PHP. Bard Mutator 2.0 includes a compatibility layer that maintains support for tag mutators, but these are deprecated and may be removed in a future version. 
 
-HTML mutators replace tag mutators. They work in a similar way but the data format is different. Below is an example of a tag mutator converted to an HTML mutator. Refer to the HTML mutators, HTML data format, and updated examples for more information. 
+HTML mutators replace tag mutators. They work in a similar way but the data format is different. Below is an example of a tag mutator converted to an HTML mutator. Refer to the [HTML mutators](mutators.html), [HTML value format](data-formats.html), and updated [examples](examples.html) for more information. 
 
 ```php
 Mutator::tag('heading', function ($tag) {

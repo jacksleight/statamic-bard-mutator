@@ -2,10 +2,9 @@
 
 ## 2.0.0 ()
 
-- bard 2
-- parse html and render html
-- priority
-- breaking, see upgrade guide
+- [new] Statamic 3.4 and Bard 2 support
+- [new] Render and parse mutators
+- [break] Refer to the [upgrade guide](https://jacksleight.github.io/statamic-bard-mutator/upgrade-1-0-to-2-0.html) for more information
 
 ## 1.1.1 (2022-05-09)
 
