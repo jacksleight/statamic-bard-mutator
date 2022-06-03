@@ -38,7 +38,7 @@ You should add HTML mutators in a service provider's `boot()` method. They can r
 * **type (string):** The type of the current node or mark
 * **HTMLAttributes (array):** TipTap's internal array of HTML attributes
 
-You should return an [HTML value](data-formats.html). If you return `null` or an empty array no tags will be rendered. You can add multiple tag mutators for the same type, they'll be executed in the order they were added.
+You should return an [HTML value](data-formats.html). If you return `null` or an empty array no tags will be rendered but the content will be. You can add multiple tag mutators for the same type, they'll be executed in the order they were added.
 
 ---
 
