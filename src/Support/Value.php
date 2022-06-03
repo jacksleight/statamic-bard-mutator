@@ -11,6 +11,9 @@ class Value
 
     public static function normalizeRenderHtml($value)
     {
+        if (! isset($value)) {
+            return $value;
+        }
         if (! isset($value[1]) || ! is_array($value[1])) {
             array_splice($value, 1, 0, [[]]);
         }
@@ -23,6 +26,9 @@ class Value
 
     public static function normalizeParseHtml($value)
     {
+        if (! isset($value)) {
+            return $value;
+        }
         if (! isset($value[1]) || ! is_array($value[1])) {
             array_splice($value, 1, 0, [[]]);
         }
