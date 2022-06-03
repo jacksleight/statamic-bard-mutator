@@ -20,11 +20,11 @@ Here are a few examples of what's possible. For more information and more exampl
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 use Statamic\Facades\URL;
 
-Mutator::tag('link', function ($tag) {
-    if (URL::isExternal($tag[0]['attrs']['href'])) {
-        $tag[0]['attrs']['rel'] = 'noopener';
+Mutator::html('link', function ($value) {
+    if (URL::isExternal($value[1]['href'])) {
+        $value[1]['rel'] = 'noopener';
     }
-    return $tag;
+    return $value;
 });
 ```
 
@@ -33,11 +33,11 @@ Mutator::tag('link', function ($tag) {
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::tag('heading', function ($tag, $data) {
+Mutator::html('heading', function ($value, $data) {
     if ($data->attrs->level === 2) {
-        $tag[0]['attrs']['id'] = str_slug(collect($data->content)->implode('text', ''));
+        $value[1]['id'] = str_slug(collect($data->content)->implode('text', ''));
     }
-    return $tag;
+    return $value;
 });
 ```
 
@@ -46,7 +46,7 @@ Mutator::tag('heading', function ($tag, $data) {
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::data('list_item', function ($data) {
+Mutator::data('listItem', function ($data) {
     if (($data->content[0]->type ?? null) === 'paragraph') {
         $data->content = $data->content[0]->content;
     }

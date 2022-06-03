@@ -24,9 +24,9 @@ HTML mutators allow you to modify the [HTML values](data-formats.html#html-value
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::tag(['bullet_list', 'ordered_list'], function ($tag) {
-    $tag[0]['attrs']['class'] = 'list';
-    return $tag;
+Mutator::html(['bulletList', 'orderedList'], function ($value) {
+    $value[1]['class'] = 'list';
+    return $value;
 });
 ```
 
