@@ -2,9 +2,9 @@
 
 namespace JackSleight\StatamicBardMutator\Marks;
 
-use JackSleight\StatamicBardMutator\Support\Traits\MutatesMark;
+use JackSleight\StatamicBardMutator\Traits\Mutates;
 
-class Subscript extends \ProseMirrorToHtml\Marks\Subscript
+class Subscript extends \Tiptap\Marks\Subscript
 {
-    use MutatesMark;
+    use Mutates;
 }

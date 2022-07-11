@@ -2,9 +2,9 @@
 
 namespace JackSleight\StatamicBardMutator\Marks;
 
-use JackSleight\StatamicBardMutator\Support\Traits\MutatesMark;
+use JackSleight\StatamicBardMutator\Traits\Mutates;
 
-class Underline extends \ProseMirrorToHtml\Marks\Underline
+class Underline extends \Tiptap\Marks\Underline
 {
-    use MutatesMark;
+    use Mutates;
 }

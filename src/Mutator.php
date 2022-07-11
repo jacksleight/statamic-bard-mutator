@@ -4,8 +4,9 @@ namespace JackSleight\StatamicBardMutator;
 
 use Closure;
 use JackSleight\StatamicBardMutator\Support\Data;
+use JackSleight\StatamicBardMutator\Support\Value;
 use Statamic\Exceptions\NotBardValueException;
-use Statamic\Fields\Value;
+use Statamic\Fields\Value as StatamicValue;
 use Statamic\Fieldtypes\Bard;
 
 class Mutator
@@ -14,10 +15,7 @@ class Mutator
 
     protected $registered = [];
 
-    protected $mutators = [
-        'data' => [],
-        'tag' => [],
-    ];
+    protected $mutators = [];
 
     protected $roots = [];
 
@@ -27,7 +25,9 @@ class Mutator
     {
         $this->extensions = $extensions;
 
-        Augmentor::addNode(Nodes\Root::class);
+        Augmentor::addExtensions([
+            'bmu_root' => new Nodes\Root(),
+        ]);
     }
 
     public function injectRoot($value)
@@ -45,72 +45,107 @@ class Mutator
         }
 
         $this->roots[] = $data;
-        
+
         Data::walk($data, function ($data, $meta) {
             $this->storeMeta($data, $meta);
             $this->mutateData($data->type, $data);
         });
     }
 
-    public function data($types, Closure $mutator)
+    public function mutator($types, $kind, Closure $mutator, $config = [])
     {
         foreach ((array) $types as $type) {
-            $this->mutators['data'][$type][] = $mutator;
+            if ($kind !== 'data') {
+                $this->registerType($type);
+            }
+            if (! isset($this->mutators[$type])) {
+                $this->mutators[$type] = [];
+            }
+            if (! isset($this->mutators[$type][$kind])) {
+                $this->mutators[$type][$kind] = [];
+            }
+            $this->mutators[$type][$kind][] = $config + [
+                'function' => $mutator,
+                'priority' => 100,
+            ];
         }
     }
 
-    protected function mutateData($type, $data)
+    public function data($types, Closure $mutator, $config = [])
     {
-        $mutators = $this->mutators['data'][$type] ?? [];
+        $this->mutator($types, 'data', $mutator, $config);
+    }
+
+    public function parseHtml($types, Closure $mutator, $config = [])
+    {
+        $this->mutator($types, 'parseHtml', $mutator, $config);
+    }
+
+    public function renderHtml($types, Closure $mutator, $config = [])
+    {
+        $this->mutator($types, 'renderHtml', $mutator, $config);
+    }
+
+    public function html($types, Closure $renderHtml, Closure $parseHtml = null, $config = [])
+    {
+        $this->renderHtml($types, $renderHtml, $config);
+        if ($parseHtml) {
+            $this->parseHtml($types, $parseHtml, $config);
+        }
+    }
+
+    protected function mutators($type, $kind)
+    {
+        $mutators = $this->mutators[$type][$kind] ?? [];
         if (! count($mutators)) {
+            return false;
+        }
+
+        return collect($mutators)
+            ->sortBy('priority')
+            ->pluck('function')
+            ->all();
+    }
+
+    public function mutateData($type, $data)
+    {
+        $mutators = $this->mutators($type, 'data');
+        if (! $mutators) {
             return;
         }
 
         $meta = $this->fetchMeta($data);
 
         foreach ($mutators as $mutator) {
-            $mutator($data, $meta);
+            app()->call($mutator, [
+                'type' => $type,
+                'meta' => $meta,
+                'data' => $data,
+            ]);
         }
     }
 
-    public function tag($types, Closure $mutator)
+    public function mutate($kind, $type, $value, array $params = [])
     {
-        foreach ((array) $types as $type) {
-            $this->registerType($type);
-            $this->mutators['tag'][$type][] = $mutator;
-        }
-    }
-
-    public function mutateTag($type, $data, $tag)
-    {
-        $mutators = $this->mutators['tag'][$type] ?? [];
-        if (! count($mutators)) {
-            return $tag;
+        $mutators = $this->mutators($type, $kind);
+        if (! $mutators) {
+            return;
         }
 
-        $data = $this->normalizeData($data);
-        $meta = $this->fetchMeta($data);
+        $meta = isset($params['data'])
+            ? $this->fetchMeta($params['data'])
+            : null;
 
         foreach ($mutators as $mutator) {
-            $tag = $this->normalizeTag($tag);
-            $tag = $mutator($tag, $data, $meta);
+            $value = Value::normalize($kind, $value);
+            $value = app()->call($mutator, [
+                'type'  => $type,
+                'meta'  => $meta,
+                'value' => $value,
+            ] + $params);
         }
 
-        return $tag;
-    }
-
-    protected function normalizeTag($tag)
-    {
-        $tag = (array) $tag;
-        foreach ($tag as $i => $t) {
-            if (is_string($t)) {
-                $t = ['tag' => $t];
-            }
-            $t += ['tag' => null, 'attrs' => []];
-            $tag[$i] = $t;
-        }
-
-        return $tag;
+        return $value;
     }
 
     protected function storeMeta($data, $meta)
@@ -132,17 +167,12 @@ class Mutator
         $this->registered[] = $type;
 
         if (isset($this->extensions[$type])) {
-            $search = $this->extensions[$type][0];
-            $replace = $this->extensions[$type][1];
-            if (is_a($search, 'ProseMirrorToHtml\Nodes\Node', true)) {
-                Augmentor::replaceNode($search, $replace);
-            } elseif (is_a($search, 'ProseMirrorToHtml\Marks\Mark', true)) {
-                Augmentor::replaceMark($search, $replace);
-            }
+            $extension = $this->extensions[$type];
+            Augmentor::replaceExtension($type, $extension);
         }
     }
 
-    public function render(Value $value)
+    public function render(StatamicValue $value)
     {
         if (! $value->fieldtype() instanceof Bard) {
             throw new NotBardValueException();
@@ -154,31 +184,10 @@ class Mutator
     /**
      * @deprecated
      */
-    protected function normalizeData($data)
+    public function tag($types, Closure $mutator)
     {
-        if (! isset($data->attrs)) {
-            $data->attrs = new \stdClass;
-        }
-        if (! isset($data->content)) {
-            $data->content = [];
-        }
-
-        return $data;
-    }
-
-    /**
-     * @deprecated
-     */
-    public function node($type, Closure $mutator)
-    {
-        $this->tag($type, $mutator);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function mark($type, Closure $mutator)
-    {
-        $this->tag($type, $mutator);
+        $this->renderHtml($types, function ($value, $data, $meta) use ($mutator) {
+            return Value::tagToHtml(Value::normalizeTag($mutator(Value::htmlToTag($value), $data, $meta)));
+        });
     }
 }

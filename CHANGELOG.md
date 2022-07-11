@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.0 ()
+
+- [new] Statamic 3.4 and Bard 2 support
+- [new] Render HTML and parse HTML mutators
+- [break] There are a couple of breaking changes, refer to the [upgrade guide](https://jacksleight.github.io/statamic-bard-mutator/upgrade-1-0-to-2-0.html) for more information
+
 ## 1.1.1 (2022-05-09)
 
 - Support `name` and  `value` parameters in tag

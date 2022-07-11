@@ -2,9 +2,9 @@
 
 namespace JackSleight\StatamicBardMutator\Nodes;
 
-use JackSleight\StatamicBardMutator\Support\Traits\MutatesNode;
+use JackSleight\StatamicBardMutator\Traits\Mutates;
 
-class HorizontalRule extends \ProseMirrorToHtml\Nodes\HorizontalRule
+class HorizontalRule extends \Tiptap\Nodes\HorizontalRule
 {
-    use MutatesNode;
+    use Mutates;
 }

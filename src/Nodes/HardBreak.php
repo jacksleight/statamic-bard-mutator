@@ -2,9 +2,9 @@
 
 namespace JackSleight\StatamicBardMutator\Nodes;
 
-use JackSleight\StatamicBardMutator\Support\Traits\MutatesNode;
+use JackSleight\StatamicBardMutator\Traits\Mutates;
 
-class HardBreak extends \ProseMirrorToHtml\Nodes\HardBreak
+class HardBreak extends \Tiptap\Nodes\HardBreak
 {
-    use MutatesNode;
+    use Mutates;
 }

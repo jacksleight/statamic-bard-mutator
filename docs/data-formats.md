@@ -67,54 +67,18 @@ Each mark is an object with the following properties:
 
 ---
 
-## Tag Values
+## HTML Values
 
-When rendering HTML ProseMirror creates tag values from the node and mark data. These tag values represent HTML tags and are used to generate the final HTML string.
-
-In their fully expanded format a tag value looks like this:
+When rendering HTML TipTap creates HTML values from the node and mark data. These HTML values represent HTML tags and are used to generate the final HTML string. HTML values look like this:
 
 ```php
-[
-    [
-        'tag' => 'a',
-        'attrs' => [
-            'href' => 'http://...'
-        ]
-    ]
-]
+['a', ['href' => 'http://...'], 0]
 ```
 
-A fully expanded tag value is an array of items where each item is an associative array with two keys:
+An HTML value is an array with two or three items:
 
-* **tag (string):** The name of the tag
-* **attrs (array):** A name/value array of attributes
-
-An array with multiple items will render nested tags, with the content placed within the innermost (last) tag.
-
-If there are no attributes the item can just be the tag name:
-
-```php
-[
-    ['p']
-]
-```
-
-And if there's only one item with no attributes the entire tag value can just be the tag name:
-
-```php
-'p'
-```
-
-The built-in node and mark classes return a mixture of these formats, but for ease and consistency Bard Mutator normalizes them to the fully expanded format before passing to your mutators. You can return any format you like.
-
-**Important:** A tag value that's a single associative array is *not* supported:
-
-```php
-// Don't do this, it won't work! Wrap it in another array.
-return [
-    'tag' => 'a',
-    'attrs' => [
-        'href' => 'http://...'
-    ]
-];
-```
+* **0 (string):** The name of the tag
+* **1 (array):** An array of tag attributes
+* **2 (int\|array, optional):** The content of the tag, can either be:
+    * A zero, representing the node/mark content
+    * Another nested HTML value

@@ -4,13 +4,14 @@ namespace JackSleight\StatamicBardMutator\Nodes;
 
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-class Root extends \ProseMirrorToHtml\Nodes\Node
+class Root extends \Tiptap\Core\Node
 {
-    protected $nodeType = 'bmu_root';
+    public static $name = 'bmu_root';
 
-    public function tag()
+    public function renderHTML($node, $HTMLAttributes = [])
     {
-        Mutator::processRoot($this->node);
+        Mutator::processRoot($node);
+
         return null;
     }
 }
