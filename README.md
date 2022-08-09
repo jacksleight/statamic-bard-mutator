@@ -59,6 +59,4 @@ Mutator::data('listItem', function ($data) {
 
 ## Compatibility
 
-In order to give you access to the TipTap rendering process Bard Mutator has to replace the built-in extensions with its own. It can only do that reliably if there are no other addons (or user code) trying to do the same thing. To help minimise incompatibilities Bard Mutator will only replace the extensions that are actually being mutated, everyting else is left alone.
-
-*However*, if you have other addons (or user code) that replace any of the extensions that Bard Mutator is also replacing it probably won't work properly. Unfortunately I don’t think there’s a way around that. This does not affect custom nodes and marks.
+In order to give you access to the Tiptap rendering process Bard Mutator has to override the Tiptap editor class and replace the built-in extensions with its own. It can only do that reliably if there are no other addons (or user code) trying to do the same thing. To help minimise incompatibilities Bard Mutator will only replace extensions that are actually being mutated.

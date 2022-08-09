@@ -19,7 +19,7 @@ nav_order: 3
 
 ## HTML Mutators
 
-HTML mutators allow you to modify the [HTML values](data-formats.html#html-values) that TipTap converts to HTML. You can add, remove and modify attributes, wrap tags and content, or rename and replace tags entirely. Here's an example that adds a class attribute to all lists, there are more on the [examples](examples.html) page.
+HTML mutators allow you to modify the [HTML values](data-formats.html#html-values) that Tiptap converts to HTML. You can add, remove and modify attributes, wrap tags and content, or rename and replace tags entirely. Here's an example that adds a class attribute to all lists, there are more on the [examples](examples.html) page.
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
@@ -36,7 +36,7 @@ You should add HTML mutators in a service provider's `boot()` method. They can r
 * **data (object):** The raw [node and mark data](data-formats.html)
 * **meta (array):** Metadata about the current node or mark (see below)
 * **type (string):** The type of the current node or mark
-* **HTMLAttributes (array):** TipTap's internal array of HTML attributes
+* **HTMLAttributes (array):** Tiptap's internal array of HTML attributes
 
 You should return an [HTML value](data-formats.html). If you return `null` or an empty array no tags will be rendered but the content will be. You can add multiple tag mutators for the same type, they'll be executed in the order they were added.
 
@@ -44,7 +44,7 @@ You should return an [HTML value](data-formats.html). If you return `null` or an
 
 ## Data Mutators
 
-Data mutators allow you to make changes to the raw [node and mark data](data-formats.html) before anything is rendered to HTML. They're only available when using Bard Mutator's [render method](rendering.html). Here's an example that removes the paragraph nodes inside list items.
+Data mutators allow you to make changes to the raw [node and mark data](data-formats.html) before anything is rendered to HTML. Here's an example that removes the paragraph nodes inside list items.
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
@@ -68,7 +68,7 @@ Data mutators do not return a value, you can just modify the objects directly. Y
 
 ## Metadata
 
-The `$meta` argument contains metadata about the current node or mark. It's only available when using Bard Mutator's [render method](rendering.html). It's an array that contains the following keys:
+The `$meta` argument contains metadata about the current node or mark. It's an array that contains the following keys:
 
 * **parent (object):** The parent node
 * **prev (object):** The previous node/mark

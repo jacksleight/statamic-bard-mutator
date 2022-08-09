@@ -17,15 +17,13 @@ nav_order: 9
 
 ---
 
-Bard Mutator 2.0 integrates with the new TipTap PHP library in Statamic 3.4, which works differently from the previous TipTap library. As Bard Mutator provides low-level access to the TipTap rendering process it also works differently now.
+Bard Mutator 2.0 integrates with the new Tiptap PHP library in Statamic 3.4, which works differently from the previous version. As Bard Mutator provides low-level access to the Tiptap rendering process it also works differently now. There are two high impact breaking changes, and a core feature has been deprecated and replaced with a new version.
 
-High impact breaking changes have been kept to a minimum, but a core feature has been deprecated and replaced with a new version.
+## Breaking Changes
 
-## Breaking
+### Node & Mark Names (High Impact)
 
-### High Impact
-
-The only high impact breaking change is the node and mark names, some of which have changed in TipTap 2. The table below lists the affected names, which you’ll need to update if you’re using them:
+Some node and mark names have changed in Tiptap 2. The table below lists the affected names, which you’ll need to update if you’re using them:
 
 | Old             | New            |
 | --------------- | -------------- |
@@ -39,13 +37,17 @@ The only high impact breaking change is the node and mark names, some of which h
 | table_header    | tableHeader    | 
 | table_row       | tableRow       | 
 
-### Low Impact
+### Tag & Render Method Removed (High Impact)
+
+The `{% raw %}{{ bmu }}{% endraw %}` tag and `Mutator::render()` method are no longer needed and have been removed. Data mutators and metadata are now avaliable whenever any Bard content is rendered. If you were using these you should remove those calls and just output your Bard values in the usual Statamic way.
+
+### Removed Deprecated Methods (Low Impact)
 
 The previously deprecated `Mutator:node()` and `Mutator:mark()` methods have been removed. You can use `Mutator:tag()` instead, but see the notes below.
 
 ## Deprecated
 
-Tag rendering isn’t the same in TipTap PHP. Bard Mutator 2.0 includes a compatibility layer that maintains support for tag mutators, but these are deprecated and may be removed in a future version. 
+Tag rendering isn’t the same in Tiptap PHP. Bard Mutator 2.0 includes a compatibility layer that maintains support for tag mutators, but these are deprecated and may be removed in a future version. 
 
 HTML mutators replace tag mutators. They work in a similar way but the data format is different. Below is an example of a tag mutator converted to an HTML mutator. Refer to the [HTML mutators](mutators.html), [HTML value format](data-formats.html), and updated [examples](examples.html) for more information. 
 

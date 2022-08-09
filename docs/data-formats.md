@@ -69,7 +69,7 @@ Each mark is an object with the following properties:
 
 ## HTML Values
 
-When rendering HTML TipTap creates HTML values from the node and mark data. These HTML values represent HTML tags and are used to generate the final HTML string. HTML values look like this:
+When rendering HTML Tiptap creates HTML values from the node and mark data. These HTML values represent HTML tags and are used to generate the final HTML string. HTML values look like this:
 
 ```php
 ['a', ['href' => 'http://...'], 0]

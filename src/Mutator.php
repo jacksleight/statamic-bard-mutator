@@ -5,9 +5,7 @@ namespace JackSleight\StatamicBardMutator;
 use Closure;
 use JackSleight\StatamicBardMutator\Support\Data;
 use JackSleight\StatamicBardMutator\Support\Value;
-use Statamic\Exceptions\NotBardValueException;
-use Statamic\Fields\Value as StatamicValue;
-use Statamic\Fieldtypes\Bard;
+use Statamic\Fieldtypes\Bard\Augmentor;
 
 class Mutator
 {
@@ -32,10 +30,11 @@ class Mutator
 
     public function injectRoot($value)
     {
-        return [[
+        $value['content'] = [[
             'type' => 'bmu_root',
-            'content' => $value,
+            'content' => $value['content'],
         ]];
+        return $value;
     }
 
     public function processRoot($data)
@@ -170,15 +169,6 @@ class Mutator
             $extension = $this->extensions[$type];
             Augmentor::replaceExtension($type, $extension);
         }
-    }
-
-    public function render(StatamicValue $value)
-    {
-        if (! $value->fieldtype() instanceof Bard) {
-            throw new NotBardValueException();
-        }
-
-        return (new Augmentor($value->fieldtype()))->augment($value->raw());
     }
 
     /**

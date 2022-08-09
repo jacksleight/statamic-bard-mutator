@@ -4,6 +4,7 @@
 
 - [new] Statamic 3.4 and Bard 2 support
 - [new] Render HTML and parse HTML mutators
+- [new] Data mutators and metadata are now avaliable whenever any Bard content is rendered, without the need for the `{{ bmu }}` tag
 - [break] There are a couple of breaking changes, refer to the [upgrade guide](https://jacksleight.github.io/statamic-bard-mutator/upgrade-1-0-to-2-0.html) for more information
 
 ## 1.1.1 (2022-05-09)
@@ -25,7 +26,7 @@
 
 ## 1.0.3 (2021-12-03)
 
-- [fix] Fix TipTap schema normalization
+- [fix] Fix Tiptap schema normalization
 
 ## 1.0.2 (2021-12-03)
 
@@ -38,7 +39,7 @@
 ## 1.0.0 (2021-12-01)
 
 - Now only replaces classes of nodes/marks that are actually being mutated
-- Ability to mutate TipTap extension schemas and commands (requires Statamic 3.2.24+)
+- Ability to mutate Tiptap extension schemas and commands (requires Statamic 3.2.24+)
 
 ## 0.2.0 (2021-10-22)
 

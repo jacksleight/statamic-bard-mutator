@@ -3,16 +3,16 @@
 namespace JackSleight\StatamicBardMutator;
 
 use Statamic\Providers\AddonServiceProvider;
+use JackSleight\StatamicBardMutator\Editor;
+use Tiptap\Editor as TiptapEditor;
 
 class ServiceProvider extends AddonServiceProvider
 {
-    protected $tags = [
-        Tags\MutatorTag::class,
-    ];
-
     public function register()
     {
         parent::register();
+
+        $this->app->bind(TiptapEditor::class, Editor::class);
 
         $this->app->singleton(Mutator::class, function () {
             return new Mutator([
