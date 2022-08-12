@@ -80,5 +80,5 @@ An HTML value is an array with two or three items:
 * **0 (string):** The name of the tag
 * **1 (array):** An array of tag attributes
 * **2 (int\|array, optional):** The content of the tag, can either be:
-    * A zero, representing the node/mark content
+    * A zero, representing the node content
     * Another nested HTML value
