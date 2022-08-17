@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.2 (2022-08-17)
+
+- [fix] Tag mutators now only run once per opening/closing tag-pair
+
 ## 1.1.1 (2022-05-09)
 
 - Support `name` and  `value` parameters in tag
