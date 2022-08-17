@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.1.2 (2022-08-17)
+## 1.1.2 ()
 
 - [fix] Tag mutators running twice per opening/closing tag-pair
 
