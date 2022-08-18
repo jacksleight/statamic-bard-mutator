@@ -19,6 +19,10 @@ class Mutator
 
     protected $metas = [];
 
+    // protected $tags = [];
+
+    // protected $datas = [];
+
     public function __construct($extensions)
     {
         $this->extensions = $extensions;
@@ -96,6 +100,7 @@ class Mutator
     protected function mutators($type, $kind)
     {
         $mutators = $this->mutators[$type][$kind] ?? [];
+
         if (! count($mutators)) {
             return false;
         }
@@ -126,6 +131,10 @@ class Mutator
 
     public function mutate($kind, $type, $value, array $params = [])
     {
+        // if ($stored = $this->fetchTag($data)) {
+        //    return $stored;
+        // }
+        
         $mutators = $this->mutators($type, $kind);
         if (! $mutators) {
             return;
@@ -143,12 +152,15 @@ class Mutator
                 'value' => $value,
             ] + $params);
         }
+        
+        // $this->storeTag($data, $tag);
 
         return $value;
     }
 
     protected function storeMeta($data, $meta)
     {
+        $this->storeData($data);
         $this->metas[spl_object_id($data)] = $meta;
     }
 
@@ -156,6 +168,22 @@ class Mutator
     {
         return $this->metas[spl_object_id($data)] ?? null;
     }
+
+    // protected function storeTag($data, $tag)
+    // {
+    //     $this->storeData($data);
+    //     $this->tags[spl_object_id($data)] = $tag;
+    // }
+
+    // protected function fetchTag($data)
+    // {
+    //     return $this->tags[spl_object_id($data)] ?? null;
+    // }
+
+    // protected function storeData($data)
+    // {
+    //     $this->datas[spl_object_id($data)] = $data;
+    // }
 
     protected function registerType($type)
     {

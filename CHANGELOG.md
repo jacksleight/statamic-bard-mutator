@@ -7,6 +7,10 @@
 - [new] Data mutators and metadata are now avaliable whenever any Bard content is rendered, without the need for the `{{ bmu }}` tag
 - [break] There are a couple of breaking changes, refer to the [upgrade guide](https://jacksleight.github.io/statamic-bard-mutator/upgrade-1-0-to-2-0.html) for more information
 
+## 1.1.2 (2022-08-18)
+
+- [fix] Tag mutators running twice per opening/closing tag-pair
+
 ## 1.1.1 (2022-05-09)
 
 - Support `name` and  `value` parameters in tag
