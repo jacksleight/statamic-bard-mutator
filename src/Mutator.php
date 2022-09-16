@@ -69,7 +69,6 @@ class Mutator
             }
             $this->mutators[$type][$kind][] = $config + [
                 'function' => $mutator,
-                'priority' => 100,
             ];
         }
     }
@@ -106,7 +105,6 @@ class Mutator
         }
 
         return collect($mutators)
-            ->sortBy('priority')
             ->pluck('function')
             ->all();
     }
