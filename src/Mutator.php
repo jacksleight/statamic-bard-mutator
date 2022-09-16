@@ -100,10 +100,6 @@ class Mutator
     {
         $mutators = $this->mutators[$type][$kind] ?? [];
 
-        if (! count($mutators)) {
-            return false;
-        }
-
         return collect($mutators)
             ->pluck('function')
             ->all();
@@ -134,9 +130,6 @@ class Mutator
         }
         
         $mutators = $this->mutators($type, $kind);
-        if (! $mutators) {
-            return;
-        }
 
         $meta = isset($params['data'])
             ? $this->fetchMeta($params['data'])
@@ -151,7 +144,9 @@ class Mutator
             ] + $params);
         }
         
-        $this->storeRenderHTML($params['data'], $value);
+        if ($kind === 'renderHtml') {
+            $this->storeRenderHTML($params['data'], $value);
+        }
 
         return $value;
     }
@@ -192,8 +187,7 @@ class Mutator
         $this->registered[] = $type;
 
         if (isset($this->extensions[$type])) {
-            $extension = $this->extensions[$type];
-            Augmentor::replaceExtension($type, $extension);
+            Augmentor::replaceExtension($type, $this->extensions[$type]);
         }
     }
 

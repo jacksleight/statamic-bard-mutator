@@ -28,9 +28,17 @@ class ServiceProvider extends AddonServiceProvider
                 'hardBreak'      => new Nodes\HardBreak(),
                 'heading'        => new Nodes\Heading(),
                 'horizontalRule' => new Nodes\HorizontalRule(),
-                'image'          => new Nodes\Image(),
+                'image'          => function ($extension, $bard, $options) {
+                    return $options['withStatamicImageUrls']
+                        ? new Nodes\StatamicImage
+                        : new Nodes\Image;
+                },
                 'italic'         => new Marks\Italic(),
-                'link'           => new Marks\Link(),
+                'link'           => function ($extension, $bard, $options) {
+                    return $options['withStatamicImageUrls']
+                        ? new Marks\StatamicLink
+                        : new Marks\Link;
+                },
                 'listItem'       => new Nodes\ListItem(),
                 'orderedList'    => new Nodes\OrderedList(),
                 'paragraph'      => new Nodes\Paragraph(),
@@ -43,6 +51,7 @@ class ServiceProvider extends AddonServiceProvider
                 'tableRow'       => new Nodes\TableRow(),
                 'table'          => new Nodes\Table(),
                 'underline'      => new Marks\Underline(),
+                'italic' => new \Tiptap\Marks\Italic(),
             ]);
         });
     }
