@@ -17,11 +17,11 @@ class Mutator
 
     protected $roots = [];
 
+    protected $datas = [];
+
     protected $metas = [];
 
-    // protected $tags = [];
-
-    // protected $datas = [];
+    protected $renderHTMLs = [];
 
     public function __construct($extensions)
     {
@@ -131,9 +131,9 @@ class Mutator
 
     public function mutate($kind, $type, $value, array $params = [])
     {
-        // if ($stored = $this->fetchTag($data)) {
-        //    return $stored;
-        // }
+        if ($kind === 'renderHtml' && $stored = $this->fetchRenderHTML($params['data'])) {
+           return $stored;
+        }
         
         $mutators = $this->mutators($type, $kind);
         if (! $mutators) {
@@ -153,7 +153,7 @@ class Mutator
             ] + $params);
         }
         
-        // $this->storeTag($data, $tag);
+        $this->storeRenderHTML($params['data'], $value);
 
         return $value;
     }
@@ -169,21 +169,21 @@ class Mutator
         return $this->metas[spl_object_id($data)] ?? null;
     }
 
-    // protected function storeTag($data, $tag)
-    // {
-    //     $this->storeData($data);
-    //     $this->tags[spl_object_id($data)] = $tag;
-    // }
+    protected function storeRenderHTML($data, $renderHTML)
+    {
+        $this->storeData($data);
+        $this->renderHTMLs[spl_object_id($data)] = $renderHTML;
+    }
 
-    // protected function fetchTag($data)
-    // {
-    //     return $this->tags[spl_object_id($data)] ?? null;
-    // }
+    protected function fetchRenderHTML($data)
+    {
+        return $this->renderHTMLs[spl_object_id($data)] ?? null;
+    }
 
-    // protected function storeData($data)
-    // {
-    //     $this->datas[spl_object_id($data)] = $data;
-    // }
+    protected function storeData($data)
+    {
+        $this->datas[spl_object_id($data)] = $data;
+    }
 
     protected function registerType($type)
     {
