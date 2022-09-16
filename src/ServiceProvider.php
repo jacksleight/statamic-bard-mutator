@@ -8,6 +8,10 @@ use Tiptap\Editor as TiptapEditor;
 
 class ServiceProvider extends AddonServiceProvider
 {
+    protected $tags = [
+        Tags\MutatorTag::class,
+    ];
+
     public function register()
     {
         parent::register();

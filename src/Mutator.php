@@ -180,4 +180,12 @@ class Mutator
             return Value::tagToHtml(Value::normalizeTag($mutator(Value::htmlToTag($value), $data, $meta)));
         });
     }
+
+    /**
+     * @deprecated
+     */
+    public function render($value)
+    {
+        return $value;
+    }
 }

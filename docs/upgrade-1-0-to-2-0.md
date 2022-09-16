@@ -37,15 +37,13 @@ Some node and mark names have changed in Tiptap 2. The table below lists the aff
 | table_header    | tableHeader    | 
 | table_row       | tableRow       | 
 
-### Tag & Render Method Removed (High Impact)
-
-The `{% raw %}{{ bmu }}{% endraw %}` tag and `Mutator::render()` method are no longer needed and have been removed. Data mutators and metadata are now avaliable whenever any Bard content is rendered. If you were using these you should remove those calls and just output your Bard values in the usual Statamic way.
-
 ### Mutator node and mark methods removed (Low Impact)
 
 The previously deprecated `Mutator:node()` and `Mutator:mark()` methods have been removed. You can use `Mutator:tag()` instead, but see the notes below.
 
 ## Deprecated
+
+### Tag Mutators
 
 Tag rendering isn’t the same in Tiptap PHP. Bard Mutator 2.0 includes a compatibility layer that maintains support for tag mutators, but these are deprecated and may be removed in a future version. 
 
@@ -64,3 +62,7 @@ Mutator::html('heading', function ($html) {
     return $html;
 });
 ```
+
+### Tag & Render Method
+
+The `{% raw %}{{ bmu }}{% endraw %}` tag and `Mutator::render()` method are no longer needed and do nothing. Data mutators and metadata are now avaliable whenever any Bard content is rendered. If you were using these you should remove those calls and just output your Bard values in the usual Statamic way.
