@@ -1,6 +1,6 @@
 ---
 title: Introduction
-nav_order: 1
+order: 1
 ---
 
 # Introduction
@@ -11,11 +11,11 @@ This Statamic addon allows you to modify the data and tags rendered by the Bard 
 
 This is how Tiptap (the magic behind Bard's content format and rendering) handles the rendering process, and how Bard Mutator interacts with that process:
 
-1. The raw content is stored as a ProseMirror document in your entries, these documents consist of [nodes and marks](data-formats.html)
+1. The raw content is stored as a ProseMirror document in your entries, these documents consist of [nodes and marks](data-formats)
 2. Statamic's augmentation process passes this data to the Tiptap renderer
-3. **Bard Mutator's [data mutators](mutators.html#data-mutators) jump in here, allowing you to modify the raw data**
-4. Tiptap converts the raw node and mark data to their standard [tag values](data-formats.html#html-values)
-5. **Bard Mutator's [HTML mutators](mutators.html#html-mutators) jump in here, allowing you to modify the tag values**
+3. **Bard Mutator's [data mutators](mutators#data-mutators) jump in here, allowing you to modify the raw data**
+4. Tiptap converts the raw node and mark data to their standard [tag values](data-formats#html-values)
+5. **Bard Mutator's [HTML mutators](mutators#html-mutators) jump in here, allowing you to modify the tag values**
 6. Tiptap renders the tag values to an HTML string
 
 ## Compatibility

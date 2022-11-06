@@ -1,25 +1,17 @@
 ---
 title: Mutators
-nav_order: 3
+order: 3
 ---
 
 # Mutators
-{:.no_toc}
 
-<details open markdown="block">
-  <summary>
-      Table of contents
-  </summary>
-  {: .text-delta }
-* TOC
-{:toc}
-</details>
+[TOC]
 
 ---
 
 ## HTML Mutators
 
-HTML mutators allow you to modify the [HTML values](data-formats.html#html-values) that Tiptap converts to HTML. You can add, remove and modify attributes, wrap tags and content, or rename and replace tags entirely. Here's an example that adds a class attribute to all lists, there are more on the [examples](examples.html) page.
+HTML mutators allow you to modify the [HTML values](data-formats#html-values) that Tiptap converts to HTML. You can add, remove and modify attributes, wrap tags and content, or rename and replace tags entirely. Here's an example that adds a class attribute to all lists, there are more on the [examples](examples) page.
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
@@ -32,19 +24,19 @@ Mutator::html(['bulletList', 'orderedList'], function ($value) {
 
 You should add HTML mutators in a service provider's `boot()` method. They can receive any of the following arguments which you can specify in any order:
 
-* **value (array):** The standard [HTML value](data-formats.html)
-* **data (object):** The raw [node and mark data](data-formats.html)
+* **value (array):** The standard [HTML value](data-formats)
+* **data (object):** The raw [node and mark data](data-formats)
 * **meta (array):** Metadata about the current node or mark (see below)
 * **type (string):** The type of the current node or mark
 * **HTMLAttributes (array):** Tiptap's internal array of HTML attributes
 
-You should return an [HTML value](data-formats.html). If you return `null` or an empty array no tags will be rendered but the content will be. You can add multiple tag mutators for the same type, they'll be executed in the order they were added.
+You should return an [HTML value](data-formats). If you return `null` or an empty array no tags will be rendered but the content will be. You can add multiple tag mutators for the same type, they'll be executed in the order they were added.
 
 ---
 
 ## Data Mutators
 
-Data mutators allow you to make changes to the raw [node and mark data](data-formats.html) before anything is rendered to HTML. Here's an example that removes the paragraph nodes inside list items.
+Data mutators allow you to make changes to the raw [node and mark data](data-formats) before anything is rendered to HTML. Here's an example that removes the paragraph nodes inside list items.
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
@@ -58,7 +50,7 @@ Mutator::data('list_item', function ($value) {
 
 You should add data mutators in a service provider's `boot()` method. They can receive any of the following arguments which you can specify in any order:
 
-* **value (object):** The raw [node and mark data](data-formats.html)
+* **value (object):** The raw [node and mark data](data-formats)
 * **meta (array):** Metadata about the current node or mark (see below)
 * **type (string):** The type of the current node or mark
 

@@ -1,19 +1,11 @@
 ---
 title: Data Formats
-nav_order: 6
+order: 6
 ---
 
 # Data Formats
-{:.no_toc}
 
-<details open markdown="block">
-  <summary>
-      Table of contents
-  </summary>
-  {: .text-delta }
-* TOC
-{:toc}
-</details>
+[TOC]
 
 ---
 

@@ -1,19 +1,11 @@
 ---
 title: Examples
-nav_order: 5
+order: 5
 ---
 
 # Examples
-{:.no_toc}
 
-<details open markdown="block">
-  <summary>
-      Table of contents
-  </summary>
-  {: .text-delta }
-* TOC
-{:toc}
-</details>
+[TOC]
 
 ---
 

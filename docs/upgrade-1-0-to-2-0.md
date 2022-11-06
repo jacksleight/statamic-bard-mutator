@@ -1,19 +1,11 @@
 ---
 title: Upgrade 1.0 to 2.0
-nav_order: 9
+order: 9
 ---
 
 # Upgrade from 1.0 to 2.0
-{:.no_toc}
 
-<details open markdown="block">
-  <summary>
-      Table of contents
-  </summary>
-  {: .text-delta }
-* TOC
-{:toc}
-</details>
+[TOC]
 
 ---
 
@@ -47,7 +39,7 @@ The previously deprecated `Mutator:node()` and `Mutator:mark()` methods have bee
 
 Tag rendering isn’t the same in Tiptap PHP. Bard Mutator 2.0 includes a compatibility layer that maintains support for tag mutators, but these are deprecated and may be removed in a future version. 
 
-HTML mutators replace tag mutators. They work in a similar way but the data format is different. Below is an example of a tag mutator converted to an HTML mutator. Refer to the [HTML mutators](mutators.html), [HTML value format](data-formats.html), and updated [examples](examples.html) for more information. 
+HTML mutators replace tag mutators. They work in a similar way but the data format is different. Below is an example of a tag mutator converted to an HTML mutator. Refer to the [HTML mutators](mutators), [HTML value format](data-formats), and updated [examples](examples) for more information. 
 
 ```php
 Mutator::tag('heading', function ($tag) {
@@ -65,4 +57,4 @@ Mutator::html('heading', function ($html) {
 
 ### Tag & Render Method
 
-The `{% raw %}{{ bmu }}{% endraw %}` tag and `Mutator::render()` method are no longer needed and do nothing. Data mutators and metadata are now avaliable whenever any Bard content is rendered. If you were using these you should remove those calls and just output your Bard values in the usual Statamic way.
+The `{{ bmu }}` tag and `Mutator::render()` method are no longer needed and do nothing. Data mutators and metadata are now avaliable whenever any Bard content is rendered. If you were using these you should remove those calls and just output your Bard values in the usual Statamic way.
