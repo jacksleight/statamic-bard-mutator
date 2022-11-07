@@ -55,7 +55,7 @@ Mutator::data('list_item', function ($data) {
 
 ## Documentation
 
-[Statamic Bard Mutator Documentation](https://jacksleight.github.io/statamic-bard-mutator/)
+[Statamic Bard Mutator Documentation](https://jacksleight.dev/docs/bard-mutator)
 
 ## Compatibility
 
