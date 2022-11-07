@@ -1,6 +1,6 @@
 ---
 title: Compatibility
-nav_order: 8
+order: 8
 ---
 
 # Compatibility

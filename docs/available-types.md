@@ -1,6 +1,6 @@
 ---
 title: Available Types
-nav_order: 7
+order: 7
 ---
 
 # Available Types
