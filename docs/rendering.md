@@ -18,19 +18,19 @@ To use advanced features such as [metadata](mutators#metadata) and [data mutator
 To use the `bmu` tag update your template as follows:
 
 ```html
-{% raw %}{{ bmu:my_content }}{% endraw %}
+{{ bmu:my_content }}
 ```
 
 Looping over sets is also supported:
 
 ```html
-{% raw %}{{ bmu:my_content }}
+{{ bmu:my_content }}
     {{ if type == "text" }}
         {{ text }}
     {{ elseif type == "image" }}
         <img src="{{ src }}">
     {{ /if }}
-{{ /bmu:my_content }}{% endraw %}
+{{ /bmu:my_content }}
 ```
 
 ## Direct
