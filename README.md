@@ -12,7 +12,7 @@ This Statamic addon allows you to modify the data and tags rendered by the Bard 
 
 ## Examples
 
-Here are a few examples of what's possible. For more information and more examples check [the documentation](https://jacksleight.github.io/statamic-bard-mutator/).
+Here are a few examples of what's possible. For more information and more examples check [the documentation](https://jacksleight.dev/docs/bard-mutator/examples).
 
 ### Add `noopener` to all external links
 
