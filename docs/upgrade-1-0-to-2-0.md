@@ -49,9 +49,9 @@ Mutator::tag('heading', function ($tag) {
 ```
 
 ```php
-Mutator::html('heading', function ($html) {
-    $html[1]['class'] = 'heading';
-    return $html;
+Mutator::html('heading', function ($value) {
+    $value[1]['class'] = 'heading';
+    return $value;
 });
 ```
 

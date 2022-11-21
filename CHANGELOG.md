@@ -5,7 +5,7 @@
 - [new] Statamic 3.4 and Bard 2 support
 - [new] Render HTML and parse HTML mutators
 - [new] Data mutators and metadata are now avaliable whenever any Bard content is rendered, without the need for the `{{ bmu }}` tag
-- [break] There are a couple of breaking changes, refer to the [upgrade guide](https://jacksleight.github.io/statamic-bard-mutator/upgrade-1-0-to-2-0.html) for more information
+- [break] There are a couple of breaking changes, refer to the [upgrade guide](https://jacksleight.dev/docs/bard-mutator/upgrade-1-0-to-2-0) for more information
 
 ## 1.1.2 (2022-08-18)
 
@@ -22,7 +22,7 @@
 - [new] Data Mutators: Make changes to the node/mark data before anything is rendered to HTML
 - [new] Ability to specify multiple types when adding mutators
 - [new] Support for the new "small" mark in Statamic 3.3.9
-- [new] Brand new [documentation](https://jacksleight.github.io/statamic-bard-mutator/) that's better organised and with more information and examples 
+- [new] Brand new [documentation](https://jacksleight.dev/docs/bard-mutato/) that's better organised and with more information and examples 
 
 ## 1.0.4 (2022-04-10)
 
