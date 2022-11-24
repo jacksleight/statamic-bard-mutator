@@ -14,6 +14,7 @@ order: 3
 Tag mutators allow you to modify the [tag values](data-formats#tag-values) that ProseMirror converts to HTML. You can add, remove and modify attributes, wrap tags and content, or rename and replace tags entirely. Here's an example that adds a class attribute to all lists, there are more on the [examples](examples) page.
 
 ```php
+# app/Providers/AppServiceProvider.php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
 Mutator::tag(['bullet_list', 'ordered_list'], function ($tag) {
@@ -22,7 +23,7 @@ Mutator::tag(['bullet_list', 'ordered_list'], function ($tag) {
 });
 ```
 
-You should add tag mutators in a service provider's `boot()` method. They will receive two or three arguments depending on how you're using Bard Mutator:
+You should add tag mutators in your app service provider's `boot()` method. They will receive two or three arguments depending on how you're using Bard Mutator:
 
 * **tag (array):** The standard [tag value](data-formats)
 * **data (object):** The raw [node and mark data](data-formats)
@@ -37,6 +38,7 @@ You should return a [tag value](data-formats). If you return `null` or an empty 
 Data mutators allow you to make changes to the raw [node and mark data](data-formats) before anything is rendered to HTML. They're only available when using Bard Mutator's [render method](rendering). Here's an example that removes the paragraph nodes inside list items.
 
 ```php
+# app/Providers/AppServiceProvider.php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
 Mutator::data('list_item', function ($data) {
@@ -46,7 +48,7 @@ Mutator::data('list_item', function ($data) {
 });
 ```
 
-You should add data mutators in a service provider's `boot()` method. They will receive two arguments:
+You should add data mutators in your app service provider's `boot()` method. They will receive two arguments:
 
 * **data (object):** The raw [node and mark data](data-formats)
 * **meta (array):** Metadata about the current node or mark (see below)
