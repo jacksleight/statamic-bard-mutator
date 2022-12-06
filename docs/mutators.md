@@ -35,16 +35,14 @@ You should return a [tag value](data-formats). If you return `null` or an empty 
 
 ## Data Mutators
 
-Data mutators allow you to make changes to the raw [node and mark data](data-formats) before anything is rendered to HTML. They're only available when using Bard Mutator's [render method](rendering). Here's an example that removes the paragraph nodes inside list items.
+Data mutators allow you to make changes to the raw [node and mark data](data-formats) before anything is rendered to HTML. They're only available when using Bard Mutator's [render method](rendering):
 
 ```php
 # app/Providers/AppServiceProvider.php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::data('list_item', function ($data) {
-    if (($data->content[0]->type ?? null) === 'paragraph') {
-        $data->content = $data->content[0]->content;
-    }
+Mutator::data('heading', function ($data) {
+    // modify $data...
 });
 ```
 

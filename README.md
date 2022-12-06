@@ -41,15 +41,16 @@ Mutator::tag('heading', function ($tag, $data) {
 });
 ```
 
-### Remove paragraph nodes inside list items
+### Remove paragraph tags inside list items and table cells
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::data('list_item', function ($data) {
-    if (($data->content[0]->type ?? null) === 'paragraph') {
-        $data->content = $data->content[0]->content;
+Mutator::tag('paragraph', function ($tag, $data, $meta) {
+    if (in_array($meta['parent']->type, ['list_item', 'table_cell'])) {
+        return null;
     }
+    return $tag;
 });
 ```
 
