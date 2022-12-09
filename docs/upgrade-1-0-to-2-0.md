@@ -13,6 +13,10 @@ Bard Mutator 2.0 integrates with the new Tiptap 2 PHP library in Statamic 3.4, w
 
 ## Breaking Changes
 
+### Tag & render method  (High Impact)
+
+The `{{ bmu }}` tag and `Mutator::render()` method have been removed in favour of [binding Bard Mutator's editor class](installation#enabling-advanced-features). This allows all advanced features to just work without the need to use a custom tag and within API responses. If you were using these you should bind the new class, remove those calls and just output your Bard values in the usual Statamic way.
+
 ### Node & mark name changes (High Impact)
 
 Some node and mark names have changed in Tiptap 2. The table below lists the affected names, which you’ll need to update if you’re using them:
@@ -54,7 +58,3 @@ Mutator::html('heading', function ($value) {
     return $value;
 });
 ```
-
-### Tag & Render Method
-
-The `{{ bmu }}` tag and `Mutator::render()` method are no longer needed and do nothing. Data mutators and metadata are now avaliable whenever any Bard content is rendered. If you were using these you should remove those calls and just output your Bard values in the usual Statamic way.
