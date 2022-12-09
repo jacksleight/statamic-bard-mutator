@@ -4,7 +4,6 @@
 
 - [new] Statamic 3.4 and Bard 2 support
 - [new] Render HTML and parse HTML mutators
-- [new] Data mutators and metadata are now avaliable whenever any Bard content is rendered, without the need for the `{{ bmu }}` tag
 - [break] There are a couple of breaking changes, refer to the [upgrade guide](https://jacksleight.dev/docs/bard-mutator/upgrade-1-0-to-2-0) for more information
 
 ## 1.1.2 (2022-08-18)
