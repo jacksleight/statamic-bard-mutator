@@ -59,9 +59,9 @@ Data mutators do not return a value, you can just modify the objects directly. Y
 
 The `$meta` argument contains metadata about the current node or mark. It's only available when using Bard Mutator's [render method](rendering). It's an array that contains the following keys:
 
+* **root (object):** The `bmu_root` node for this Bard value
 * **parent (object):** The parent node
 * **prev (object):** The previous node/mark
 * **next (object):** The next node/mark
 * **index (int):** The index of the current node/mark
 * **depth (int):** The depth of the current node/mark
-* **root (object):** The `bmu_root` node for this Bard value
