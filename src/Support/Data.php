@@ -17,6 +17,7 @@ class Data
                     'next'   => $item->content[$i + 1] ?? null,
                     'index'  => $i,
                     'depth'  => $meta['depth'] + 1,
+                    'root'   => $meta['root'],
                 ]);
             }
             foreach (($item->marks ?? []) as $i => $mark) {
@@ -26,6 +27,7 @@ class Data
                     'next'   => $item->marks[$i + 1] ?? null,
                     'index'  => $i,
                     'depth'  => $meta['depth'] + 1,
+                    'root'   => $meta['root'],
                 ]);
             }
         };
@@ -35,6 +37,7 @@ class Data
             'next'   => null,
             'index'  => 0,
             'depth'  => 0,
+            'root'   => $data,
         ]);
     }
 }

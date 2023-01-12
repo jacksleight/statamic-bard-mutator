@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.3 (2023-01-12)
+
+- [new] Include root node in metadata
+
 ## 1.1.2 (2022-08-18)
 
 - [fix] Tag mutators running twice per opening/closing tag-pair
