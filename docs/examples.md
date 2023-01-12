@@ -65,7 +65,7 @@ Mutator::html('table', function ($value) {
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
- Mutator::html('listItem', function ($value, $meta) {
+Mutator::html('listItem', function ($value, $meta) {
     if ($meta['parent']->type === 'bulletList') {
         $value[2] = ['span', [], 0];
     }
