@@ -64,3 +64,4 @@ The `$meta` argument contains metadata about the current node or mark. It's only
 * **next (object):** The next node/mark
 * **index (int):** The index of the current node/mark
 * **depth (int):** The depth of the current node/mark
+* **root (object):** The `bmu_root` node for this Bard value
