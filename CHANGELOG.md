@@ -2,9 +2,13 @@
 
 ## 2.0.0 ()
 
-- [new] Statamic 3.4 and Bard 2 support
+- [new] Statamic 3.4 support
 - [new] Render HTML and parse HTML mutators
 - [break] There are a couple of breaking changes, refer to the [upgrade guide](https://jacksleight.dev/docs/bard-mutator/upgrade-1-0-to-2-0) for more information
+
+## 1.1.3 (2023-01-12)
+
+- [new] Include root node in metadata
 
 ## 1.1.2 (2022-08-18)
 

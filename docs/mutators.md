@@ -14,6 +14,7 @@ order: 3
 HTML mutators allow you to modify the [HTML values](data-formats#html-values) that Tiptap converts to HTML. You can add, remove and modify attributes, wrap tags and content, or rename and replace tags entirely. Here's an example that adds a class attribute to all lists, there are more on the [examples](examples) page.
 
 ```php
+# app/Providers/AppServiceProvider.php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
 Mutator::html(['bulletList', 'orderedList'], function ($value) {
@@ -43,6 +44,7 @@ This is an advanced feature that requires an [additonal step](installation#enabl
 Data mutators allow you to make changes to the raw [node and mark data](data-formats) before anything is rendered to HTML. Here's an example that removes the paragraph nodes inside list items.
 
 ```php
+# app/Providers/AppServiceProvider.php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
 Mutator::data('list_item', function ($value) {
@@ -70,6 +72,7 @@ This is an advanced feature that requires an [additonal step](installation#enabl
 
 The `$meta` argument contains metadata about the current node or mark. It's an array that contains the following keys:
 
+* **root (object):** The `bmu_root` node for this Bard value
 * **parent (object):** The parent node
 * **prev (object):** The previous node/mark
 * **next (object):** The next node/mark

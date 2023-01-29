@@ -12,7 +12,7 @@ This Statamic addon allows you to modify the data and tags rendered by the Bard 
 
 ## Examples
 
-Here are a few examples of what's possible. For more information and more examples check [the documentation](https://jacksleight.github.io/statamic-bard-mutator/).
+Here are a few examples of what's possible. For more information and more examples check [the documentation](https://jacksleight.dev/docs/bard-mutator/examples).
 
 ### Add `noopener` to all external links
 
@@ -41,7 +41,7 @@ Mutator::html('heading', function ($value, $data) {
 });
 ```
 
-### Remove paragraph nodes inside list items
+### Remove paragraph tags inside list items and table cells
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
@@ -50,13 +50,18 @@ Mutator::data('listItem', function ($data) {
     if (($data->content[0]->type ?? null) === 'paragraph') {
         $data->content = $data->content[0]->content;
     }
+    return $tag;
 });
 ```
 
 ## Documentation
 
-[Statamic Bard Mutator Documentation](https://jacksleight.github.io/statamic-bard-mutator/)
+[Statamic Bard Mutator Documentation](https://jacksleight.dev/docs/bard-mutator)
 
 ## Compatibility
 
 In order to give you access to the Tiptap rendering process Bard Mutator has to override the Tiptap editor class and replace the built-in extensions with its own. It can only do that reliably if there are no other addons (or user code) trying to do the same thing. To help minimise incompatibilities Bard Mutator will only replace extensions that are actually being mutated.
+
+## Sponsoring 
+
+This addon is completely free to use. However fixing bugs, adding features and helping users takes time and effort. If you find this addon useful and would like to support its development any [contribution](https://github.com/sponsors/jacksleight) would be greatly appreciated. Thanks! 🙂

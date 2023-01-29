@@ -84,9 +84,7 @@ Mutator::html('image', function ($value) {
 });
 ```
 
-## Data Mutators
-
-### Remove paragraph nodes inside list items
+### Remove paragraph tags inside list items and table cells
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
@@ -95,5 +93,6 @@ Mutator::data('listItem', function ($value) {
     if (($value->content[0]->type ?? null) === 'paragraph') {
         $value->content = $value->content[0]->content;
     }
+    return $tag;
 });
 ```
