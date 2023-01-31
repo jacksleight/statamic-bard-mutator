@@ -2,9 +2,9 @@
 
 namespace JackSleight\StatamicBardMutator\Nodes;
 
-use JackSleight\StatamicBardMutator\Support\Traits\MutatesNode;
+use JackSleight\StatamicBardMutator\Traits\Mutates;
 
-class Table extends \ProseMirrorToHtml\Nodes\Table
+class Table extends \Tiptap\Nodes\Table
 {
-    use MutatesNode;
+    use Mutates;
 }

@@ -2,9 +2,9 @@
 
 namespace JackSleight\StatamicBardMutator\Nodes;
 
-use JackSleight\StatamicBardMutator\Support\Traits\MutatesNode;
+use JackSleight\StatamicBardMutator\Traits\Mutates;
 
-class Paragraph extends \ProseMirrorToHtml\Nodes\Paragraph
+class Paragraph extends \Tiptap\Nodes\Paragraph
 {
-    use MutatesNode;
+    use Mutates;
 }

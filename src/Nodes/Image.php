@@ -2,12 +2,9 @@
 
 namespace JackSleight\StatamicBardMutator\Nodes;
 
-use JackSleight\StatamicBardMutator\Support\Traits\MutatesNode;
+use JackSleight\StatamicBardMutator\Traits\Mutates;
 
 class Image extends \Statamic\Fieldtypes\Bard\ImageNode
 {
-    // \Statamic\Fieldtypes\Bard\ImageNode is missing this
-    protected $nodeType = 'image';
-
-    use MutatesNode;
+    use Mutates;
 }

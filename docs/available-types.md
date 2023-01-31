@@ -12,21 +12,22 @@ Mutators support mutating the following node and mark types.
 | Type                  | Tag Mutators | Data Mutators | Notes |
 | --------------------- | :----------: | :-----------: | ----- |
 | blockquote            | ●            | ●             |       |
-| bullet_list           | ●            | ●             |       |
-| code_block            | ●            | ●             |       |
-| hard_break            | ●            | ●             |       |
+| bulletList            | ●            | ●             |       |
+| codeBlock             | ●            | ●             |       |
+| hardBreak             | ●            | ●             |       |
 | heading               | ●            | ●             |       |
-| horizontal_rule       | ●            | ●             |       |
+| horizontalRule        | ●            | ●             |       |
 | image                 | ●            | ●             |       |
-| list_item             | ●            | ●             |       |
-| ordered_list          | ●            | ●             |       |
+| listItem              | ●            | ●             |       |
+| orderedList           | ●            | ●             |       |
 | paragraph             | ●            | ●             |       |
 | table                 | ●            | ●             |       |
-| table_cell            | ●            | ●             |       |
-| table_header          | ●            | ●             |       |
-| table_row             | ●            | ●             |       |
+| tableCell             | ●            | ●             |       |
+| tableHeader           | ●            | ●             |       |
+| tableRow              | ●            | ●             |       |
+| text                  |              | ●             |       |
 | set                   |              | ●             |       |
-| bmu_root              |              | ●             | Internal node that wraps all content |
+| bmu_root              |              | ●             | Mutator node wrapping all content |
 
 ## Marks
 
@@ -36,9 +37,10 @@ Mutators support mutating the following node and mark types.
 | code                  | ●            | ●             |       |
 | italic                | ●            | ●             |       |
 | link                  | ●            | ●             |       |
-| small                 | ●            | ●             | Statamic 3.3.9+ |
+| small                 | ●            | ●             |       |
 | strike                | ●            | ●             |       |
 | subscript             | ●            | ●             |       |
 | superscript           | ●            | ●             |       |
 | underline             | ●            | ●             |       |
 | bts_span              | ●            | ●             | Part of [Bard Texstyle](https://github.com/jacksleight/statamic-bard-texstyle) |
+| bts_div               | ●            | ●             | Part of [Bard Texstyle](https://github.com/jacksleight/statamic-bard-texstyle) |

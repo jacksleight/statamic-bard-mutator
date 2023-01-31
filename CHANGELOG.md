@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.0 (2023-01-31)
+
+- [new] Statamic 3.4 support
+- [new] HTML mutators replace tag mutators
+- [new] Support for Bard's `save_html` option with reverse mutators
+- [break] There are a couple of breaking changes, refer to the [upgrade guide](https://jacksleight.dev/docs/bard-mutator/upgrade-1-0-to-2-0) for more information
+- Advanced features no longer require a custom tag
+
 ## 1.1.3 (2023-01-12)
 
 - [new] Include root node in metadata
@@ -19,7 +27,7 @@
 - [new] Data Mutators: Make changes to the node/mark data before anything is rendered to HTML
 - [new] Ability to specify multiple types when adding mutators
 - [new] Support for the new "small" mark in Statamic 3.3.9
-- [new] Brand new [documentation](https://jacksleight.github.io/statamic-bard-mutator/) that's better organised and with more information and examples 
+- [new] Brand new [documentation](https://jacksleight.dev/docs/bard-mutato/) that's better organised and with more information and examples 
 
 ## 1.0.4 (2022-04-10)
 
@@ -27,7 +35,7 @@
 
 ## 1.0.3 (2021-12-03)
 
-- [fix] Fix TipTap schema normalization
+- [fix] Fix Tiptap schema normalization
 
 ## 1.0.2 (2021-12-03)
 
@@ -40,7 +48,7 @@
 ## 1.0.0 (2021-12-01)
 
 - Now only replaces classes of nodes/marks that are actually being mutated
-- Ability to mutate TipTap extension schemas and commands (requires Statamic 3.2.24+)
+- Ability to mutate Tiptap extension schemas and commands (requires Statamic 3.2.24+)
 
 ## 0.2.0 (2021-10-22)
 

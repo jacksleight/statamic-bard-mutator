@@ -20,11 +20,11 @@ Here are a few examples of what's possible. For more information and more exampl
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 use Statamic\Facades\URL;
 
-Mutator::tag('link', function ($tag) {
-    if (URL::isExternal($tag[0]['attrs']['href'])) {
-        $tag[0]['attrs']['rel'] = 'noopener';
+Mutator::html('link', function ($value) {
+    if (URL::isExternal($value[1]['href'])) {
+        $value[1]['rel'] = 'noopener';
     }
-    return $tag;
+    return $value;
 });
 ```
 
@@ -33,11 +33,11 @@ Mutator::tag('link', function ($tag) {
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::tag('heading', function ($tag, $data) {
+Mutator::html('heading', function ($value, $data) {
     if ($data->attrs->level === 2) {
-        $tag[0]['attrs']['id'] = str_slug(collect($data->content)->implode('text', ''));
+        $value[1]['id'] = str_slug(collect($data->content)->implode('text', ''));
     }
-    return $tag;
+    return $value;
 });
 ```
 
@@ -46,9 +46,9 @@ Mutator::tag('heading', function ($tag, $data) {
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::tag('paragraph', function ($tag, $data, $meta) {
-    if (in_array($meta['parent']->type, ['list_item', 'table_cell'])) {
-        return null;
+Mutator::data('listItem', function ($data) {
+    if (($data->content[0]->type ?? null) === 'paragraph') {
+        $data->content = $data->content[0]->content;
     }
     return $tag;
 });
@@ -60,11 +60,7 @@ Mutator::tag('paragraph', function ($tag, $data, $meta) {
 
 ## Compatibility
 
-In order to run tag mutators Bard Mutator has to replace the built-in classes/extensions with its own. It can only do that reliably if there are no other addons (or user code) trying to do the same thing. To help minimise incompatibilities Bard Mutator will only replace the classes/extensions that are actually being mutated, everyting else is left alone.
-
-*However*, if you have other addons (or user code) that replace any of the classes/extensions that Bard Mutator is also replacing it probably won't work properly. Unfortunately I don’t think there’s a way around that. This does not affect custom nodes and marks.
-
-My other Bard addons use Bard Mutator under the hood, so those are fully compatible. In fact the main reason I developed this in the first place was so multiple addons could make modifications to the built-in classes/extensions at the same time.
+In order to give you access to the Tiptap rendering process Bard Mutator has to override the Tiptap editor class and replace the built-in extensions with its own. It can only do that reliably if there are no other addons (or user code) trying to do the same thing. To help minimise incompatibilities Bard Mutator will only replace extensions that are actually being mutated.
 
 ## Sponsoring 
 

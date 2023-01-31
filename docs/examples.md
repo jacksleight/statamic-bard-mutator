@@ -9,16 +9,16 @@ order: 5
 
 ---
 
-## Tag Mutators
+## HTML Mutators
 
 ### Add a class to all lists
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::tag(['bullet_list', 'ordered_list'], function ($tag) {
-    $tag[0]['attrs']['class'] = 'list';
-    return $tag;
+Mutator::html(['bulletList', 'orderedList'], function ($value) {
+    $value[1]['class'] = 'list';
+    return $value;
 });
 ```
 
@@ -28,11 +28,11 @@ Mutator::tag(['bullet_list', 'ordered_list'], function ($tag) {
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 use Statamic\Facades\URL;
 
-Mutator::tag('link', function ($tag) {
-    if (URL::isExternal($tag[0]['attrs']['href'])) {
-        $tag[0]['attrs']['rel'] = 'noopener';
+Mutator::html('link', function ($value) {
+    if (URL::isExternal($value[1]['href'])) {
+        $value[1]['rel'] = 'noopener';
     }
-    return $tag;
+    return $value;
 });
 ```
 
@@ -41,11 +41,11 @@ Mutator::tag('link', function ($tag) {
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::tag('heading', function ($tag, $data) {
+Mutator::html('heading', function ($value, $data) {
     if ($data->attrs->level === 2) {
-        $tag[0]['attrs']['id'] = str_slug(collect($data->content)->implode('text', ''));
+        $value[1]['id'] = str_slug(collect($data->content)->implode('text', ''));
     }
-    return $tag;
+    return $value;
 });
 ```
 
@@ -54,12 +54,9 @@ Mutator::tag('heading', function ($tag, $data) {
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::tag('table', function ($tag) {
-    array_unshift($tag, [
-        'tag' => 'div',
-        'attrs' => ['class' => 'table-wrapper'],
-    ]);
-    return $tag;
+Mutator::html('table', function ($value) {
+    $value = ['div', ['class' => 'table-wrapper'], $value];
+    return $value;
 });
 ```
 
@@ -68,28 +65,11 @@ Mutator::tag('table', function ($tag) {
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::tag('list_item', function ($tag, $data, $meta) {
-    if ($meta['parent']->type === 'bullet_list') {
-        array_push($tag, 'span');
+Mutator::html('listItem', function ($value, $meta) {
+    if ($meta['parent']->type === 'bulletList') {
+        $value[2] = ['span', [], 0];
     }
-    return $tag;
-});
-```
-
-### Wrap the first table row in a table head tag
-
-```php
-use JackSleight\StatamicBardMutator\Facades\Mutator;
-
-Mutator::tag('table', function ($tag, $data, $meta) {
-    array_pop($tag); // remove the table's tbody
-    return $tag;
-});
-Mutator::tag('table_row', function ($tag, $data, $meta) {
-    if (! $meta['prev']) {
-        array_unshift($tag, 'thead');
-    }
-    return $tag;
+    return $value;
 });
 ```
 
@@ -98,9 +78,9 @@ Mutator::tag('table_row', function ($tag, $data, $meta) {
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::tag('image', function ($tag) {
-    $tag[0]['tag'] = 'fancy-image';
-    return $tag;
+Mutator::html('image', function ($value) {
+    $value[0] = 'fancy-image';
+    return $value;
 });
 ```
 
@@ -109,9 +89,9 @@ Mutator::tag('image', function ($tag) {
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::tag('paragraph', function ($tag, $data, $meta) {
-    if (in_array($meta['parent']->type, ['list_item', 'table_cell'])) {
-        return null;
+Mutator::data('listItem', function ($value) {
+    if (($value->content[0]->type ?? null) === 'paragraph') {
+        $value->content = $value->content[0]->content;
     }
     return $tag;
 });
