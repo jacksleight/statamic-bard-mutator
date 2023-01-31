@@ -42,5 +42,4 @@ Mutators support mutating the following node and mark types.
 | subscript             | ●            | ●             |       |
 | superscript           | ●            | ●             |       |
 | underline             | ●            | ●             |       |
-| bts_span              | ●            | ●             | Part of [Bard Texstyle](https://github.com/jacksleight/statamic-bard-texstyle) |
-| bts_div               | ●            | ●             | Part of [Bard Texstyle](https://github.com/jacksleight/statamic-bard-texstyle) |
+| btsSpan               | ●            | ●             | Part of [Bard Texstyle](https://github.com/jacksleight/statamic-bard-texstyle) |

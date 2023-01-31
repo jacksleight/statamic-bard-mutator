@@ -32,6 +32,8 @@ Some node and mark names have changed in Tiptap 2. The table below lists the aff
 | table_cell      | tableCell      | 
 | table_header    | tableHeader    | 
 | table_row       | tableRow       | 
+| bmu_root        | bmuRoot        | 
+| bts_span        | btsSpan        | 
 
 ### Mutator node and mark methods removed (Low Impact)
 
