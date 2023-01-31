@@ -6,7 +6,7 @@
 - [new] HTML mutators replace tag mutators
 - [new] Support for Bard's `save_html` option with reverse mutators
 - [break] There are a couple of breaking changes, refer to the [upgrade guide](https://jacksleight.dev/docs/bard-mutator/upgrade-1-0-to-2-0) for more information
-- Advanced features no longer require a custom tag
+- Advanced features are now much easier to enable
 
 ## 1.1.3 (2023-01-12)
 
