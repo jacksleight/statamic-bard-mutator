@@ -23,7 +23,7 @@ Mutator::html(['bulletList', 'orderedList'], function ($value) {
 });
 ```
 
-You should add HTML mutators in a service provider's `boot()` method. They can receive any of the following arguments which you can specify in any order:
+You should add render HTML mutators in a service provider's `boot()` method. They can receive any of the following arguments which you can specify in any order:
 
 * **value (array):** The standard [HTML value](data-formats)
 * **data (object):** The raw [node and mark data](data-formats)
@@ -32,6 +32,24 @@ You should add HTML mutators in a service provider's `boot()` method. They can r
 * **HTMLAttributes (array):** Tiptap's internal array of HTML attributes
 
 You should return an [HTML value](data-formats). If you return `null` or an empty array no tags will be rendered but the content will be. You can add multiple tag mutators for the same type, they'll be executed in the order they were added.
+
+### Reverse Mutators
+
+The `Mutator::html()` method also accepts a second closure where you can specify how existing HTML should be converted back to the original value. This is only necessary if you're using Bard's `save_html` option.
+
+```php
+# app/Providers/AppServiceProvider.php
+use JackSleight\StatamicBardMutator\Facades\Mutator;
+
+Mutator::html('image', function ($value) {
+    $value[0] = 'fancy-image';
+    return $value;
+}, function ($value) {
+    return array_merge($value, [
+        ['tag' => 'fancy-image'],
+    ]);
+});
+```
 
 ---
 
