@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.1 (2023-01-31)
+
+- Rename root node to camel case
+
 ## 2.0.0 (2023-01-31)
 
 - [new] Statamic 3.4 support
