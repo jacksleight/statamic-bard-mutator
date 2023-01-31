@@ -6,7 +6,7 @@ use JackSleight\StatamicBardMutator\Facades\Mutator;
 
 class Root extends \Tiptap\Core\Node
 {
-    public static $name = 'bmu_root';
+    public static $name = 'bmuRoot';
 
     public function renderHTML($node, $HTMLAttributes = [])
     {

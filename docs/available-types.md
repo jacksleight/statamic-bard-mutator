@@ -27,7 +27,7 @@ Mutators support mutating the following node and mark types.
 | tableRow              | ●            | ●             |       |
 | text                  |              | ●             |       |
 | set                   |              | ●             |       |
-| bmu_root              |              | ●             | Mutator node wrapping all content |
+| bmuRoot               |              | ●             | Mutator node wrapping all content |
 
 ## Marks
 

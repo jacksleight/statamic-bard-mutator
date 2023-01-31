@@ -90,7 +90,7 @@ This is an advanced feature that requires an [additonal step](installation#enabl
 
 The `$meta` argument contains metadata about the current node or mark. It's an array that contains the following keys:
 
-* **root (object):** The `bmu_root` node for this Bard value
+* **root (object):** The `bmuRoot` node for this Bard value
 * **parent (object):** The parent node
 * **prev (object):** The previous node/mark
 * **next (object):** The next node/mark

@@ -28,16 +28,17 @@ class Mutator
         $this->extensions = $extensions;
 
         Augmentor::addExtensions([
-            'bmu_root' => new Nodes\Root(),
+            'bmuRoot' => new Nodes\Root(),
         ]);
     }
 
     public function injectRoot($value)
     {
         $value['content'] = [[
-            'type' => 'bmu_root',
+            'type' => 'bmuRoot',
             'content' => $value['content'],
         ]];
+
         return $value;
     }
 
@@ -126,9 +127,9 @@ class Mutator
     public function mutate($kind, $type, $value, array $params = [])
     {
         if ($kind === 'renderHtml' && $stored = $this->fetchRenderHTML($params['data'])) {
-           return $stored;
+            return $stored;
         }
-        
+
         $mutators = $this->mutators($type, $kind);
 
         $meta = isset($params['data'])
@@ -138,12 +139,12 @@ class Mutator
         foreach ($mutators as $mutator) {
             $value = Value::normalize($kind, $value);
             $value = app()->call($mutator, [
-                'type'  => $type,
-                'meta'  => $meta,
+                'type' => $type,
+                'meta' => $meta,
                 'value' => $value,
             ] + $params);
         }
-        
+
         if ($kind === 'renderHtml') {
             $this->storeRenderHTML($params['data'], $value);
         }
