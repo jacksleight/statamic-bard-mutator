@@ -14,7 +14,7 @@ This Statamic addon allows you to modify the data and tags rendered by the Bard 
 
 Here are a few examples of what's possible. For more information and more examples check [the documentation](https://jacksleight.dev/docs/bard-mutator/examples).
 
-### Add `noopener` to all external links
+### Add a class to all external links
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
@@ -22,7 +22,7 @@ use Statamic\Facades\URL;
 
 Mutator::html('link', function ($value) {
     if (URL::isExternal($value[1]['href'])) {
-        $value[1]['rel'] = 'noopener';
+        $value[1]['class'] = 'external';
     }
     return $value;
 });
@@ -41,7 +41,7 @@ Mutator::html('heading', function ($value, $data) {
 });
 ```
 
-### Remove paragraph tags inside list items and table cells
+### Remove paragraph tags inside list items
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
