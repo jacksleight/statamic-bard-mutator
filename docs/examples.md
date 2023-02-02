@@ -84,15 +84,16 @@ Mutator::html('image', function ($value) {
 });
 ```
 
+## Data Mutators
+
 ### Remove paragraph tags inside list items
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::html('listItem', function ($value) {
+Mutator::data('listItem', function ($value) {
     if (($value->content[0]->type ?? null) === 'paragraph') {
         $value->content = $value->content[0]->content;
     }
-    return $value;
 });
 ```
