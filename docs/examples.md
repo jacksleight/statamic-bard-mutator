@@ -22,7 +22,7 @@ Mutator::html(['bulletList', 'orderedList'], function ($value) {
 });
 ```
 
-### Add `noopener` to all external links
+### Add a class to all external links
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
@@ -30,7 +30,7 @@ use Statamic\Facades\URL;
 
 Mutator::html('link', function ($value) {
     if (URL::isExternal($value[1]['href'])) {
-        $value[1]['rel'] = 'noopener';
+        $value[1]['class'] = 'external';
     }
     return $value;
 });
@@ -84,15 +84,15 @@ Mutator::html('image', function ($value) {
 });
 ```
 
-### Remove paragraph tags inside list items and table cells
+### Remove paragraph tags inside list items
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::data('listItem', function ($value) {
+Mutator::html('listItem', function ($value) {
     if (($value->content[0]->type ?? null) === 'paragraph') {
         $value->content = $value->content[0]->content;
     }
-    return $tag;
+    return $value;
 });
 ```
