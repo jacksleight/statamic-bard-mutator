@@ -33,11 +33,5 @@
         "allow-plugins": {
             "pixelfear/composer-dist-plugin": true
         }
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/spiegeltechlab/cms"
-        }
-    ]
+    }
 }
