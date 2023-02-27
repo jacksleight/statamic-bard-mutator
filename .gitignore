@@ -3,5 +3,4 @@ composer.lock
 vendor
 node_modules
 mix-manifest.json
-.php-cs-fixer.cache
 .phpunit.result.cache
