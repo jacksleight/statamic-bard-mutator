@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.2 (2023-02-27)
+## 2.1.0 ()
 
 - [new] Statamic 4 support
 - [fix] Italic mark mutators not running
