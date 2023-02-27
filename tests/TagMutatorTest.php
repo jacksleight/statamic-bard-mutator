@@ -102,8 +102,11 @@ class TagMutatorTest extends TestCase
     {
         $value = $this->getTestValue([[
             'type' => 'table',
+            'content' => [[
+                'type' => 'tableRow',
+            ]],
         ]]);
-        $this->assertStringContainsString('<div class="table-wrapper">', $this->renderTestValue($value));
+        $this->assertStringContainsString('<div class="table-wrapper"><table class="test-tag"><tbody><tr class="test-tag">', $this->renderTestValue($value));
     }
 
     /** @test */

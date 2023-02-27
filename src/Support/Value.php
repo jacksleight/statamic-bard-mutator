@@ -65,8 +65,13 @@ class Value
             'tag' => $html[0],
             'attrs' => $html[1],
         ]];
-        if (isset($html[2]) && is_array($html[2])) {
-            $tag = array_merge($tag, static::htmlToTag($html[2]));
+        foreach (array_slice($html, 2) as $inner) {
+            if (is_array($inner)) {
+                $tag[] = [
+                    'tag' => $inner[0],
+                    'attrs' => $inner[1],
+                ];
+            }
         }
 
         return $tag;
@@ -78,9 +83,13 @@ class Value
     public static function tagToHtml($tag)
     {
         $first = array_shift($tag);
-        $html = [$first['tag'], $first['attrs'], 0];
+        $html = [$first['tag'], $first['attrs']];
         if (count($tag)) {
-            $html[2] = static::tagToHtml($tag);
+            foreach ($tag as $inner) {
+                $html[] = [$inner['tag'], $inner['attrs'], 0];
+            }
+        } else {
+            $html[] = 0;
         }
 
         return $html;
