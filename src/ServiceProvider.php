@@ -43,7 +43,6 @@ class ServiceProvider extends AddonServiceProvider
                 'tableRow'       => new Nodes\TableRow(),
                 'table'          => new Nodes\Table(),
                 'underline'      => new Marks\Underline(),
-                'italic' => new \Tiptap\Marks\Italic(),
             ]);
         });
     }
