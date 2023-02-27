@@ -55,7 +55,8 @@ class RenderHtmlMutatorTest extends TestCase
         }
 
         Mutator::html('table', function ($value) {
-            $value = ['div', ['class' => 'table-wrapper'], $value];
+            $inner = array_splice($value, 2, count($value), [0]);
+            $value = ['div', ['class' => 'table-wrapper'], $value, ...$inner];
 
             return $value;
         });
@@ -104,8 +105,11 @@ class RenderHtmlMutatorTest extends TestCase
     {
         $value = $this->getTestValue([[
             'type' => 'table',
+            'content' => [[
+                'type' => 'tableRow',
+            ]],
         ]]);
-        $this->assertStringContainsString('<div class="table-wrapper">', $this->renderTestValue($value));
+        $this->assertStringContainsString('<div class="table-wrapper"><table class="test-html"><tbody><tr class="test-html">', $this->renderTestValue($value));
     }
 
     /** @test */
