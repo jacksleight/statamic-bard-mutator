@@ -2,7 +2,9 @@
 
 ## 2.0.2 ()
 
-- Statamic 4 support
+- [new] Statamic 4 support
+- [fix] Italic mark mutators not running
+- [fix] Incorrect nesting in legacy tag data conversion
 
 ## 2.0.1 (2023-01-31)
 
