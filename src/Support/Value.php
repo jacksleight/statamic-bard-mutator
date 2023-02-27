@@ -62,7 +62,7 @@ class Value
     public static function htmlToTag($html)
     {
         $tag = [[
-            'tag'   => $html[0],
+            'tag' => $html[0],
             'attrs' => $html[1],
         ]];
         if (isset($html[2]) && is_array($html[2])) {

@@ -12,6 +12,7 @@ class Editor extends TiptapEditor
         if ($this->getContentType($value) === 'Array') {
             $value = Mutator::injectRoot($value);
         }
+
         return parent::setContent($value);
     }
 }
