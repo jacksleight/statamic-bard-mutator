@@ -55,7 +55,8 @@ Mutator::html('heading', function ($value, $data) {
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
 Mutator::html('table', function ($value) {
-    $value = ['div', ['class' => 'table-wrapper'], $value];
+    $inner = array_splice($value, 2, count($value), [0]);
+    $value = ['div', ['class' => 'table-wrapper'], $value, ...$inner];
     return $value;
 });
 ```
