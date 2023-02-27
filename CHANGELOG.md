@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.2 ()
+
+- Statamic 4 support
+
 ## 2.0.1 (2023-01-31)
 
 - Rename root node to camel case
