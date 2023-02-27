@@ -67,10 +67,10 @@ When rendering HTML Tiptap creates HTML values from the node and mark data. Thes
 ['a', ['href' => 'http://...'], 0]
 ```
 
-An HTML value is an array with two or three items:
+An HTML value is an array with two or more items:
 
 * **0 (string):** The name of the tag
 * **1 (array):** An array of tag attributes
-* **2 (int\|array, optional):** The content of the tag, can either be:
+* **2... (int\|array, optional):** The content of the tag, can either be:
     * A zero, representing the node content
-    * Another nested HTML value
+    * A nested HTML value
