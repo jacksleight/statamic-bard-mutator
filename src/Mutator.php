@@ -29,6 +29,7 @@ class Mutator
 
         Augmentor::addExtensions([
             'bmuRoot' => new Nodes\Root(),
+            'bmuHtml' => new Nodes\Html(),
         ]);
     }
 
