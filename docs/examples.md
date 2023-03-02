@@ -92,9 +92,9 @@ Mutator::html('image', function ($value) {
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::data('listItem', function ($value) {
-    if (($value->content[0]->type ?? null) === 'paragraph') {
-        $value->content = $value->content[0]->content;
+Mutator::data('listItem', function ($data) {
+    if (($data->content[0]->type ?? null) === 'paragraph') {
+        $data->content = $data->content[0]->content;
     }
 });
 ```
