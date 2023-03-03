@@ -1,6 +1,6 @@
 ---
 title: Upgrade 1.0 to 2.0
-order: 9
+order: 109
 ---
 
 # Upgrade from 1.0 to 2.0
