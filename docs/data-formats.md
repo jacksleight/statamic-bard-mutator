@@ -1,6 +1,6 @@
 ---
 title: Data Formats
-order: 6
+order: 7
 ---
 
 # Data Formats
@@ -74,3 +74,9 @@ An HTML value is an array with two or more items:
 * **2... (int\|array, optional):** The content of the tag, can either be:
     * A zero, representing the node content
     * A nested HTML value
+
+Alternatively you can specify an HTML string as follows:
+
+```php
+['content' => '<p>Some HTML</p>']
+```

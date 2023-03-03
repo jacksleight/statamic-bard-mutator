@@ -1,6 +1,6 @@
 ---
 title: Available Types
-order: 7
+order: 8
 ---
 
 # Available Types
