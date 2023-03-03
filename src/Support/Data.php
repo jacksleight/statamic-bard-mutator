@@ -40,4 +40,37 @@ class Data
             'root' => $data,
         ]);
     }
+
+    public static function node($type, $attrs = [], $content = [])
+    {
+        return (object) [
+            'type' => $type,
+            'attrs' => (object) $attrs,
+            'content' => $content,
+        ];
+    }
+
+    public static function mark($type, $attrs = [])
+    {
+        return (object) [
+            'type' => $type,
+            'attrs' => (object) $attrs,
+        ];
+    }
+
+    public static function text($text)
+    {
+        return (object) [
+            'type' => 'text',
+            'text' => $text,
+        ];
+    }
+
+    public static function html($html)
+    {
+        return (object) [
+            'type' => 'bmuHtml',
+            'html' => $html,
+        ];
+    }
 }

@@ -85,16 +85,51 @@ Mutator::html('image', function ($value) {
 });
 ```
 
+### Render all images with a custom view partial
+
+```php
+use JackSleight\StatamicBardMutator\Facades\Mutator;
+use Statamic\Facades\Data;
+
+Mutator::html('image', function ($data) {
+    return ['content' => view('partials/_image', [
+        'src' => Data::find($data->attrs->src),
+        'alt' => $data->attrs->alt,
+    ])];
+});
+```
+```html
+<picture>
+    <source srcset="{{ glide:src width="500" format="webp" }}" type="image/webp">
+    <img src="{{ glide:src width="500" }}" alt="{{ alt }}">
+</picture>
+```
+
 ## Data Mutators
+
+### Add permalink anchors to all headings
+
+```php
+use JackSleight\StatamicBardMutator\Facades\Mutator;
+use JackSleight\StatamicBardMutator\Support\Data;
+
+Mutator::data('heading', function ($data) {
+    $slug = str_slug(collect($data->content)->implode('text', ''));
+    array_unshift(
+        $data->content,
+        Data::html('<a id="'.$slug.'" href="#'.$slug.'">#</a>')
+    );
+});
+```
 
 ### Remove paragraph tags inside list items
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::data('listItem', function ($value) {
-    if (($value->content[0]->type ?? null) === 'paragraph') {
-        $value->content = $value->content[0]->content;
+Mutator::data('listItem', function ($data) {
+    if (($data->content[0]->type ?? null) === 'paragraph') {
+        $data->content = $data->content[0]->content;
     }
 });
 ```

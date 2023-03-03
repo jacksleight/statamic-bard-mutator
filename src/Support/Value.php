@@ -11,7 +11,7 @@ class Value
 
     public static function normalizeRenderHtml($value)
     {
-        if (! isset($value)) {
+        if (! isset($value) || isset($value['content'])) {
             return $value;
         }
         if (! isset($value[1]) || ! is_array($value[1])) {

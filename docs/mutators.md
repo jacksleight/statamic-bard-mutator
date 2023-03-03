@@ -65,9 +65,9 @@ Data mutators allow you to make changes to the raw [node and mark data](data-for
 # app/Providers/AppServiceProvider.php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::data('list_item', function ($value) {
-    if (($value->content[0]->type ?? null) === 'paragraph') {
-        $value->content = $value->content[0]->content;
+Mutator::data('list_item', function ($data) {
+    if (($data->content[0]->type ?? null) === 'paragraph') {
+        $data->content = $data->content[0]->content;
     }
 });
 ```
