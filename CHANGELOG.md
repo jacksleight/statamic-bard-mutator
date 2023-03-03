@@ -1,7 +1,9 @@
 # Changelog
 
-## 2.1.0 ()
+## 2.1.0 (2023-03-03)
 
+- [new] Ability to inject custom HTML into the data
+- [new] Helpers for creating new node and mark objects
 - [fix] Italic mark mutators not running
 - [fix] Incorrect conversion of legacy tag values
 
