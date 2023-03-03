@@ -2,7 +2,6 @@
 
 ## 2.1.0 ()
 
-- [new] Statamic 4 support
 - [fix] Italic mark mutators not running
 - [fix] Incorrect conversion of legacy tag values
 
