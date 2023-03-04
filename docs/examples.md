@@ -89,13 +89,9 @@ Mutator::html('image', function ($value) {
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
-use Statamic\Facades\Data;
 
-Mutator::html('image', function ($data) {
-    return ['content' => view('partials/_image', [
-        'src' => Data::find($data->attrs->src),
-        'alt' => $data->attrs->alt,
-    ])];
+Mutator::html('image', function ($value) {
+    return ['content' => view('partials/image', $value[1])];
 });
 ```
 ```html
