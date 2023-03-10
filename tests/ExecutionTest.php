@@ -79,4 +79,42 @@ class ExecutionTest extends TestCase
         $this->assertEquals('<strong>Some text and some more text</strong>', $this->renderTestValue($value));
         $this->assertEquals(1, $calls);
     }
+
+    /** @test */
+    public function it_renders_correct_closing_tag_with_adjacent_marks()
+    {
+        Mutator::html('link', function ($value) {
+            $value[0] = 'fancy-link';
+
+            return $value;
+        });
+
+        $value = $this->getTestValue([
+            [
+                'type' => 'text',
+                'text' => 'Some text',
+                'marks' => [
+                    [
+                        'type' => 'link',
+                        'attrs' => [
+                            'href' => 'http://example.com/',
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'type' => 'text',
+                'text' => ' and some more text',
+                'marks' => [
+                    [
+                        'type' => 'link',
+                        'attrs' => [
+                            'href' => 'http://example.com/',
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+        $this->assertEquals('<fancy-link href="http://example.com/">Some text and some more text</fancy-link>', $this->renderTestValue($value));
+    }
 }
