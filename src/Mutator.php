@@ -6,6 +6,7 @@ use Closure;
 use JackSleight\StatamicBardMutator\Support\Data;
 use JackSleight\StatamicBardMutator\Support\Value;
 use Statamic\Fieldtypes\Bard\Augmentor;
+use Statamic\Support\Arr;
 
 class Mutator
 {
@@ -22,6 +23,8 @@ class Mutator
     protected $metas = [];
 
     protected $renderHTMLs = [];
+
+    protected $renderMarkHTMLs = [];
 
     public function __construct($extensions)
     {
@@ -52,7 +55,7 @@ class Mutator
         $this->roots[] = $data;
 
         Data::walk($data, function ($data, $meta) {
-            $this->storeMeta($data, $meta);
+            $this->storeMeta(['data' => $data], $meta);
             $this->mutateData($data->type, $data);
         });
     }
@@ -114,7 +117,7 @@ class Mutator
             return;
         }
 
-        $meta = $this->fetchMeta($data);
+        $meta = $this->fetchMeta(['data' => $data]);
 
         foreach ($mutators as $mutator) {
             app()->call($mutator, [
@@ -127,14 +130,14 @@ class Mutator
 
     public function mutate($kind, $type, $value, array $params = [])
     {
-        if ($kind === 'renderHtml' && $stored = $this->fetchRenderHTML($params['data'])) {
+        if ($kind === 'renderHtml' && $stored = $this->fetchRenderHTML($params)) {
             return $stored;
         }
 
         $mutators = $this->mutators($type, $kind);
 
         $meta = isset($params['data'])
-            ? $this->fetchMeta($params['data'])
+            ? $this->fetchMeta($params)
             : null;
 
         foreach ($mutators as $mutator) {
@@ -143,41 +146,52 @@ class Mutator
                 'type' => $type,
                 'meta' => $meta,
                 'value' => $value,
-            ] + $params);
+            ] + Arr::except($params, ['extensionType', 'callType']));
         }
 
         if ($kind === 'renderHtml') {
-            $this->storeRenderHTML($params['data'], $value);
+            $this->storeRenderHTML($params, $value);
         }
 
         return $value;
     }
 
-    protected function storeMeta($data, $meta)
+    protected function storeMeta($params, $meta)
     {
-        $this->storeData($data);
-        $this->metas[spl_object_id($data)] = $meta;
+        $this->storeData($params);
+        $this->metas[spl_object_id($params['data'])] = $meta;
     }
 
-    protected function fetchMeta($data)
+    protected function fetchMeta($params)
     {
-        return $this->metas[spl_object_id($data)] ?? null;
+        return $this->metas[spl_object_id($params['data'])] ?? null;
     }
 
-    protected function storeRenderHTML($data, $renderHTML)
+    protected function storeRenderHTML($params, $renderHTML)
     {
-        $this->storeData($data);
-        $this->renderHTMLs[spl_object_id($data)] = $renderHTML;
+        $this->storeData($params);
+        $this->renderHTMLs[spl_object_id($params['data'])] = $renderHTML;
+
+        if ($params['extensionType'] === 'mark' && $params['callType'] === 'open') {
+            $this->renderMarkHTMLs[$params['data']->type] = $renderHTML;
+        }
     }
 
-    protected function fetchRenderHTML($data)
+    protected function fetchRenderHTML($params)
     {
-        return $this->renderHTMLs[spl_object_id($data)] ?? null;
+        $renderHTML = $this->renderHTMLs[spl_object_id($params['data'])] ?? null;
+
+        if ($params['extensionType'] === 'mark' && $params['callType'] === 'close') {
+            $renderHTML = $renderHTML ?? $this->renderMarkHTMLs[$params['data']->type] ?? null;
+            unset($this->renderMarkHTMLs[$params['data']->type]);
+        }
+
+        return $renderHTML;
     }
 
-    protected function storeData($data)
+    protected function storeData($params)
     {
-        $this->datas[spl_object_id($data)] = $data;
+        $this->datas[spl_object_id($params['data'])] = $params['data'];
     }
 
     protected function registerType($type)

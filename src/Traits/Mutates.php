@@ -3,6 +3,7 @@
 namespace JackSleight\StatamicBardMutator\Traits;
 
 use JackSleight\StatamicBardMutator\Facades\Mutator;
+use Tiptap\Core\Node;
 
 trait Mutates
 {
@@ -18,6 +19,9 @@ trait Mutates
 
     public function renderHTML($data, $HTMLAttributes = [])
     {
+        $extensionType = $this instanceof Node ? 'node' : 'mark';
+        $callType = func_num_args() === 2 ? 'open' : 'close';
+
         return $this->mutate('renderHtml', parent::renderHTML($data, $HTMLAttributes), get_defined_vars());
     }
 }
