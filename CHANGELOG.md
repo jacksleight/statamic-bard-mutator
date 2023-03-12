@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.1 (2023-03-12)
+
+- [fix] Mutators being called twice for adjacent marks
+
 ## 2.1.0 (2023-03-03)
 
 - [new] Ability to inject custom HTML into the data
