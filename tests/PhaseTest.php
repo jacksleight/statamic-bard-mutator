@@ -81,7 +81,7 @@ class PhaseTest extends TestCase
     }
 
     /** @test */
-    public function it_renders_correct_closing_tag_with_adjacent_marks()
+    public function it_fetches_adjacent_marks_mutated_value()
     {
         Mutator::html('link', function ($value) {
             $value[0] = 'fancy-link';
