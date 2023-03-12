@@ -4,7 +4,7 @@ namespace Tests;
 
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-class ExecutionTest extends TestCase
+class PhaseTest extends TestCase
 {
     /** @test */
     public function it_calls_mutator_once_per_node()

@@ -6,7 +6,6 @@ use Closure;
 use JackSleight\StatamicBardMutator\Support\Data;
 use JackSleight\StatamicBardMutator\Support\Value;
 use Statamic\Fieldtypes\Bard\Augmentor;
-use Statamic\Support\Arr;
 
 class Mutator
 {
@@ -55,7 +54,7 @@ class Mutator
         $this->roots[] = $data;
 
         Data::walk($data, function ($data, $meta) {
-            $this->storeMeta(['data' => $data], $meta);
+            $this->storeMeta($data, $meta);
             $this->mutateData($data->type, $data);
         });
     }
@@ -117,7 +116,7 @@ class Mutator
             return;
         }
 
-        $meta = $this->fetchMeta(['data' => $data]);
+        $meta = $this->fetchMeta($data);
 
         foreach ($mutators as $mutator) {
             app()->call($mutator, [
@@ -128,16 +127,16 @@ class Mutator
         }
     }
 
-    public function mutate($kind, $type, $value, array $params = [])
+    public function mutate($kind, $type, $value, array $params = [], $phase = null)
     {
-        if ($kind === 'renderHtml' && $stored = $this->fetchRenderHTML($params)) {
+        if ($kind === 'renderHtml' && $stored = $this->fetchRenderHTML($params['data'], $phase)) {
             return $stored;
         }
 
         $mutators = $this->mutators($type, $kind);
 
         $meta = isset($params['data'])
-            ? $this->fetchMeta($params)
+            ? $this->fetchMeta($params['data'])
             : null;
 
         foreach ($mutators as $mutator) {
@@ -146,52 +145,52 @@ class Mutator
                 'type' => $type,
                 'meta' => $meta,
                 'value' => $value,
-            ] + Arr::except($params, ['extensionType', 'callType']));
+            ] + $params);
         }
 
         if ($kind === 'renderHtml') {
-            $this->storeRenderHTML($params, $value);
+            $this->storeRenderHTML($params['data'], $value, $phase);
         }
 
         return $value;
     }
 
-    protected function storeMeta($params, $meta)
+    protected function storeMeta($data, $meta)
     {
-        $this->storeData($params);
-        $this->metas[spl_object_id($params['data'])] = $meta;
+        $this->storeData($data);
+        $this->metas[spl_object_id($data)] = $meta;
     }
 
-    protected function fetchMeta($params)
+    protected function fetchMeta($data)
     {
-        return $this->metas[spl_object_id($params['data'])] ?? null;
+        return $this->metas[spl_object_id($data)] ?? null;
     }
 
-    protected function storeRenderHTML($params, $renderHTML)
+    protected function storeRenderHTML($data, $renderHTML, $phase)
     {
-        $this->storeData($params);
-        $this->renderHTMLs[spl_object_id($params['data'])] = $renderHTML;
+        $this->storeData($data);
+        $this->renderHTMLs[spl_object_id($data)] = $renderHTML;
 
-        if ($params['extensionType'] === 'mark' && $params['callType'] === 'open') {
-            $this->renderMarkHTMLs[$params['data']->type] = $renderHTML;
+        if ($phase === 'mark:open') {
+            $this->renderMarkHTMLs[$data->type] = $renderHTML;
         }
     }
 
-    protected function fetchRenderHTML($params)
+    protected function fetchRenderHTML($data, $phase)
     {
-        $renderHTML = $this->renderHTMLs[spl_object_id($params['data'])] ?? null;
+        $renderHTML = $this->renderHTMLs[spl_object_id($data)] ?? null;
 
-        if ($params['extensionType'] === 'mark' && $params['callType'] === 'close') {
-            $renderHTML = $renderHTML ?? $this->renderMarkHTMLs[$params['data']->type] ?? null;
-            unset($this->renderMarkHTMLs[$params['data']->type]);
+        if ($phase === 'mark:close') {
+            $renderHTML = $renderHTML ?? $this->renderMarkHTMLs[$data->type] ?? null;
+            unset($this->renderMarkHTMLs[$data->type]);
         }
 
         return $renderHTML;
     }
 
-    protected function storeData($params)
+    protected function storeData($data)
     {
-        $this->datas[spl_object_id($params['data'])] = $params['data'];
+        $this->datas[spl_object_id($data)] = $data;
     }
 
     protected function registerType($type)
