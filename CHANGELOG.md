@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.0 ()
+
+- [new] Statamic 4 support
+
 ## 2.1.0 (2023-03-03)
 
 - [new] Ability to inject custom HTML into the data
