@@ -153,7 +153,7 @@ Check out the modifier [example below](examples#using-with-the-bard-modifiers) t
 Statamic includes a set of [modifiers](https://statamic.dev/modifiers) that can extract items from Bard fields and output their content. For example, after adding heading IDs or permalinks you could create a simple table contents like this:
 
 ```html
-{{ headings = article | raw | bard_items | where:type:heading }}
+{{ headings = article | raw | bard_items | where('type', 'heading') }}
 {{ headings }}
     <a href="#{{ content | bard_text | slugify }}">{{ content | bard_html }}</a>
 {{ /headings }}
