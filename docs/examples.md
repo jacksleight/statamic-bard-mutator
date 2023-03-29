@@ -49,6 +49,8 @@ Mutator::html('heading', function ($value, $data) {
 });
 ```
 
+Check out the modifier [example below](examples#using-with-the-bard-modifiers) to see how you could use these in a table of contents.
+
 ### Add a wrapper div around all tables
 
 ```php
@@ -142,4 +144,17 @@ Mutator::data('heading', function ($data) {
         Data::html('<a id="'.$slug.'" href="#'.$slug.'">#</a>')
     );
 });
+```
+
+Check out the modifier [example below](examples#using-with-the-bard-modifiers) to see how you could use these in a table of contents.
+
+## Using with the Bard modifiers
+
+Statamic includes a set of [modifiers](https://statamic.dev/modifiers) that allow you to extract items from Bard fields and output their content. For example, after adding headin IDs or permalinks you could create a simple table contents like this:
+
+```html
+{{ headings = article | raw | bard_items | where:type:heading }}
+{{ headings }}
+    <a href="#{{ content | bard_text | slugify }}">{{ content | bard_html }}</a>
+{{ /headings }}
 ```

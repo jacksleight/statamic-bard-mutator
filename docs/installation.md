@@ -13,7 +13,7 @@ composer require jacksleight/statamic-bard-mutator
 
 ## Enabling Advanced Features
 
-Advanced features such as [data mutators](mutators#data-mutators) and [metadata](mutators#metadata) require deeper access to Tiptap's rendering process, which isn't avaliable by default. Bard Mutator includes an extended Tiptap Editor class that provides this access. To enable these features simply bind the Bard Mutator Editor class in your app service providers `register()` method:
+Advanced features such as [data mutators](mutators#data-mutators) and [metadata](mutators#metadata) require deeper access to Tiptap's rendering process, which isn't avaliable by default. Bard Mutator includes an extended Tiptap Editor class that makes this access possible. To enable these features simply bind the Bard Mutator Editor class in your app service providers `register()` method:
 
 ```php
 $this->app->bind(
