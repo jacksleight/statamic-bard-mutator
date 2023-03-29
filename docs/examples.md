@@ -101,6 +101,32 @@ Mutator::html('image', function ($value) {
 </picture>
 ```
 
+### Remove paragraph tags inside list items
+
+```php
+use JackSleight\StatamicBardMutator\Facades\Mutator;
+
+Mutator::html('paragraph', function ($value, $meta) {
+    if (($meta['parent']->type ?? null) === 'listItem') {
+        return null;
+    }
+    return $value;
+});
+```
+
+### Remove paragraph tags around images
+
+```php
+use JackSleight\StatamicBardMutator\Facades\Mutator;
+
+Mutator::html('paragraph', function ($value, $data) {
+    if (($data->content[0]->type ?? null) === 'image') {
+        return null;
+    }
+    return $value;
+});
+```
+
 ## Data Mutators
 
 ### Add permalink anchors to all headings
@@ -115,17 +141,5 @@ Mutator::data('heading', function ($data) {
         $data->content,
         Data::html('<a id="'.$slug.'" href="#'.$slug.'">#</a>')
     );
-});
-```
-
-### Remove paragraph tags inside list items
-
-```php
-use JackSleight\StatamicBardMutator\Facades\Mutator;
-
-Mutator::data('listItem', function ($data) {
-    if (($data->content[0]->type ?? null) === 'paragraph') {
-        $data->content = $data->content[0]->content;
-    }
 });
 ```
