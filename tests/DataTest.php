@@ -1,60 +1,45 @@
 <?php
 
-namespace Tests;
-
 use JackSleight\StatamicBardMutator\Support\Data;
 
-class DataTest extends TestCase
-{
-    /** @test */
-    public function it_creates_node_object()
-    {
-        $node = Data::node('paragraph');
+uses(Tests\TestCase::class);
 
-        $this->assertEquals('paragraph', $node->type);
-    }
+it('creates node object', function () {
+    $node = Data::node('paragraph');
 
-    /** @test */
-    public function it_creates_node_object_with_attributes()
-    {
-        $node = Data::node('image', ['src' => 'https://example.com/image.jpg']);
+    $this->assertEquals('paragraph', $node->type);
+});
 
-        $this->assertEquals('image', $node->type);
-        $this->assertEquals('https://example.com/image.jpg', $node->attrs->src);
-    }
+it('creates node object with attributes', function () {
+    $node = Data::node('image', ['src' => 'https://example.com/image.jpg']);
 
-    /** @test */
-    public function it_creates_mark_object()
-    {
-        $mark = Data::mark('bold');
+    $this->assertEquals('image', $node->type);
+    $this->assertEquals('https://example.com/image.jpg', $node->attrs->src);
+});
 
-        $this->assertEquals('bold', $mark->type);
-    }
+it('creates mark object', function () {
+    $mark = Data::mark('bold');
 
-    /** @test */
-    public function it_creates_mark_object_with_attributes()
-    {
-        $mark = Data::mark('link', ['href' => 'https://example.com']);
+    $this->assertEquals('bold', $mark->type);
+});
 
-        $this->assertEquals('link', $mark->type);
-        $this->assertEquals('https://example.com', $mark->attrs->href);
-    }
+it('creates mark object with attributes', function () {
+    $mark = Data::mark('link', ['href' => 'https://example.com']);
 
-    /** @test */
-    public function it_creates_text_node_object()
-    {
-        $node = Data::text('Hello world');
+    $this->assertEquals('link', $mark->type);
+    $this->assertEquals('https://example.com', $mark->attrs->href);
+});
 
-        $this->assertEquals('text', $node->type);
-        $this->assertEquals('Hello world', $node->text);
-    }
+it('creates text node object', function () {
+    $node = Data::text('Hello world');
 
-    /** @test */
-    public function it_creates_html_node_object()
-    {
-        $node = Data::html('<p>Hello world</p>');
+    $this->assertEquals('text', $node->type);
+    $this->assertEquals('Hello world', $node->text);
+});
 
-        $this->assertEquals('bmuHtml', $node->type);
-        $this->assertEquals('<p>Hello world</p>', $node->html);
-    }
-}
+it('creates html node object', function () {
+    $node = Data::html('<p>Hello world</p>');
+
+    $this->assertEquals('bmuHtml', $node->type);
+    $this->assertEquals('<p>Hello world</p>', $node->html);
+});
