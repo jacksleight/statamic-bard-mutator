@@ -25,13 +25,14 @@
         "statamic/cms": "^3.4"
     },
     "require-dev": {
-        "nunomaduro/collision": "^7.0",
+        "nunomaduro/collision": "^6.2",
         "orchestra/testbench": "^7.5",
-        "pestphp/pest": "^2.2"
+        "pestphp/pest": "^1.0"
     },
     "config": {
         "allow-plugins": {
-            "pixelfear/composer-dist-plugin": true
+            "pixelfear/composer-dist-plugin": true,
+            "pestphp/pest-plugin": true
         }
     }
 }

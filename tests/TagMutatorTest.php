@@ -44,7 +44,6 @@ beforeEach(function () {
     });
 });
 
-
 it('mutates all nodes', function () {
     foreach ($this->nodes as $type => $attrs) {
         $value = $this->getTestNode($type, $attrs);

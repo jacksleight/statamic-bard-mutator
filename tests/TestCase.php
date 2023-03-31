@@ -10,6 +10,35 @@ use Statamic\Fieldtypes\Bard\Augmentor;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
+    protected $nodes = [
+        'blockquote' => [],
+        'bulletList' => [],
+        'codeBlock' => [],
+        'hardBreak' => [],
+        'heading' => ['level' => 1],
+        'horizontalRule' => [],
+        'image' => ['src' => 'test.jpg'],
+        'listItem' => [],
+        'orderedList' => [],
+        'paragraph' => [],
+        'tableCell' => [],
+        'tableHeader' => [],
+        'tableRow' => [],
+        'table' => [],
+    ];
+
+    protected $marks = [
+        'bold' => [],
+        'code' => [],
+        'italic' => [],
+        'link' => ['href' => '#'],
+        'small' => [],
+        'strike' => [],
+        'subscript' => [],
+        'superscript' => [],
+        'underline' => [],
+    ];
+
     protected function setUp(): void
     {
         parent::setUp();
