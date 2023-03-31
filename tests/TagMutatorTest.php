@@ -48,14 +48,14 @@ beforeEach(function () {
 it('mutates all nodes', function () {
     foreach ($this->nodes as $type => $attrs) {
         $value = $this->getTestNode($type, $attrs);
-        $this->assertStringContainsString('class="test-tag"', $this->renderTestValue($value));
+        expect($this->renderTestValue($value))->toContain('class="test-tag"');
     }
 });
 
 it('mutates all marks', function () {
     foreach ($this->marks as $type => $attrs) {
         $value = $this->getTestMark($type, $attrs);
-        $this->assertStringContainsString('class="test-tag"', $this->renderTestValue($value));
+        expect($this->renderTestValue($value))->toContain('class="test-tag"');
     }
 });
 
@@ -66,7 +66,7 @@ it('adds a wrapper div around all tables', function () {
             'type' => 'tableRow',
         ]],
     ]]);
-    $this->assertStringContainsString('<div class="table-wrapper"><table class="test-tag"><tbody><tr class="test-tag">', $this->renderTestValue($value));
+    expect($this->renderTestValue($value))->toContain('<div class="table-wrapper"><table class="test-tag"><tbody><tr class="test-tag">');
 });
 
 test('is adds a wrapper span around all bullet list item content', function () {
@@ -76,7 +76,7 @@ test('is adds a wrapper span around all bullet list item content', function () {
             'type' => 'listItem',
         ]],
     ]]);
-    $this->assertStringContainsString('<span>', $this->renderTestValue($value));
+    expect($this->renderTestValue($value))->toContain('<span>');
 
     $value = $this->getTestValue([[
         'type' => 'orderedList',
@@ -94,5 +94,5 @@ it('converts all images to a custom element', function () {
             'src' => 'image.jpg',
         ],
     ]]);
-    $this->assertStringContainsString('<fancy-image', $this->renderTestValue($value));
+    expect($this->renderTestValue($value))->toContain('<fancy-image');
 });

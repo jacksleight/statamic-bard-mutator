@@ -15,8 +15,8 @@ it('calls mutator once per node', function () {
     $value = $this->getTestValue([[
         'type' => 'paragraph',
     ]]);
-    $this->assertEquals('<p></p>', $this->renderTestValue($value));
-    $this->assertEquals(1, $calls);
+    expect($this->renderTestValue($value))->toEqual('<p></p>');
+    expect($calls)->toEqual(1);
 });
 
 it('calls mutator once per mark', function () {
@@ -36,8 +36,8 @@ it('calls mutator once per mark', function () {
             ],
         ],
     ]]);
-    $this->assertEquals('<strong>Some text</strong>', $this->renderTestValue($value));
-    $this->assertEquals(1, $calls);
+    expect($this->renderTestValue($value))->toEqual('<strong>Some text</strong>');
+    expect($calls)->toEqual(1);
 });
 
 it('calls mutator once per adjacent marks', function () {
@@ -68,8 +68,8 @@ it('calls mutator once per adjacent marks', function () {
             ],
         ],
     ]);
-    $this->assertEquals('<strong>Some text and some more text</strong>', $this->renderTestValue($value));
-    $this->assertEquals(1, $calls);
+    expect($this->renderTestValue($value))->toEqual('<strong>Some text and some more text</strong>');
+    expect($calls)->toEqual(1);
 });
 
 it('fetches adjacent marks mutated value', function () {
@@ -105,5 +105,5 @@ it('fetches adjacent marks mutated value', function () {
             ],
         ],
     ]);
-    $this->assertEquals('<fancy-link href="http://example.com/">Some text and some more text</fancy-link>', $this->renderTestValue($value));
+    expect($this->renderTestValue($value))->toEqual('<fancy-link href="http://example.com/">Some text and some more text</fancy-link>');
 });

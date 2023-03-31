@@ -7,39 +7,39 @@ uses(Tests\TestCase::class);
 it('creates node object', function () {
     $node = Data::node('paragraph');
 
-    $this->assertEquals('paragraph', $node->type);
+    expect($node->type)->toEqual('paragraph');
 });
 
 it('creates node object with attributes', function () {
     $node = Data::node('image', ['src' => 'https://example.com/image.jpg']);
 
-    $this->assertEquals('image', $node->type);
-    $this->assertEquals('https://example.com/image.jpg', $node->attrs->src);
+    expect($node->type)->toEqual('image');
+    expect($node->attrs->src)->toEqual('https://example.com/image.jpg');
 });
 
 it('creates mark object', function () {
     $mark = Data::mark('bold');
 
-    $this->assertEquals('bold', $mark->type);
+    expect($mark->type)->toEqual('bold');
 });
 
 it('creates mark object with attributes', function () {
     $mark = Data::mark('link', ['href' => 'https://example.com']);
 
-    $this->assertEquals('link', $mark->type);
-    $this->assertEquals('https://example.com', $mark->attrs->href);
+    expect($mark->type)->toEqual('link');
+    expect($mark->attrs->href)->toEqual('https://example.com');
 });
 
 it('creates text node object', function () {
     $node = Data::text('Hello world');
 
-    $this->assertEquals('text', $node->type);
-    $this->assertEquals('Hello world', $node->text);
+    expect($node->type)->toEqual('text');
+    expect($node->text)->toEqual('Hello world');
 });
 
 it('creates html node object', function () {
     $node = Data::html('<p>Hello world</p>');
 
-    $this->assertEquals('bmuHtml', $node->type);
-    $this->assertEquals('<p>Hello world</p>', $node->html);
+    expect($node->type)->toEqual('bmuHtml');
+    expect($node->html)->toEqual('<p>Hello world</p>');
 });
