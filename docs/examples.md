@@ -49,6 +49,8 @@ Mutator::html('heading', function ($value, $data) {
 });
 ```
 
+Check out the modifier [example below](examples#using-with-the-bard-modifiers) to see how you could use these in a table of contents.
+
 ### Add a wrapper div around all tables
 
 ```php
@@ -89,13 +91,9 @@ Mutator::html('image', function ($value) {
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
-use Statamic\Facades\Data;
 
-Mutator::html('image', function ($data) {
-    return ['content' => view('partials/_image', [
-        'src' => Data::find($data->attrs->src),
-        'alt' => $data->attrs->alt,
-    ])];
+Mutator::html('image', function ($value) {
+    return ['content' => view('partials/image', $value[1])];
 });
 ```
 ```html
@@ -103,6 +101,32 @@ Mutator::html('image', function ($data) {
     <source srcset="{{ glide:src width="500" format="webp" }}" type="image/webp">
     <img src="{{ glide:src width="500" }}" alt="{{ alt }}">
 </picture>
+```
+
+### Remove paragraph tags inside list items
+
+```php
+use JackSleight\StatamicBardMutator\Facades\Mutator;
+
+Mutator::html('paragraph', function ($value, $meta) {
+    if (($meta['parent']->type ?? null) === 'listItem') {
+        return null;
+    }
+    return $value;
+});
+```
+
+### Remove paragraph tags around images
+
+```php
+use JackSleight\StatamicBardMutator\Facades\Mutator;
+
+Mutator::html('paragraph', function ($value, $data) {
+    if (($data->content[0]->type ?? null) === 'image') {
+        return null;
+    }
+    return $value;
+});
 ```
 
 ## Data Mutators
@@ -122,14 +146,15 @@ Mutator::data('heading', function ($data) {
 });
 ```
 
-### Remove paragraph tags inside list items
+Check out the modifier [example below](examples#using-with-the-bard-modifiers) to see how you could use these in a table of contents.
 
-```php
-use JackSleight\StatamicBardMutator\Facades\Mutator;
+## Using with the Bard modifiers
 
-Mutator::data('listItem', function ($data) {
-    if (($data->content[0]->type ?? null) === 'paragraph') {
-        $data->content = $data->content[0]->content;
-    }
-});
+Statamic includes a set of [modifiers](https://statamic.dev/modifiers) that can extract items from Bard fields and output their content. For example, after adding heading IDs or permalinks you could create a simple table contents like this:
+
+```html
+{{ headings = article | raw | bard_items | where('type', 'heading') }}
+{{ headings }}
+    <a href="#{{ content | bard_text | slugify }}">{{ content | bard_html }}</a>
+{{ /headings }}
 ```

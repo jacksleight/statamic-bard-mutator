@@ -37,15 +37,18 @@ Mutator::html('heading', function ($value, $data) {
 });
 ```
 
-### Remove paragraph tags inside list items
+### Add permalink anchors to all headings
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
+use JackSleight\StatamicBardMutator\Support\Data;
 
-Mutator::data('listItem', function ($data) {
-    if (($data->content[0]->type ?? null) === 'paragraph') {
-        $data->content = $data->content[0]->content;
-    }
+Mutator::data('heading', function ($data) {
+    $slug = str_slug(collect($data->content)->implode('text', ''));
+    array_unshift(
+        $data->content,
+        Data::html('<a id="'.$slug.'" href="#'.$slug.'">#</a>')
+    );
 });
 ```
 

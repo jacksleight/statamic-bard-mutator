@@ -11,7 +11,7 @@ order: 3
 
 ## HTML Mutators
 
-HTML mutators allow you to modify the [HTML values](data-formats#html-values) that Tiptap converts to HTML. You can add, remove and modify attributes, wrap tags and content, or rename and replace tags entirely. Here's an example that adds a class attribute to all lists, there are more on the [examples](examples) page.
+HTML mutators allow you to modify the [HTML values](data-formats#html-values) that Tiptap converts to HTML. You can add, remove and modify attributes, wrap tags and content, or rename and replace tags entirely. Here's an example that adds a class attribute to all lists, there are more on the [examples](examples) page:
 
 ```php
 # app/Providers/AppServiceProvider.php
@@ -59,16 +59,19 @@ Mutator::html('image', function ($value) {
 This is an advanced feature that requires an [additonal step](installation#enabling-advanced-features) to enable.
 :::
 
-Data mutators allow you to make changes to the raw [node and mark data](data-formats) before anything is rendered to HTML. Here's an example that removes the paragraph nodes inside list items.
+Data mutators allow you to make changes to the raw [node and mark data](data-formats) before anything is rendered to HTML. These are most useful when you want to add new content or make significant changes to the structure. Here's an example that adds permalink anchors to all headings:
 
 ```php
 # app/Providers/AppServiceProvider.php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
+use JackSleight\StatamicBardMutator\Support\Data;
 
-Mutator::data('list_item', function ($data) {
-    if (($data->content[0]->type ?? null) === 'paragraph') {
-        $data->content = $data->content[0]->content;
-    }
+Mutator::data('heading', function ($data) {
+    $slug = str_slug(collect($data->content)->implode('text', ''));
+    array_unshift(
+        $data->content,
+        Data::html('<a id="'.$slug.'" href="#'.$slug.'">#</a>')
+    );
 });
 ```
 

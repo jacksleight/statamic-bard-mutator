@@ -23,6 +23,8 @@ class Mutator
 
     protected $renderHTMLs = [];
 
+    protected $renderMarkHTMLs = [];
+
     public function __construct($extensions)
     {
         $this->extensions = $extensions;
@@ -125,9 +127,9 @@ class Mutator
         }
     }
 
-    public function mutate($kind, $type, $value, array $params = [])
+    public function mutate($kind, $type, $value, array $params = [], $phase = null)
     {
-        if ($kind === 'renderHtml' && $stored = $this->fetchRenderHTML($params['data'])) {
+        if ($kind === 'renderHtml' && $stored = $this->fetchRenderHTML($params['data'], $phase)) {
             return $stored;
         }
 
@@ -147,7 +149,7 @@ class Mutator
         }
 
         if ($kind === 'renderHtml') {
-            $this->storeRenderHTML($params['data'], $value);
+            $this->storeRenderHTML($params['data'], $value, $phase);
         }
 
         return $value;
@@ -164,15 +166,26 @@ class Mutator
         return $this->metas[spl_object_id($data)] ?? null;
     }
 
-    protected function storeRenderHTML($data, $renderHTML)
+    protected function storeRenderHTML($data, $renderHTML, $phase)
     {
         $this->storeData($data);
         $this->renderHTMLs[spl_object_id($data)] = $renderHTML;
+
+        if ($phase === 'mark:open') {
+            $this->renderMarkHTMLs[$data->type] = $renderHTML;
+        }
     }
 
-    protected function fetchRenderHTML($data)
+    protected function fetchRenderHTML($data, $phase)
     {
-        return $this->renderHTMLs[spl_object_id($data)] ?? null;
+        $renderHTML = $this->renderHTMLs[spl_object_id($data)] ?? null;
+
+        if ($phase === 'mark:close') {
+            $renderHTML = $renderHTML ?? $this->renderMarkHTMLs[$data->type] ?? null;
+            unset($this->renderMarkHTMLs[$data->type]);
+        }
+
+        return $renderHTML;
     }
 
     protected function storeData($data)
