@@ -22,7 +22,7 @@
         }
     },
     "require": {
-        "statamic/cms": "^3.4"
+        "statamic/cms": "^3.4 || ^4.0"
     },
     "require-dev": {
         "nunomaduro/collision": "^6.2",

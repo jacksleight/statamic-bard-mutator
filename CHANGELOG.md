@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.0 (02-05-2023)
+
+- [new] Statamic 4 support
+
 ## 2.1.1 (2023-03-12)
 
 - [fix] Mutators being called twice for adjacent marks
