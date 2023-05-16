@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.1 ()
+
+- Added method annotations to the Mutator facade
+
 ## 2.2.0 (2023-05-02)
 
 - [new] Statamic 4 support
