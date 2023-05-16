@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.2.1 ()
+## 2.2.1 (2023-05-16)
 
 - Added method annotations to the Mutator facade
 
