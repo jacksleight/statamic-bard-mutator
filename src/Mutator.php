@@ -31,7 +31,7 @@ class Mutator
 
         Augmentor::addExtensions([
             'bmuRoot' => function ($bard) {
-                return new Nodes\Root(['bard' => $bard]);
+                return new Nodes\Root(['bard' => $bard->field()]);
             },
             'bmuHtml' => new Nodes\Html(),
         ]);
