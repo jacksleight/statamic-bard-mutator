@@ -30,7 +30,9 @@ class Mutator
         $this->extensions = $extensions;
 
         Augmentor::addExtensions([
-            'bmuRoot' => new Nodes\Root(),
+            'bmuRoot' => function ($bard) {
+                return new Nodes\Root(['bard' => $bard]);
+            },
             'bmuHtml' => new Nodes\Html(),
         ]);
     }
@@ -45,7 +47,7 @@ class Mutator
         return $value;
     }
 
-    public function processRoot($data)
+    public function processRoot($data, array $extra)
     {
         if (in_array($data, $this->roots, true)) {
             return;
@@ -53,8 +55,8 @@ class Mutator
 
         $this->roots[] = $data;
 
-        Data::walk($data, function ($data, $meta) {
-            $this->storeMeta($data, $meta);
+        Data::walk($data, function ($data, $meta) use ($extra) {
+            $this->storeMeta($data, array_merge($meta, $extra));
             $this->mutateData($data->type, $data);
         });
     }
