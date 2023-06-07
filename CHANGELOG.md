@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.0 (2023-06-07)
+
+- [new] Include Bard field object in metadata
+
 ## 2.2.1 (2023-05-16)
 
 - Add method annotations to the Mutator facade
