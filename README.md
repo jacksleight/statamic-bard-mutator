@@ -27,11 +27,12 @@ Mutator::html('link', function ($value) {
 ### Add an auto-generated ID to all level 2 headings
 
 ```php
+use Illuminate\Support\Str;
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
 Mutator::html('heading', function ($value, $data) {
     if ($data->attrs->level === 2) {
-        $value[1]['id'] = str_slug(collect($data->content)->implode('text', ''));
+        $value[1]['id'] = Str::slug(collect($data->content)->implode('text', ''));
     }
     return $value;
 });
@@ -40,11 +41,12 @@ Mutator::html('heading', function ($value, $data) {
 ### Add permalink anchors to all headings
 
 ```php
+use Illuminate\Support\Str;
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 use JackSleight\StatamicBardMutator\Support\Data;
 
 Mutator::data('heading', function ($data) {
-    $slug = str_slug(collect($data->content)->implode('text', ''));
+    $slug = Str::slug(collect($data->content)->implode('text', ''));
     array_unshift(
         $data->content,
         Data::html('<a id="'.$slug.'" href="#'.$slug.'">#</a>')
