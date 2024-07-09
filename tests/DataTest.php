@@ -43,3 +43,11 @@ it('creates html node object', function () {
     expect($node->type)->toEqual('bmuHtml');
     expect($node->html)->toEqual('<p>Hello world</p>');
 });
+
+it('creates html node object advanced', function () {
+    $node = Data::html('p', [], $content = [Data::text('Hello world')]);
+
+    expect($node->type)->toEqual('bmuHtml');
+    expect($node->html)->toEqual(['p', [], 0]);
+    expect($node->content)->toEqual($content);
+});

@@ -3,6 +3,7 @@
 namespace JackSleight\StatamicBardMutator\Support;
 
 use Closure;
+use Statamic\Support\Arr;
 
 class Data
 {
@@ -66,11 +67,44 @@ class Data
         ];
     }
 
-    public static function html($html)
+    public static function html($html, $attrs = [], $content = [])
     {
+        if (func_num_args() > 1) {
+            return (object) [
+                'type' => 'bmuHtml',
+                'html' => [$html, $attrs, 0],
+                'content' => $content,
+            ];
+        }
+
         return (object) [
             'type' => 'bmuHtml',
             'html' => $html,
         ];
+    }
+
+    public static function convert($node, $newNode)
+    {
+        foreach ($node as $property => $value) {
+            unset($node->$property);
+        }
+        foreach ($newNode as $property => $value) {
+            $node->$property = $value;
+        }
+    }
+
+    public static function clone($node, $content = null)
+    {
+        $content = $content ?? $node->content ?? null;
+
+        $newNode = clone $node;
+        if (isset($node->attrs)) {
+            $newNode->attrs = clone $node->attrs;
+        }
+        if (isset($content)) {
+            $newNode->content = Arr::map($content, fn ($child) => Data::clone($child));
+        }
+
+        return $newNode;
     }
 }
