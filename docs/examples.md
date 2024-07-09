@@ -147,7 +147,7 @@ Mutator::html('heading', function ($value, $data) {
 
 ## Data Mutators
 
-### Add permalink anchors before all headings
+### Add permalink anchors before all heading text
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
