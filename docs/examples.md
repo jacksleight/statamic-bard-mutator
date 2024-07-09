@@ -131,7 +131,7 @@ Mutator::html('paragraph', function ($value, $data) {
 
 ## Data Mutators
 
-### Add permalink anchors to all headings
+### Add permalink anchors before all headings
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
@@ -147,6 +147,21 @@ Mutator::data('heading', function ($data) {
 ```
 
 Check out the modifier [example below](examples#using-with-the-bard-modifiers) to see how you could use these in a table of contents.
+
+### Wrap all headings with permalink anchors and add a class
+
+```php
+use JackSleight\StatamicBardMutator\Facades\Mutator;
+use JackSleight\StatamicBardMutator\Support\Data;
+
+Mutator::data('heading', function ($data) {
+    $slug = str_slug(collect($data->content)->implode('text', ''));
+    $content = collect($data->content)->implode('text', '');
+    $data->content[0] = Data::html(
+        '<a id="'.$slug.'" href="#'.$slug.'" class="hover:underline">'.$content.'</a>'
+    );
+});
+```
 
 ## Using with the Bard modifiers
 
