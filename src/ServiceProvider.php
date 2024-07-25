@@ -2,6 +2,8 @@
 
 namespace JackSleight\StatamicBardMutator;
 
+use JackSleight\StatamicBardMutator\Facades\Mutator as MutatorFacade;
+use Statamic\Fieldtypes\Bard;
 use Statamic\Providers\AddonServiceProvider;
 
 class ServiceProvider extends AddonServiceProvider
@@ -44,6 +46,13 @@ class ServiceProvider extends AddonServiceProvider
                 'table' => new Nodes\Table(),
                 'underline' => new Marks\Underline(),
             ]);
+        });
+    }
+
+    public function bootAddon()
+    {
+        Bard::hook('augment', function ($value, $next) {
+            return $next(MutatorFacade::injectRoot($value));
         });
     }
 }

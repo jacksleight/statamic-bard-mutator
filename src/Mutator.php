@@ -39,9 +39,9 @@ class Mutator
 
     public function injectRoot($value)
     {
-        $value['content'] = [[
+        $value = [[
             'type' => 'bmuRoot',
-            'content' => $value['content'],
+            'content' => $value,
         ]];
 
         return $value;
