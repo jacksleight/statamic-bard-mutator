@@ -3,9 +3,12 @@
 namespace JackSleight\StatamicBardMutator;
 
 use Closure;
+use JackSleight\StatamicBardMutator\Agents\Agent;
 use JackSleight\StatamicBardMutator\Support\Data;
 use JackSleight\StatamicBardMutator\Support\Value;
+use ReflectionClass;
 use Statamic\Fieldtypes\Bard\Augmentor;
+use Statamic\Support\Arr;
 
 class Mutator
 {
@@ -13,7 +16,7 @@ class Mutator
 
     protected $registered = [];
 
-    protected $mutators = [];
+    protected $agents = [];
 
     protected $roots = [];
 
@@ -61,67 +64,99 @@ class Mutator
         });
     }
 
-    public function mutator($types, $kind, Closure $mutator, $config = [])
+    public function agent(Agent $agent)
     {
-        foreach ((array) $types as $type) {
-            if ($kind !== 'data') {
-                $this->registerType($type);
+        foreach ($agent->types() as $type) {
+            $this->registerType($type);
+        }
+
+        $this->agents[] = $agent;
+
+        return $agent;
+    }
+
+    public function anonymousAgent($types, $kind, Closure $closure)
+    {
+        return $this->agent(new class($types, $kind, $closure) extends Agent
+        {
+            protected $kind;
+
+            protected $closure;
+
+            public function __construct($types, $kind, Closure $closure)
+            {
+                $this->types = Arr::wrap($types);
+                $this->kind = $kind;
+                $this->closure = $closure->bindTo($this);
             }
-            if (! isset($this->mutators[$type])) {
-                $this->mutators[$type] = [];
+
+            public function processData()
+            {
+                return $this->kind === 'data'
+                    ? $this->closure
+                    : fn ($data) => $data;
             }
-            if (! isset($this->mutators[$type][$kind])) {
-                $this->mutators[$type][$kind] = [];
+
+            public function renderHtml()
+            {
+                return $this->kind === 'renderHtml'
+                    ? $this->closure
+                    : fn ($value) => $value;
             }
-            $this->mutators[$type][$kind][] = $config + [
-                'function' => $mutator,
-            ];
+
+            public function parseHtml()
+            {
+                return $this->kind === 'parseHtml'
+                    ? $this->closure
+                    : fn ($value) => $value;
+            }
+        });
+    }
+
+    public function data($types, Closure $closure)
+    {
+        $this->anonymousAgent($types, 'data', $closure);
+    }
+
+    public function parseHtml($types, Closure $closure)
+    {
+        $this->anonymousAgent($types, 'parseHtml', $closure);
+    }
+
+    public function renderHtml($types, Closure $closure)
+    {
+        $this->anonymousAgent($types, 'renderHtml', $closure);
+    }
+
+    public function html($types, Closure $renderHtmlClosure, Closure $parseHtmlClosure = null)
+    {
+        $this->renderHtml($types, $renderHtmlClosure);
+        if ($parseHtmlClosure) {
+            $this->parseHtml($types, $parseHtmlClosure);
         }
     }
 
-    public function data($types, Closure $mutator, $config = [])
+    protected function agents($type)
     {
-        $this->mutator($types, 'data', $mutator, $config);
-    }
-
-    public function parseHtml($types, Closure $mutator, $config = [])
-    {
-        $this->mutator($types, 'parseHtml', $mutator, $config);
-    }
-
-    public function renderHtml($types, Closure $mutator, $config = [])
-    {
-        $this->mutator($types, 'renderHtml', $mutator, $config);
-    }
-
-    public function html($types, Closure $renderHtml, Closure $parseHtml = null, $config = [])
-    {
-        $this->renderHtml($types, $renderHtml, $config);
-        if ($parseHtml) {
-            $this->parseHtml($types, $parseHtml, $config);
-        }
-    }
-
-    protected function mutators($type, $kind)
-    {
-        $mutators = $this->mutators[$type][$kind] ?? [];
-
-        return collect($mutators)
-            ->pluck('function')
+        return collect($this->agents)
+            ->filter(fn ($agent) => in_array($type, $agent->types()))
             ->all();
     }
 
     public function mutateData($type, $data)
     {
-        $mutators = $this->mutators($type, 'data');
-        if (! $mutators) {
+        $agents = $this->agents($type);
+        if (! $agents) {
             return;
         }
 
         $meta = $this->fetchMeta($data);
 
-        foreach ($mutators as $mutator) {
-            app()->call($mutator, [
+        foreach ($agents as $agent) {
+            $callable = (new ReflectionClass($agent))->isAnonymous()
+                ? $agent->processData()
+                : [$agent, 'processData'];
+            app()->call($callable, [
                 'type' => $type,
                 'meta' => $meta,
                 'data' => $data,
@@ -135,15 +170,18 @@ class Mutator
             return $stored;
         }
 
-        $mutators = $this->mutators($type, $kind);
+        $agents = $this->agents($type);
 
         $meta = isset($params['data'])
             ? $this->fetchMeta($params['data'])
             : null;
 
-        foreach ($mutators as $mutator) {
+        foreach ($agents as $agent) {
+            $callable = (new ReflectionClass($agent))->isAnonymous()
+                ? $agent->$kind()
+                : [$agent, $kind];
             $value = Value::normalize($kind, $value);
-            $value = app()->call($mutator, [
+            $value = app()->call($callable, [
                 'type' => $type,
                 'meta' => $meta,
                 'value' => $value,
