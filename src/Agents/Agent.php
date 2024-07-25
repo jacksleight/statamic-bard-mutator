@@ -43,15 +43,18 @@ class Agent
         return $this->global;
     }
 
-    public function processData()
+    public function processData($data)
     {
+        return $data;
     }
 
-    public function renderHtml()
+    public function renderHtml($value)
     {
+        return $value;
     }
 
-    public function parseHtml()
+    public function parseHtml($value)
     {
+        return $value;
     }
 }
