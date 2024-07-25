@@ -55,10 +55,6 @@ Mutator::html('image', function ($value) {
 
 ## Data Mutators
 
-:::important
-This is an advanced feature that requires an [additonal step](installation#enabling-advanced-features) to enable.
-:::
-
 Data mutators allow you to make changes to the raw [node and mark data](data-formats) before anything is rendered to HTML. These are most useful when you want to add new content or make significant changes to the structure. Here's an example that adds permalink anchors to all headings:
 
 ```php
@@ -86,10 +82,6 @@ Data mutators do not return a value, you can just modify the objects directly. Y
 ---
 
 ## Metadata
-
-:::important
-This is an advanced feature that requires an [additonal step](installation#enabling-advanced-features) to enable.
-:::
 
 The `$meta` argument contains metadata about the current node or mark. It's an array that contains the following keys:
 

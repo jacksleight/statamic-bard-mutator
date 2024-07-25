@@ -3,13 +3,15 @@
 namespace Tests;
 
 use JackSleight\StatamicBardMutator\ServiceProvider;
-use JackSleight\StatamicBardMutator\TestServiceProvider;
 use Statamic\Fields\Value;
 use Statamic\Fieldtypes\Bard;
 use Statamic\Fieldtypes\Bard\Augmentor;
+use Statamic\Testing\AddonTestCase;
 
-class TestCase extends \Orchestra\Testbench\TestCase
+class TestCase extends AddonTestCase
 {
+    protected string $addonServiceProvider = ServiceProvider::class;
+
     protected $nodes = [
         'blockquote' => [],
         'bulletList' => [],
@@ -38,20 +40,6 @@ class TestCase extends \Orchestra\Testbench\TestCase
         'superscript' => [],
         'underline' => [],
     ];
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-    }
-
-    protected function getPackageProviders($app)
-    {
-        return [
-            ServiceProvider::class,
-            TestServiceProvider::class,
-            \Statamic\Providers\BardServiceProvider::class,
-        ];
-    }
 
     protected function getTestNode($type, $attrs = [])
     {

@@ -22,12 +22,12 @@
         }
     },
     "require": {
-        "statamic/cms": "^3.4 || ^4.0"
+        "statamic/cms": "^5.0"
     },
     "require-dev": {
-        "nunomaduro/collision": "^6.2",
-        "orchestra/testbench": "^7.5",
-        "pestphp/pest": "^1.0"
+        "nunomaduro/collision": "^8.1",
+        "orchestra/testbench": "^9.2",
+        "pestphp/pest": "^2.0"
     },
     "config": {
         "allow-plugins": {
