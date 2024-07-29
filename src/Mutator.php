@@ -3,7 +3,7 @@
 namespace JackSleight\StatamicBardMutator;
 
 use Closure;
-use JackSleight\StatamicBardMutator\Agents\Agent;
+use JackSleight\StatamicBardMutator\Plugins\Plugin;
 use JackSleight\StatamicBardMutator\Support\Data;
 use JackSleight\StatamicBardMutator\Support\Value;
 use ReflectionClass;
@@ -16,7 +16,7 @@ class Mutator
 
     protected $registered = [];
 
-    protected $agents = [];
+    protected $plugins = [];
 
     protected $roots = [];
 
@@ -64,20 +64,20 @@ class Mutator
         });
     }
 
-    public function agent(Agent $agent)
+    public function plugin(Plugin $plugin)
     {
-        foreach ($agent->types() as $type) {
+        foreach ($plugin->types() as $type) {
             $this->registerType($type);
         }
 
-        $this->agents[] = $agent;
+        $this->plugins[] = $plugin;
 
-        return $agent;
+        return $plugin;
     }
 
-    public function anonymousAgent($types, $kind, Closure $closure)
+    public function anonymousPlugin($types, $kind, Closure $closure)
     {
-        return $this->agent(new class($types, $kind, $closure) extends Agent
+        return $this->plugin(new class($types, $kind, $closure) extends Plugin
         {
             protected $kind;
 
@@ -115,17 +115,17 @@ class Mutator
 
     public function data($types, Closure $closure)
     {
-        $this->anonymousAgent($types, 'data', $closure);
+        $this->anonymousPlugin($types, 'data', $closure);
     }
 
     public function parseHtml($types, Closure $closure)
     {
-        $this->anonymousAgent($types, 'parseHtml', $closure);
+        $this->anonymousPlugin($types, 'parseHtml', $closure);
     }
 
     public function renderHtml($types, Closure $closure)
     {
-        $this->anonymousAgent($types, 'renderHtml', $closure);
+        $this->anonymousPlugin($types, 'renderHtml', $closure);
     }
 
     public function html($types, Closure $renderHtmlClosure, Closure $parseHtmlClosure = null)
@@ -136,26 +136,26 @@ class Mutator
         }
     }
 
-    protected function agents($type)
+    protected function plugins($type)
     {
-        return collect($this->agents)
-            ->filter(fn ($agent) => in_array($type, $agent->types()))
+        return collect($this->plugins)
+            ->filter(fn ($plugin) => in_array($type, $plugin->types()))
             ->all();
     }
 
     public function mutateData($type, $data)
     {
-        $agents = $this->agents($type);
-        if (! $agents) {
+        $plugins = $this->plugins($type);
+        if (! $plugins) {
             return;
         }
 
         $meta = $this->fetchMeta($data);
 
-        foreach ($agents as $agent) {
-            $callable = (new ReflectionClass($agent))->isAnonymous()
-                ? $agent->processData()
-                : [$agent, 'processData'];
+        foreach ($plugins as $plugin) {
+            $callable = (new ReflectionClass($plugin))->isAnonymous()
+                ? $plugin->processData()
+                : [$plugin, 'processData'];
             app()->call($callable, [
                 'type' => $type,
                 'meta' => $meta,
@@ -170,16 +170,16 @@ class Mutator
             return $stored;
         }
 
-        $agents = $this->agents($type);
+        $plugins = $this->plugins($type);
 
         $meta = isset($params['data'])
             ? $this->fetchMeta($params['data'])
             : null;
 
-        foreach ($agents as $agent) {
-            $callable = (new ReflectionClass($agent))->isAnonymous()
-                ? $agent->$kind()
-                : [$agent, $kind];
+        foreach ($plugins as $plugin) {
+            $callable = (new ReflectionClass($plugin))->isAnonymous()
+                ? $plugin->$kind()
+                : [$plugin, $kind];
             $value = Value::normalize($kind, $value);
             $value = app()->call($callable, [
                 'type' => $type,

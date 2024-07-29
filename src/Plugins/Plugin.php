@@ -1,8 +1,8 @@
 <?php
 
-namespace JackSleight\StatamicBardMutator\Agents;
+namespace JackSleight\StatamicBardMutator\Plugins;
 
-class Agent
+class Plugin
 {
     protected $types = [];
 
