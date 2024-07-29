@@ -3,12 +3,14 @@
 namespace JackSleight\StatamicBardMutator;
 
 use Closure;
+use JackSleight\StatamicBardMutator\Plugins\Data as DataPlugin;
+use JackSleight\StatamicBardMutator\Plugins\DataClosure as DataClosurePlugin;
+use JackSleight\StatamicBardMutator\Plugins\Html as HtmlPlugin;
+use JackSleight\StatamicBardMutator\Plugins\HtmlClosure as HtmlClosurePlugin;
 use JackSleight\StatamicBardMutator\Plugins\Plugin;
 use JackSleight\StatamicBardMutator\Support\Data;
 use JackSleight\StatamicBardMutator\Support\Value;
-use ReflectionClass;
 use Statamic\Fieldtypes\Bard\Augmentor;
-use Statamic\Support\Arr;
 
 class Mutator
 {
@@ -24,9 +26,9 @@ class Mutator
 
     protected $metas = [];
 
-    protected $renderHTMLs = [];
+    protected $renders = [];
 
-    protected $renderMarkHTMLs = [];
+    protected $renderMarks = [];
 
     public function __construct($extensions)
     {
@@ -64,132 +66,86 @@ class Mutator
         });
     }
 
-    public function plugin(Plugin $plugin)
+    public function plugin(string|Plugin $plugin)
     {
-        foreach ($plugin->types() as $type) {
-            $this->registerType($type);
+        if (is_string($plugin)) {
+            $plugin = app($plugin);
         }
 
-        $this->plugins[] = $plugin;
+        $mode = match (true) {
+            $plugin instanceof DataPlugin => 'data',
+            $plugin instanceof HtmlPlugin => 'html',
+            default => 'null',
+        };
+
+        foreach ($plugin->types() as $type) {
+            if ($mode === 'html') {
+                $this->registerType($type);
+            }
+            $this->plugins[$mode][$type][] = $plugin;
+        }
+
+        foreach ($plugin->plugins() as $childPlugin) {
+            $this->plugin($childPlugin);
+        }
 
         return $plugin;
     }
 
-    public function anonymousPlugin($types, $kind, Closure $closure)
-    {
-        return $this->plugin(new class($types, $kind, $closure) extends Plugin
-        {
-            protected $kind;
-
-            protected $closure;
-
-            public function __construct($types, $kind, Closure $closure)
-            {
-                $this->types = Arr::wrap($types);
-                $this->kind = $kind;
-                $this->closure = $closure->bindTo($this);
-            }
-
-            public function processData()
-            {
-                return $this->kind === 'data'
-                    ? $this->closure
-                    : fn ($data) => $data;
-            }
-
-            public function renderHtml()
-            {
-                return $this->kind === 'renderHtml'
-                    ? $this->closure
-                    : fn ($value) => $value;
-            }
-
-            public function parseHtml()
-            {
-                return $this->kind === 'parseHtml'
-                    ? $this->closure
-                    : fn ($value) => $value;
-            }
-        });
-    }
-
     public function data($types, Closure $closure)
     {
-        $this->anonymousPlugin($types, 'data', $closure);
+        return $this->plugin(new DataClosurePlugin($types, $closure));
     }
 
-    public function parseHtml($types, Closure $closure)
+    public function html($types, Closure $render, Closure $parse = null)
     {
-        $this->anonymousPlugin($types, 'parseHtml', $closure);
+        return $this->plugin(new HtmlClosurePlugin($types, $render, $parse ?? fn ($value) => $value));
     }
 
-    public function renderHtml($types, Closure $closure)
+    public function render($types, Closure $render)
     {
-        $this->anonymousPlugin($types, 'renderHtml', $closure);
+        return $this->plugin(new HtmlClosurePlugin($types, $render, fn ($value) => $value));
     }
 
-    public function html($types, Closure $renderHtmlClosure, Closure $parseHtmlClosure = null)
+    public function parse($types, Closure $parse)
     {
-        $this->renderHtml($types, $renderHtmlClosure);
-        if ($parseHtmlClosure) {
-            $this->parseHtml($types, $parseHtmlClosure);
-        }
-    }
-
-    protected function plugins($type)
-    {
-        return collect($this->plugins)
-            ->filter(fn ($plugin) => in_array($type, $plugin->types()))
-            ->all();
+        return $this->plugin(new HtmlClosurePlugin($types, fn ($value) => $value, $parse));
     }
 
     public function mutateData($type, $data)
     {
-        $plugins = $this->plugins($type);
-        if (! $plugins) {
+        if (! $plugins = $this->plugins['data'][$type] ?? null) {
             return;
         }
 
         $meta = $this->fetchMeta($data);
 
         foreach ($plugins as $plugin) {
-            $callable = (new ReflectionClass($plugin))->isAnonymous()
-                ? $plugin->processData()
-                : [$plugin, 'processData'];
-            app()->call($callable, [
-                'type' => $type,
-                'meta' => $meta,
-                'data' => $data,
-            ]);
+            $plugin->process($data, $meta);
         }
     }
 
-    public function mutate($kind, $type, $value, array $params = [], $phase = null)
+    public function mutateHtml($kind, $type, $value, array $params = [], $phase = null)
     {
-        if ($kind === 'renderHtml' && $stored = $this->fetchRenderHTML($params['data'], $phase)) {
+        if ($kind === 'render' && $stored = $this->fetchRender($params['data'], $phase)) {
             return $stored;
         }
 
-        $plugins = $this->plugins($type);
+        if (! $plugins = $this->plugins['html'][$type] ?? null) {
+            return $value;
+        }
 
         $meta = isset($params['data'])
             ? $this->fetchMeta($params['data'])
             : null;
 
         foreach ($plugins as $plugin) {
-            $callable = (new ReflectionClass($plugin))->isAnonymous()
-                ? $plugin->$kind()
-                : [$plugin, $kind];
             $value = Value::normalize($kind, $value);
-            $value = app()->call($callable, [
-                'type' => $type,
-                'meta' => $meta,
-                'value' => $value,
-            ] + $params);
+            $value = $plugin->$kind($value, $meta, $params);
         }
 
-        if ($kind === 'renderHtml') {
-            $this->storeRenderHTML($params['data'], $value, $phase);
+        if ($kind === 'render') {
+            $this->storeRender($params['data'], $value, $phase);
         }
 
         return $value;
@@ -206,26 +162,26 @@ class Mutator
         return $this->metas[spl_object_id($data)] ?? null;
     }
 
-    protected function storeRenderHTML($data, $renderHTML, $phase)
+    protected function storeRender($data, $render, $phase)
     {
         $this->storeData($data);
-        $this->renderHTMLs[spl_object_id($data)] = $renderHTML;
+        $this->renders[spl_object_id($data)] = $render;
 
         if ($phase === 'mark:open') {
-            $this->renderMarkHTMLs[$data->type] = $renderHTML;
+            $this->renderMarks[$data->type] = $render;
         }
     }
 
-    protected function fetchRenderHTML($data, $phase)
+    protected function fetchRender($data, $phase)
     {
-        $renderHTML = $this->renderHTMLs[spl_object_id($data)] ?? null;
+        $render = $this->renders[spl_object_id($data)] ?? null;
 
         if ($phase === 'mark:close') {
-            $renderHTML = $renderHTML ?? $this->renderMarkHTMLs[$data->type] ?? null;
-            unset($this->renderMarkHTMLs[$data->type]);
+            $render = $render ?? $this->renderMarks[$data->type] ?? null;
+            unset($this->renderMarks[$data->type]);
         }
 
-        return $renderHTML;
+        return $render;
     }
 
     protected function storeData($data)
@@ -254,5 +210,21 @@ class Mutator
         $this->renderHtml($types, function ($value, $data, $meta) use ($mutator) {
             return Value::tagToHtml(Value::normalizeTag($mutator(Value::htmlToTag($value), $data, $meta)));
         });
+    }
+
+    /**
+     * @deprecated
+     */
+    public function parseHtml($types, Closure $closure)
+    {
+        return $this->parse($types, $closure);
+    }
+
+    /**
+     * @deprecated
+     */
+    public function renderHtml($types, Closure $closure)
+    {
+        return $this->render($types, $closure);
     }
 }

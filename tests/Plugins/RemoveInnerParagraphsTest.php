@@ -6,7 +6,7 @@ use JackSleight\StatamicBardMutator\Plugins\RemoveInnerParagraphs;
 uses(Tests\TestCase::class);
 
 it('removes inner paragraphs', function () {
-    Mutator::plugin(new RemoveInnerParagraphs);
+    Mutator::plugin(RemoveInnerParagraphs::class);
     $value = $this->getTestValue([[
         'type' => 'listItem',
         'content' => [[
@@ -21,7 +21,7 @@ it('removes inner paragraphs', function () {
 });
 
 it('removes sole inner paragraphs only', function () {
-    Mutator::plugin(new RemoveInnerParagraphs);
+    Mutator::plugin(RemoveInnerParagraphs::class);
     $value = $this->getTestValue([[
         'type' => 'listItem',
         'content' => [[

@@ -1,15 +1,15 @@
 <?php
 
-namespace JackSleight\StatamicBardMutator\Agents;
+namespace JackSleight\StatamicBardMutator\Plugins;
 
-class RemoveInnerParagraphs extends Agent
+class RemoveInnerParagraphs extends Data
 {
-    protected $types = [
+    protected array $types = [
         'listItem',
         'tableCell',
     ];
 
-    public function processData($data)
+    public function process(object $data, array $meta): void
     {
         $content = $data->content ?? [];
         if (! $content) {
@@ -25,7 +25,5 @@ class RemoveInnerParagraphs extends Agent
         $data->content = collect($content)
             ->flatMap(fn ($node) => $node->content)
             ->all();
-
-        return $data;
     }
 }

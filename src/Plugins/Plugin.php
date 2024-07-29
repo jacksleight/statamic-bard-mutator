@@ -2,37 +2,40 @@
 
 namespace JackSleight\StatamicBardMutator\Plugins;
 
+use ReflectionClass;
+use Statamic\Support\Str;
+
 class Plugin
 {
-    protected $types = [];
+    protected array $types = [];
 
-    protected $name;
+    protected string $handle;
 
-    protected $global = false;
+    protected array $config = [];
 
-    public function types(array $types = null)
+    protected bool $global = false;
+
+    public function types(): array
     {
-        if (func_num_args()) {
-            $this->types = $types;
-
-            return $this;
-        }
-
         return $this->types;
     }
 
-    public function name($name = null)
+    public function handle(string $handle = null): static|string
     {
         if (func_num_args()) {
-            $this->name = $name;
+            $this->handle = $handle;
 
             return $this;
         }
 
-        return $this->name;
+        if ($this->handle) {
+            return $this->handle;
+        }
+
+        return Str::snake((new ReflectionClass(static::class))->getShortName());
     }
 
-    public function global($global = null)
+    public function global(bool $global = null): static|bool
     {
         if (func_num_args()) {
             $this->global = $global;
@@ -43,18 +46,19 @@ class Plugin
         return $this->global;
     }
 
-    public function processData($data)
+    public function config(array $config = null): static|array
     {
-        return $data;
+        if (func_num_args()) {
+            $this->config = $config;
+
+            return $this;
+        }
+
+        return $this->config;
     }
 
-    public function renderHtml($value)
+    public function plugins(): array
     {
-        return $value;
-    }
-
-    public function parseHtml($value)
-    {
-        return $value;
+        return [];
     }
 }
