@@ -66,12 +66,8 @@ class Mutator
         });
     }
 
-    public function plugin(string|Plugin $plugin)
+    public function plugin(Plugin $plugin)
     {
-        if (is_string($plugin)) {
-            $plugin = app($plugin);
-        }
-
         $mode = match (true) {
             $plugin instanceof DataPlugin => 'data',
             $plugin instanceof HtmlPlugin => 'html',
@@ -90,6 +86,11 @@ class Mutator
         }
 
         return $plugin;
+    }
+
+    public function clear()
+    {
+        $this->plugins = [];
     }
 
     public function data($types, Closure $closure)
