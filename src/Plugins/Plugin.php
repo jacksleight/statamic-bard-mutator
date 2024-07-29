@@ -11,8 +11,6 @@ class Plugin
 
     protected string $handle;
 
-    protected array $config = [];
-
     protected bool $global = false;
 
     public function types(): array
@@ -44,17 +42,6 @@ class Plugin
         }
 
         return $this->global;
-    }
-
-    public function config(array $config = null): static|array
-    {
-        if (func_num_args()) {
-            $this->config = $config;
-
-            return $this;
-        }
-
-        return $this->config;
     }
 
     public function plugins(): array
