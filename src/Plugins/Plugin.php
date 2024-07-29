@@ -7,11 +7,11 @@ use Statamic\Support\Str;
 
 class Plugin
 {
-    protected array $types = [];
-
     protected string $handle;
 
     protected bool $global = false;
+
+    protected array $types = [];
 
     public function types(): array
     {

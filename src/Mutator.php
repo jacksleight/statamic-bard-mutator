@@ -88,29 +88,17 @@ class Mutator
         return $plugin;
     }
 
-    public function clear()
-    {
-        $this->plugins = [];
-    }
-
     public function data($types, Closure $closure)
     {
         return $this->plugin(new DataClosurePlugin($types, $closure));
     }
 
-    public function html($types, Closure $render, Closure $parse = null)
+    public function html($types, ?Closure $render = null, ?Closure $parse = null)
     {
-        return $this->plugin(new HtmlClosurePlugin($types, $render, $parse ?? fn ($value) => $value));
-    }
-
-    public function render($types, Closure $render)
-    {
-        return $this->plugin(new HtmlClosurePlugin($types, $render, fn ($value) => $value));
-    }
-
-    public function parse($types, Closure $parse)
-    {
-        return $this->plugin(new HtmlClosurePlugin($types, fn ($value) => $value, $parse));
+        return $this->plugin(new HtmlClosurePlugin($types,
+            $render ?? fn ($value) => $value,
+            $parse ?? fn ($value) => $value,
+        ));
     }
 
     public function mutateData($type, $data)
@@ -214,18 +202,18 @@ class Mutator
     }
 
     /**
-     * @deprecated
-     */
-    public function parseHtml($types, Closure $closure)
-    {
-        return $this->parse($types, $closure);
-    }
-
-    /**
-     * @deprecated
+     * @deprecated 3.0.0 Use `Mutator::html($types, $closure)` instead
      */
     public function renderHtml($types, Closure $closure)
     {
-        return $this->render($types, $closure);
+        return $this->html($types, $closure, null);
+    }
+
+    /**
+     * @deprecated 3.0.0 Use `Mutator::html($types, null, $closure)` instead
+     */
+    public function parseHtml($types, Closure $closure)
+    {
+        return $this->html($types, null, $closure);
     }
 }
