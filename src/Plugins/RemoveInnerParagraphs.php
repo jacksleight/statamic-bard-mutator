@@ -4,9 +4,13 @@ namespace JackSleight\StatamicBardMutator\Plugins;
 
 class RemoveInnerParagraphs extends Data
 {
-    public function __construct(
-        protected array $types = ['listItem', 'tableCell'],
-    ) {
+    protected array $options = [
+        'types' => ['listItem', 'tableCell'],
+    ];
+
+    public function types(): array
+    {
+        return $this->options['types'];
     }
 
     public function process(object $data, array $meta): void

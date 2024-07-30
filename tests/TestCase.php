@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use JackSleight\StatamicBardMutator\Facades\Mutator;
 use JackSleight\StatamicBardMutator\ServiceProvider;
 use Statamic\Fields\Value;
 use Statamic\Fieldtypes\Bard;
@@ -40,6 +41,13 @@ class TestCase extends AddonTestCase
         'superscript' => [],
         'underline' => [],
     ];
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Mutator::registerAllExtensions();
+    }
 
     protected function getTestNode($type, $attrs = [])
     {

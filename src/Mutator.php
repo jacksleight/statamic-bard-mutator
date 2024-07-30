@@ -16,8 +16,6 @@ class Mutator
 {
     protected $extensions = null;
 
-    protected $registered = [];
-
     protected $plugins = [];
 
     protected $roots = [];
@@ -66,19 +64,14 @@ class Mutator
         });
     }
 
-    public function plugin(Plugin $plugin)
+    public function plugin(string|Plugin $plugin)
     {
-        $mode = match (true) {
-            $plugin instanceof DataPlugin => 'data',
-            $plugin instanceof HtmlPlugin => 'html',
-            default => 'null',
-        };
+        if (is_string($plugin)) {
+            $plugin = app($plugin);
+        }
 
         foreach ($plugin->types() as $type) {
-            if ($mode === 'html') {
-                $this->registerType($type);
-            }
-            $this->plugins[$mode][$type][] = $plugin;
+            $this->plugins[] = $plugin;
         }
 
         foreach ($plugin->plugins() as $childPlugin) {
@@ -86,6 +79,14 @@ class Mutator
         }
 
         return $plugin;
+    }
+
+    public function plugins($class, $type)
+    {
+        return collect($this->plugins)
+            ->filter(fn ($plugin) => ! $class || $plugin instanceof $class)
+            ->filter(fn ($plugin) => ! $type || in_array($type, $plugin->types()))
+            ->all();
     }
 
     public function data($types, Closure $closure)
@@ -103,7 +104,7 @@ class Mutator
 
     public function mutateData($type, $data)
     {
-        if (! $plugins = $this->plugins['data'][$type] ?? null) {
+        if (! $plugins = $this->plugins(DataPlugin::class, $type)) {
             return;
         }
 
@@ -120,7 +121,7 @@ class Mutator
             return $stored;
         }
 
-        if (! $plugins = $this->plugins['html'][$type] ?? null) {
+        if (! $plugins = $this->plugins(HtmlPlugin::class, $type)) {
             return $value;
         }
 
@@ -178,16 +179,27 @@ class Mutator
         $this->datas[spl_object_id($data)] = $data;
     }
 
-    protected function registerType($type)
+    public function registerExtensions()
     {
-        if (in_array($type, $this->registered)) {
-            return;
+        $types = collect($this->plugins)
+            ->flatten()
+            ->filter(fn ($plugin) => $plugin instanceof HtmlPlugin)
+            ->map(fn ($plugin) => $plugin->types())
+            ->flatten()
+            ->unique()
+            ->all();
+
+        foreach ($types as $type) {
+            if (isset($this->extensions[$type])) {
+                Augmentor::replaceExtension($type, $this->extensions[$type]);
+            }
         }
+    }
 
-        $this->registered[] = $type;
-
-        if (isset($this->extensions[$type])) {
-            Augmentor::replaceExtension($type, $this->extensions[$type]);
+    public function registerAllExtensions()
+    {
+        foreach ($this->extensions as $type => $extension) {
+            Augmentor::replaceExtension($type, $extension);
         }
     }
 
