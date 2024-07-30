@@ -14,6 +14,8 @@ class Plugin
 
     protected bool $global = false;
 
+    protected bool $hidden = false;
+
     protected array $types = [];
 
     protected array $options = [];
@@ -33,6 +35,12 @@ class Plugin
     public function global(bool $global = null): static|bool
     {
         return $this->fluentlyGetOrSet('global', $global)
+            ->args(func_get_args());
+    }
+
+    public function hidden(bool $hidden = null): static|bool
+    {
+        return $this->fluentlyGetOrSet('hidden', $hidden)
             ->args(func_get_args());
     }
 

@@ -91,15 +91,19 @@ class Mutator
 
     public function data($types, Closure $closure)
     {
-        return $this->plugin(new DataClosurePlugin($types, $closure));
+        $plugin = new DataClosurePlugin($types, $closure);
+
+        return $this->plugin($plugin)->global(true);
     }
 
     public function html($types, ?Closure $render = null, ?Closure $parse = null)
     {
-        return $this->plugin(new HtmlClosurePlugin($types,
+        $plugin = new HtmlClosurePlugin($types,
             $render ?? fn ($value) => $value,
             $parse ?? fn ($value) => $value,
-        ));
+        );
+
+        return $this->plugin($plugin)->global(true);
     }
 
     public function mutateData($type, $data)
