@@ -15,10 +15,16 @@ class ClosurePlugin extends Plugin
 
     protected ?Closure $parse;
 
-    public function handle(string $handle = null): static|string
+    public function handle(string $handle = null): static|string|null
     {
-        return $this->fluentlyGetOrSet('handle', $handle)
-            ->args(func_get_args());
+        if (func_num_args()) {
+            $this->handle = $handle;
+            $this->global = false;
+
+            return $this;
+        }
+
+        return $this->handle;
     }
 
     public function __construct($types, ?Closure $process = null, ?Closure $render = null, ?Closure $parse = null)
