@@ -2,7 +2,7 @@
 
 namespace JackSleight\StatamicBardMutator\Plugins;
 
-class RemoveOuterParagraphs extends Data
+class RemoveOuterParagraphs extends Plugin
 {
     protected array $options = [
         'types' => ['image'],

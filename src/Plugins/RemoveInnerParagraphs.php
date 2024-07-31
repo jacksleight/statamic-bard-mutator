@@ -2,7 +2,7 @@
 
 namespace JackSleight\StatamicBardMutator\Plugins;
 
-class RemoveInnerParagraphs extends Data
+class RemoveInnerParagraphs extends Plugin
 {
     protected array $options = [
         'types' => ['listItem', 'tableCell'],

@@ -14,8 +14,6 @@ class Plugin
 
     protected bool $global = false;
 
-    protected bool $hidden = false;
-
     protected array $types = [];
 
     protected array $options = [];
@@ -38,12 +36,6 @@ class Plugin
             ->args(func_get_args());
     }
 
-    public function hidden(bool $hidden = null): static|bool
-    {
-        return $this->fluentlyGetOrSet('hidden', $hidden)
-            ->args(func_get_args());
-    }
-
     public function options(array $options = null): static|array
     {
         return $this->fluentlyGetOrSet('options', $options)
@@ -53,5 +45,19 @@ class Plugin
     public function plugins(): array
     {
         return [];
+    }
+
+    public function process(object $data, array $meta): void
+    {
+    }
+
+    public function render(array $value, array $meta, array $params): array
+    {
+        return $value;
+    }
+
+    public function parse(array $value, array $meta, array $params): array
+    {
+        return $value;
     }
 }

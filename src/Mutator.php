@@ -3,10 +3,7 @@
 namespace JackSleight\StatamicBardMutator;
 
 use Closure;
-use JackSleight\StatamicBardMutator\Plugins\Data as DataPlugin;
-use JackSleight\StatamicBardMutator\Plugins\DataClosure as DataClosurePlugin;
-use JackSleight\StatamicBardMutator\Plugins\Html as HtmlPlugin;
-use JackSleight\StatamicBardMutator\Plugins\HtmlClosure as HtmlClosurePlugin;
+use JackSleight\StatamicBardMutator\Plugins\ClosurePlugin;
 use JackSleight\StatamicBardMutator\Plugins\Plugin;
 use JackSleight\StatamicBardMutator\Support\Data;
 use JackSleight\StatamicBardMutator\Support\Value;
@@ -81,34 +78,26 @@ class Mutator
         return $plugin;
     }
 
-    public function plugins($class, $type)
+    public function plugins($type)
     {
         return collect($this->plugins)
-            ->filter(fn ($plugin) => ! $class || $plugin instanceof $class)
             ->filter(fn ($plugin) => ! $type || in_array($type, $plugin->types()))
             ->all();
     }
 
-    public function data($types, Closure $closure)
+    public function data($types, Closure $process)
     {
-        $plugin = new DataClosurePlugin($types, $closure);
-
-        return $this->plugin($plugin)->global(true);
+        return $this->plugin(new ClosurePlugin($types, process: $process));
     }
 
-    public function html($types, ?Closure $render = null, ?Closure $parse = null)
+    public function html($types, Closure $render, ?Closure $parse = null)
     {
-        $plugin = new HtmlClosurePlugin($types,
-            $render ?? fn ($value) => $value,
-            $parse ?? fn ($value) => $value,
-        );
-
-        return $this->plugin($plugin)->global(true);
+        return $this->plugin(new ClosurePlugin($types, render: $render, parse: $parse))->global(true);
     }
 
     public function mutateData($type, $data)
     {
-        if (! $plugins = $this->plugins(DataPlugin::class, $type)) {
+        if (! $plugins = $this->plugins($type)) {
             return;
         }
 
@@ -125,7 +114,7 @@ class Mutator
             return $stored;
         }
 
-        if (! $plugins = $this->plugins(HtmlPlugin::class, $type)) {
+        if (! $plugins = $this->plugins($type)) {
             return $value;
         }
 
@@ -186,8 +175,6 @@ class Mutator
     public function registerExtensions()
     {
         $types = collect($this->plugins)
-            ->flatten()
-            ->filter(fn ($plugin) => $plugin instanceof HtmlPlugin)
             ->map(fn ($plugin) => $plugin->types())
             ->flatten()
             ->unique()
