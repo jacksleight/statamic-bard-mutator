@@ -51,6 +51,10 @@ class ServiceProvider extends AddonServiceProvider
 
     public function bootAddon()
     {
+        $this->app->booted(function () {
+            MutatorFacade::registerExtensions();
+        });
+
         Bard::hook('augment', function ($value, $next) {
             return $next(MutatorFacade::injectRoot($value));
         });

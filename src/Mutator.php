@@ -3,6 +3,8 @@
 namespace JackSleight\StatamicBardMutator;
 
 use Closure;
+use JackSleight\StatamicBardMutator\Plugins\ClosurePlugin;
+use JackSleight\StatamicBardMutator\Plugins\Plugin;
 use JackSleight\StatamicBardMutator\Support\Data;
 use JackSleight\StatamicBardMutator\Support\Value;
 use Statamic\Fieldtypes\Bard\Augmentor;
@@ -11,9 +13,7 @@ class Mutator
 {
     protected $extensions = null;
 
-    protected $registered = [];
-
-    protected $mutators = [];
+    protected $plugins = [];
 
     protected $roots = [];
 
@@ -21,9 +21,9 @@ class Mutator
 
     protected $metas = [];
 
-    protected $renderHTMLs = [];
+    protected $renders = [];
 
-    protected $renderMarkHTMLs = [];
+    protected $renderMarks = [];
 
     public function __construct($extensions)
     {
@@ -61,97 +61,74 @@ class Mutator
         });
     }
 
-    public function mutator($types, $kind, Closure $mutator, $config = [])
+    public function plugin(string|Plugin $plugin)
     {
-        foreach ((array) $types as $type) {
-            if ($kind !== 'data') {
-                $this->registerType($type);
-            }
-            if (! isset($this->mutators[$type])) {
-                $this->mutators[$type] = [];
-            }
-            if (! isset($this->mutators[$type][$kind])) {
-                $this->mutators[$type][$kind] = [];
-            }
-            $this->mutators[$type][$kind][] = $config + [
-                'function' => $mutator,
-            ];
+        if (is_string($plugin)) {
+            $plugin = app($plugin);
         }
-    }
 
-    public function data($types, Closure $mutator, $config = [])
-    {
-        $this->mutator($types, 'data', $mutator, $config);
-    }
-
-    public function parseHtml($types, Closure $mutator, $config = [])
-    {
-        $this->mutator($types, 'parseHtml', $mutator, $config);
-    }
-
-    public function renderHtml($types, Closure $mutator, $config = [])
-    {
-        $this->mutator($types, 'renderHtml', $mutator, $config);
-    }
-
-    public function html($types, Closure $renderHtml, Closure $parseHtml = null, $config = [])
-    {
-        $this->renderHtml($types, $renderHtml, $config);
-        if ($parseHtml) {
-            $this->parseHtml($types, $parseHtml, $config);
+        foreach ($plugin->types() as $type) {
+            $this->plugins[] = $plugin;
         }
+
+        foreach ($plugin->plugins() as $childPlugin) {
+            $this->plugin($childPlugin);
+        }
+
+        return $plugin;
     }
 
-    protected function mutators($type, $kind)
+    public function plugins($type)
     {
-        $mutators = $this->mutators[$type][$kind] ?? [];
-
-        return collect($mutators)
-            ->pluck('function')
+        return collect($this->plugins)
+            ->filter(fn ($plugin) => ! $type || in_array($type, $plugin->types()))
             ->all();
+    }
+
+    public function data($types, Closure $process)
+    {
+        return $this->plugin(new ClosurePlugin($types, process: $process));
+    }
+
+    public function html($types, ?Closure $render = null, ?Closure $parse = null)
+    {
+        return $this->plugin(new ClosurePlugin($types, render: $render, parse: $parse))->global(true);
     }
 
     public function mutateData($type, $data)
     {
-        $mutators = $this->mutators($type, 'data');
-        if (! $mutators) {
+        if (! $plugins = $this->plugins($type)) {
             return;
         }
 
         $meta = $this->fetchMeta($data);
 
-        foreach ($mutators as $mutator) {
-            app()->call($mutator, [
-                'type' => $type,
-                'meta' => $meta,
-                'data' => $data,
-            ]);
+        foreach ($plugins as $plugin) {
+            $plugin->process($data, $meta);
         }
     }
 
-    public function mutate($kind, $type, $value, array $params = [], $phase = null)
+    public function mutateHtml($kind, $type, $value, array $params = [], $phase = null)
     {
-        if ($kind === 'renderHtml' && $stored = $this->fetchRenderHTML($params['data'], $phase)) {
+        if ($kind === 'render' && $stored = $this->fetchRender($params['data'], $phase)) {
             return $stored;
         }
 
-        $mutators = $this->mutators($type, $kind);
+        if (! $plugins = $this->plugins($type)) {
+            return $value;
+        }
 
         $meta = isset($params['data'])
             ? $this->fetchMeta($params['data'])
             : null;
 
-        foreach ($mutators as $mutator) {
+        foreach ($plugins as $plugin) {
             $value = Value::normalize($kind, $value);
-            $value = app()->call($mutator, [
-                'type' => $type,
-                'meta' => $meta,
-                'value' => $value,
-            ] + $params);
+            $value = $plugin->$kind($value, $meta, $params);
         }
 
-        if ($kind === 'renderHtml') {
-            $this->storeRenderHTML($params['data'], $value, $phase);
+        if ($kind === 'render') {
+            $this->storeRender($params['data'], $value, $phase);
         }
 
         return $value;
@@ -168,26 +145,26 @@ class Mutator
         return $this->metas[spl_object_id($data)] ?? null;
     }
 
-    protected function storeRenderHTML($data, $renderHTML, $phase)
+    protected function storeRender($data, $render, $phase)
     {
         $this->storeData($data);
-        $this->renderHTMLs[spl_object_id($data)] = $renderHTML;
+        $this->renders[spl_object_id($data)] = $render;
 
         if ($phase === 'mark:open') {
-            $this->renderMarkHTMLs[$data->type] = $renderHTML;
+            $this->renderMarks[$data->type] = $render;
         }
     }
 
-    protected function fetchRenderHTML($data, $phase)
+    protected function fetchRender($data, $phase)
     {
-        $renderHTML = $this->renderHTMLs[spl_object_id($data)] ?? null;
+        $render = $this->renders[spl_object_id($data)] ?? null;
 
         if ($phase === 'mark:close') {
-            $renderHTML = $renderHTML ?? $this->renderMarkHTMLs[$data->type] ?? null;
-            unset($this->renderMarkHTMLs[$data->type]);
+            $render = $render ?? $this->renderMarks[$data->type] ?? null;
+            unset($this->renderMarks[$data->type]);
         }
 
-        return $renderHTML;
+        return $render;
     }
 
     protected function storeData($data)
@@ -195,16 +172,25 @@ class Mutator
         $this->datas[spl_object_id($data)] = $data;
     }
 
-    protected function registerType($type)
+    public function registerExtensions()
     {
-        if (in_array($type, $this->registered)) {
-            return;
+        $types = collect($this->plugins)
+            ->map(fn ($plugin) => $plugin->types())
+            ->flatten()
+            ->unique()
+            ->all();
+
+        foreach ($types as $type) {
+            if (isset($this->extensions[$type])) {
+                Augmentor::replaceExtension($type, $this->extensions[$type]);
+            }
         }
+    }
 
-        $this->registered[] = $type;
-
-        if (isset($this->extensions[$type])) {
-            Augmentor::replaceExtension($type, $this->extensions[$type]);
+    public function registerAllExtensions()
+    {
+        foreach ($this->extensions as $type => $extension) {
+            Augmentor::replaceExtension($type, $extension);
         }
     }
 
@@ -216,5 +202,21 @@ class Mutator
         $this->renderHtml($types, function ($value, $data, $meta) use ($mutator) {
             return Value::tagToHtml(Value::normalizeTag($mutator(Value::htmlToTag($value), $data, $meta)));
         });
+    }
+
+    /**
+     * @deprecated 3.0.0 Use `Mutator::html($types, $closure)` instead
+     */
+    public function renderHtml($types, Closure $closure)
+    {
+        return $this->html($types, $closure, null);
+    }
+
+    /**
+     * @deprecated 3.0.0 Use `Mutator::html($types, null, $closure)` instead
+     */
+    public function parseHtml($types, Closure $closure)
+    {
+        return $this->html($types, null, $closure);
     }
 }

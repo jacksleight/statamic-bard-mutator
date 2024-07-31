@@ -9,7 +9,7 @@ class Value
         return static::{'normalize'.ucfirst($kind)}($value);
     }
 
-    public static function normalizeRenderHtml($value)
+    public static function normalizeRender($value)
     {
         if (! isset($value) || isset($value['content'])) {
             return $value;
@@ -18,22 +18,19 @@ class Value
             array_splice($value, 1, 0, [[]]);
         }
         if (isset($value[2]) && is_array($value[2])) {
-            $value[2] = static::normalizeRenderHtml($value[2]);
+            $value[2] = static::normalizeRender($value[2]);
         }
 
         return $value;
     }
 
-    public static function normalizeParseHtml($value)
+    public static function normalizeParse($value)
     {
         if (! isset($value)) {
             return $value;
         }
         if (! isset($value[1]) || ! is_array($value[1])) {
             array_splice($value, 1, 0, [[]]);
-        }
-        if (isset($value[2]) && is_array($value[2])) {
-            $value[2] = static::normalizeRendervalue($value[2]);
         }
 
         return $value;
