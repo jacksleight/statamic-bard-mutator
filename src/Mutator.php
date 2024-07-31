@@ -90,7 +90,7 @@ class Mutator
         return $this->plugin(new ClosurePlugin($types, process: $process));
     }
 
-    public function html($types, Closure $render, ?Closure $parse = null)
+    public function html($types, ?Closure $render = null, ?Closure $parse = null)
     {
         return $this->plugin(new ClosurePlugin($types, render: $render, parse: $parse))->global(true);
     }
