@@ -129,9 +129,25 @@ Mutator::html('paragraph', function ($value, $data) {
 });
 ```
 
+### Wrap all heading text with permalink anchors and add a class
+
+```php
+use JackSleight\StatamicBardMutator\Facades\Mutator;
+
+Mutator::html('heading', function ($value, $data) {
+    $slug = str_slug(collect($data->content)->implode('text', ''));
+    $value[2] = ['a', [
+        'id' => $slug,
+        'href' => '#'.$slug,
+        'class' => 'hover:underline',
+    ], 0];
+    return $value;
+});
+```
+
 ## Data Mutators
 
-### Add permalink anchors to all headings
+### Add permalink anchors before all heading text
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
