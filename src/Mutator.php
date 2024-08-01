@@ -7,6 +7,7 @@ use JackSleight\StatamicBardMutator\Plugins\ClosurePlugin;
 use JackSleight\StatamicBardMutator\Plugins\Plugin;
 use JackSleight\StatamicBardMutator\Support\Data;
 use JackSleight\StatamicBardMutator\Support\Value;
+use Statamic\Fields\Field;
 use Statamic\Fieldtypes\Bard\Augmentor;
 
 class Mutator
@@ -28,13 +29,6 @@ class Mutator
     public function __construct($extensions)
     {
         $this->extensions = $extensions;
-
-        Augmentor::addExtensions([
-            'bmuRoot' => function ($bard) {
-                return new Nodes\Root(['bard' => $bard->field()]);
-            },
-            'bmuHtml' => new Nodes\Html(),
-        ]);
     }
 
     public function injectRoot($value)
@@ -78,10 +72,25 @@ class Mutator
         return $plugin;
     }
 
-    public function plugins($type)
+    public function plugins()
+    {
+        return $this->plugins;
+    }
+
+    public function selectablePlugins()
     {
         return collect($this->plugins)
-            ->filter(fn ($plugin) => ! $type || in_array($type, $plugin->types()))
+            ->filter(fn ($plugin) => $plugin->scoped() && $plugin->handle())
+            ->all();
+    }
+
+    public function filteredPlugins(?Field $bard, $type)
+    {
+        $plugins = $bard?->get('bmu_plugins', []) ?? [];
+
+        return collect($this->plugins)
+            ->filter(fn ($plugin) => ! $plugin->scoped() || in_array($plugin->handle(), $plugins))
+            ->filter(fn ($plugin) => in_array($type, $plugin->types()))
             ->all();
     }
 
@@ -92,16 +101,16 @@ class Mutator
 
     public function html($types, ?Closure $render = null, ?Closure $parse = null)
     {
-        return $this->plugin(new ClosurePlugin($types, render: $render, parse: $parse))->global(true);
+        return $this->plugin(new ClosurePlugin($types, render: $render, parse: $parse));
     }
 
     public function mutateData($type, $data)
     {
-        if (! $plugins = $this->plugins($type)) {
+        $meta = $this->fetchMeta($data);
+
+        if (! $plugins = $this->filteredPlugins($meta['bard'], $type)) {
             return;
         }
-
-        $meta = $this->fetchMeta($data);
 
         foreach ($plugins as $plugin) {
             $plugin->process($data, $meta);
@@ -114,13 +123,13 @@ class Mutator
             return $stored;
         }
 
-        if (! $plugins = $this->plugins($type)) {
-            return $value;
-        }
-
         $meta = isset($params['data'])
             ? $this->fetchMeta($params['data'])
             : null;
+
+        if (! $plugins = $this->filteredPlugins($meta['bard'] ?? null, $type)) {
+            return $value;
+        }
 
         foreach ($plugins as $plugin) {
             $value = Value::normalize($kind, $value);

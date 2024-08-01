@@ -4,15 +4,14 @@ namespace JackSleight\StatamicBardMutator\Plugins;
 
 use ReflectionClass;
 use Statamic\Support\Str;
-use Statamic\Support\Traits\FluentlyGetsAndSets;
 
 class Plugin
 {
-    use FluentlyGetsAndSets;
+    protected ?string $handle = null;
 
-    protected string $handle;
+    protected ?string $display = null;
 
-    protected bool $global = false;
+    protected bool $scoped = false;
 
     protected array $types = [];
 
@@ -23,23 +22,48 @@ class Plugin
         return $this->types;
     }
 
-    public function handle(string $handle = null): static|string
+    public function handle(string $handle = null): static|string|null
     {
-        return $this->fluentlyGetOrSet('handle', $handle)
-            ->getter(fn ($handle) => $handle ?: Str::snake((new ReflectionClass(static::class))->getShortName()))
-            ->args(func_get_args());
+        if (func_num_args()) {
+            $this->handle = $handle;
+
+            return $this;
+        }
+
+        return $handle ?: Str::snake((new ReflectionClass(static::class))->getShortName());
     }
 
-    public function global(bool $global = null): static|bool
+    public function display(string $display = null): static|string|null
     {
-        return $this->fluentlyGetOrSet('global', $global)
-            ->args(func_get_args());
+        if (func_num_args()) {
+            $this->display = $display;
+
+            return $this;
+        }
+
+        return $this->display ?: Str::headline($this->handle());
+    }
+
+    public function scoped(bool $scoped = null): static|bool
+    {
+        if (func_num_args()) {
+            $this->scoped = $scoped;
+
+            return $this;
+        }
+
+        return $this->scoped;
     }
 
     public function options(array $options = null): static|array
     {
-        return $this->fluentlyGetOrSet('options', $options)
-            ->args(func_get_args());
+        if (func_get_args()) {
+            $this->options = $options;
+
+            return $this;
+        }
+
+        return $this->options;
     }
 
     public function plugins(): array

@@ -4,8 +4,8 @@ namespace Tests;
 
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 use JackSleight\StatamicBardMutator\ServiceProvider;
+use Statamic\Fields\Field;
 use Statamic\Fields\Value;
-use Statamic\Fieldtypes\Bard;
 use Statamic\Fieldtypes\Bard\Augmentor;
 use Statamic\Testing\AddonTestCase;
 
@@ -68,9 +68,14 @@ class TestCase extends AddonTestCase
         ]]);
     }
 
-    protected function getTestValue($value)
+    protected function getTestValue($value, $config = [])
     {
-        return new Value($value, 'handle', new Bard());
+        return new Value($value, 'handle', $this->getTestField($config)->fieldtype());
+    }
+
+    protected function getTestField($config = [])
+    {
+        return new Field('handle', ['type' => 'bard'] + $config);
     }
 
     protected function renderTestValue(Value $value)
