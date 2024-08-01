@@ -42,20 +42,20 @@ class Data
         ]);
     }
 
-    public static function node($type, $attrs = [], $content = [])
+    public static function node($type, $attrs = null, $content = null)
     {
         return (object) [
             'type' => $type,
-            'attrs' => (object) $attrs,
-            'content' => $content,
+            'attrs' => (object) ($attrs ?? []),
+            'content' => ($content ?? []),
         ];
     }
 
-    public static function mark($type, $attrs = [])
+    public static function mark($type, $attrs = null)
     {
         return (object) [
             'type' => $type,
-            'attrs' => (object) $attrs,
+            'attrs' => (object) ($attrs ?? []),
         ];
     }
 
@@ -67,13 +67,13 @@ class Data
         ];
     }
 
-    public static function html($html, $attrs = [], $content = [])
+    public static function html($html, $attrs = null, $content = null)
     {
         if (func_num_args() > 1) {
             return (object) [
                 'type' => 'bmuHtml',
-                'html' => [$html, $attrs, 0],
-                'content' => $content,
+                'html' => [$html, ($attrs ?? []), 0],
+                'content' => ($content ?? []),
             ];
         }
 
@@ -83,7 +83,7 @@ class Data
         ];
     }
 
-    public static function convert($node, $newNode)
+    public static function morph($node, $newNode)
     {
         foreach ($node as $property => $value) {
             unset($node->$property);
@@ -93,13 +93,14 @@ class Data
         }
     }
 
-    public static function clone($node, $content = null)
+    public static function clone($node, $attrs = null, $content = null)
     {
+        $attrs = $attrs ?? $node->attrs ?? null;
         $content = $content ?? $node->content ?? null;
 
         $newNode = clone $node;
-        if (isset($node->attrs)) {
-            $newNode->attrs = clone $node->attrs;
+        if (isset($attrs)) {
+            $newNode->attrs = clone (object) $attrs;
         }
         if (isset($content)) {
             $newNode->content = Arr::map($content, fn ($child) => Data::clone($child));

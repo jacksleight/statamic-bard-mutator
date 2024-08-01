@@ -2,12 +2,9 @@
 
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 use JackSleight\StatamicBardMutator\Support\Data;
+use Statamic\Support\Str;
 
 uses(Tests\TestCase::class);
-
-// afterEach(function () {
-//     App::forgetInstance(Mutator::class);
-// });
 
 it('mutates all nodes', function () {
     foreach ($this->nodes as $type => $attrs) {
@@ -80,7 +77,7 @@ it('adds a wrapper span around all bullet list item content', function () {
 
 it('converts all hrs to a custom html string', function () {
     Mutator::data('horizontalRule', function ($data) {
-        Data::convert($data, Data::html('<custom-hr>'));
+        Data::morph($data, Data::html('<custom-hr>'));
     });
     $value = $this->getTestValue([[
         'type' => 'horizontalRule',
@@ -122,7 +119,7 @@ it('removes paragraph nodes inside list items', function () {
 
 it('wraps heading content in link', function () {
     Mutator::html('heading', function ($value, $data) {
-        $slug = str_slug(collect($data->content)->implode('text', ''));
+        $slug = Str::slug(collect($data->content)->implode('text', ''));
         $value[2] = ['a', [
             'id' => $slug,
             'href' => '#'.$slug,
@@ -150,8 +147,8 @@ it('converts blockquote to figure and figcaption', function () {
             return;
         }
         $data->converted = true;
-        Data::convert($data, Data::html('figure', ['class' => 'quote'], [
-            Data::clone($data, collect($data->content)->slice(0, -1)->values()->all()),
+        Data::morph($data, Data::html('figure', ['class' => 'quote'], [
+            Data::clone($data, content: collect($data->content)->slice(0, -1)->values()->all()),
             Data::html('figcaption', [], [collect($data->content)->last()]),
         ]));
     });

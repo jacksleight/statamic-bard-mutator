@@ -51,3 +51,21 @@ it('creates html node object advanced', function () {
     expect($node->html)->toEqual(['p', [], 0]);
     expect($node->content)->toEqual($content);
 });
+
+it('morphs node', function () {
+    $node = Data::node('p', ['foo' => 1], [Data::text('Hello world')]);
+    Data::morph($node, Data::node('heading', attrs: ['bar' => 2]));
+
+    expect($node->type)->toEqual('heading');
+    expect($node->attrs)->toEqual((object) ['bar' => 2]);
+    expect($node->content)->toEqual([]);
+});
+
+it('clones node', function () {
+    $node = Data::node('p', ['foo' => 1], [Data::text('Hello world')]);
+    $clone = Data::clone($node, attrs: ['bar' => 2]);
+
+    expect($clone)->not()->toBe($node);
+    expect($clone->content[0])->not()->toBe($node->content[0]);
+    expect($clone->attrs)->toEqual((object) ['bar' => 2]);
+});
