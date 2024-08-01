@@ -80,16 +80,16 @@ class Mutator
     public function selectablePlugins()
     {
         return collect($this->plugins)
-            ->filter(fn ($plugin) => ! $plugin->global() && $plugin->handle())
+            ->filter(fn ($plugin) => $plugin->scoped() && $plugin->handle())
             ->all();
     }
 
-    protected function activePlugins(?Field $bard, $type)
+    public function filteredPlugins(?Field $bard, $type)
     {
         $plugins = $bard?->get('bmu_plugins', []) ?? [];
 
         return collect($this->plugins)
-            ->filter(fn ($plugin) => $plugin->global() || in_array($plugin->handle(), $plugins))
+            ->filter(fn ($plugin) => ! $plugin->scoped() || in_array($plugin->handle(), $plugins))
             ->filter(fn ($plugin) => in_array($type, $plugin->types()))
             ->all();
     }
@@ -101,14 +101,14 @@ class Mutator
 
     public function html($types, ?Closure $render = null, ?Closure $parse = null)
     {
-        return $this->plugin(new ClosurePlugin($types, render: $render, parse: $parse))->global(true);
+        return $this->plugin(new ClosurePlugin($types, render: $render, parse: $parse));
     }
 
     public function mutateData($type, $data)
     {
         $meta = $this->fetchMeta($data);
 
-        if (! $plugins = $this->activePlugins($meta['bard'], $type)) {
+        if (! $plugins = $this->filteredPlugins($meta['bard'], $type)) {
             return;
         }
 
@@ -127,7 +127,7 @@ class Mutator
             ? $this->fetchMeta($params['data'])
             : null;
 
-        if (! $plugins = $this->activePlugins($meta['bard'], $type)) {
+        if (! $plugins = $this->filteredPlugins($meta['bard'] ?? null, $type)) {
             return $value;
         }
 

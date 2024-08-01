@@ -11,7 +11,7 @@ class Plugin
 
     protected ?string $display = null;
 
-    protected bool $global = false;
+    protected bool $scoped = false;
 
     protected array $types = [];
 
@@ -44,15 +44,15 @@ class Plugin
         return $this->display ?: Str::headline($this->handle());
     }
 
-    public function global(bool $global = null): static|bool
+    public function scoped(bool $scoped = null): static|bool
     {
         if (func_num_args()) {
-            $this->global = $global;
+            $this->scoped = $scoped;
 
             return $this;
         }
 
-        return $this->global;
+        return $this->scoped;
     }
 
     public function options(array $options = null): static|array

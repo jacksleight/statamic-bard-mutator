@@ -7,8 +7,6 @@ use Statamic\Support\Arr;
 
 class ClosurePlugin extends Plugin
 {
-    protected bool $global = true;
-
     protected ?Closure $process;
 
     protected ?Closure $render;
@@ -19,7 +17,6 @@ class ClosurePlugin extends Plugin
     {
         if (func_num_args()) {
             $this->handle = $handle;
-            $this->global = false;
 
             return $this;
         }

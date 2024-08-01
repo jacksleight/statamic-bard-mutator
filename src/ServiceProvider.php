@@ -95,8 +95,9 @@ class ServiceProvider extends AddonServiceProvider
 
             Bard::appendConfigField('bmu_plugins', [
                 'display' => __('Mutator Plugins'),
-                'instructions' => 'Which plugins to run on this field, global plugins run on all fields.',
-                'type' => 'checkboxes',
+                'instructions' => 'Which plugins to run on this field. Global plugins run on all fields.',
+                'type' => 'select',
+                'multiple' => true,
                 'options' => $options,
             ]);
         });
