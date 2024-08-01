@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.0 ()
+
+- 
+
 ## 2.3.1 (2024-05-07)
 
 - Statamic 5 support
