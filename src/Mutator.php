@@ -204,16 +204,6 @@ class Mutator
     }
 
     /**
-     * @deprecated
-     */
-    public function tag($types, Closure $mutator)
-    {
-        $this->renderHtml($types, function ($value, $data, $meta) use ($mutator) {
-            return Value::tagToHtml(Value::normalizeTag($mutator(Value::htmlToTag($value), $data, $meta)));
-        });
-    }
-
-    /**
      * @deprecated 3.0.0 Use `Mutator::html($types, $closure)` instead
      */
     public function renderHtml($types, Closure $closure)
