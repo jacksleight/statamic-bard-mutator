@@ -4,6 +4,10 @@
 
 - 
 
+## 2.3.1 (2024-05-07)
+
+- Statamic 5 support
+
 ## 2.3.0 (2023-06-07)
 
 - [new] Include Bard field object in metadata
