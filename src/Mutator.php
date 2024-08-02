@@ -65,10 +65,6 @@ class Mutator
             $this->plugins[] = $plugin;
         }
 
-        foreach ($plugin->plugins() as $childPlugin) {
-            $this->plugin($childPlugin);
-        }
-
         return $plugin;
     }
 
@@ -106,6 +102,10 @@ class Mutator
 
     public function mutateData($type, $data)
     {
+        if ($data->info->processed ?? false) {
+            return;
+        }
+
         $meta = $this->fetchMeta($data);
 
         if (! $plugins = $this->filteredPlugins($meta['bard'], $type)) {
@@ -115,6 +115,9 @@ class Mutator
         foreach ($plugins as $plugin) {
             $plugin->process($data, $meta);
         }
+
+        // @todo This can be tidied up once the meta refactoring is in place
+        $data->info = (object) ['processed' => true];
     }
 
     public function mutateHtml($kind, $type, $value, array $params = [], $phase = null)

@@ -38,18 +38,34 @@ it('creates text node object', function () {
 });
 
 it('creates html node object', function () {
-    $node = Data::html('<p>Hello world</p>');
+    $node1 = Data::html('<p>Hello world</p>');
+    $node2 = Data::html('p');
+    $node3 = Data::html('p', [], $content = [Data::text('Hello world')]);
 
-    expect($node->type)->toEqual('bmuHtml');
-    expect($node->html)->toEqual('<p>Hello world</p>');
+    expect($node1->type)->toEqual('bmuHtml');
+    expect($node1->html)->toEqual(['content' => '<p>Hello world</p>']);
+
+    expect($node2->type)->toEqual('bmuHtml');
+    expect($node2->html)->toEqual(['p', [], 0]);
+
+    expect($node3->type)->toEqual('bmuHtml');
+    expect($node3->html)->toEqual(['p', [], 0]);
+    expect($node3->content)->toEqual($content);
 });
 
-it('creates html node object advanced', function () {
-    $node = Data::html('p', [], $content = [Data::text('Hello world')]);
+it('applys node', function () {
+    $node1 = Data::node('p', ['foo' => 1]);
+    $node2 = Data::apply($node1, attrs: ['bar' => 2]);
 
-    expect($node->type)->toEqual('bmuHtml');
-    expect($node->html)->toEqual(['p', [], 0]);
-    expect($node->content)->toEqual($content);
+    expect($node2->attrs)->toEqual((object) ['bar' => 2]);
+});
+
+it('clones node', function () {
+    $node1 = Data::node('p', ['foo' => 1]);
+    $node2 = Data::clone($node1, attrs: ['bar' => 2]);
+
+    expect($node2)->not()->toBe($node1);
+    expect($node2->attrs)->toEqual((object) ['bar' => 2]);
 });
 
 it('morphs node', function () {
@@ -59,13 +75,4 @@ it('morphs node', function () {
     expect($node->type)->toEqual('heading');
     expect($node->attrs)->toEqual((object) ['bar' => 2]);
     expect($node->content)->toEqual([]);
-});
-
-it('clones node', function () {
-    $node = Data::node('p', ['foo' => 1], [Data::text('Hello world')]);
-    $clone = Data::clone($node, attrs: ['bar' => 2]);
-
-    expect($clone)->not()->toBe($node);
-    expect($clone->content[0])->not()->toBe($node->content[0]);
-    expect($clone->attrs)->toEqual((object) ['bar' => 2]);
 });

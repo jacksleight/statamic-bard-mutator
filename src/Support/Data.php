@@ -3,11 +3,10 @@
 namespace JackSleight\StatamicBardMutator\Support;
 
 use Closure;
-use Statamic\Support\Arr;
 
 class Data
 {
-    public static function walk($data, Closure $callback)
+    public static function walk(object $data, Closure $callback): void
     {
         $step = function ($item, $meta) use (&$callback, &$step) {
             $callback($item, $meta);
@@ -42,70 +41,91 @@ class Data
         ]);
     }
 
-    public static function node($type, $attrs = null, $content = null)
+    public static function node(string $type, array $attrs = null, array $content = null): object
     {
         return (object) [
             'type' => $type,
             'attrs' => (object) ($attrs ?? []),
             'content' => ($content ?? []),
+            'info' => (object) [
+                'processed' => true,
+            ],
         ];
     }
 
-    public static function mark($type, $attrs = null)
+    public static function mark(string $type, array $attrs = null): object
     {
         return (object) [
             'type' => $type,
             'attrs' => (object) ($attrs ?? []),
+            'info' => (object) [
+                'processed' => true,
+            ],
         ];
     }
 
-    public static function text($text)
+    public static function text(string $text): object
     {
         return (object) [
             'type' => 'text',
             'text' => $text,
+            'info' => (object) [
+                'processed' => true,
+            ],
         ];
     }
 
-    public static function html($html, $attrs = null, $content = null)
+    public static function html(string $html, array $attrs = null, array $content = null): object
     {
-        if (func_num_args() > 1) {
-            return (object) [
+        return preg_match('/^[a-z][a-z0-9-]*$/i', $html)
+            ? (object) [
                 'type' => 'bmuHtml',
                 'html' => [$html, ($attrs ?? []), 0],
                 'content' => ($content ?? []),
+                'info' => (object) [
+                    'processed' => true,
+                ],
+            ] : (object) [
+                'type' => 'bmuHtml',
+                'html' => ['content' => $html],
+                'info' => (object) [
+                    'processed' => true,
+                ],
             ];
-        }
-
-        return (object) [
-            'type' => 'bmuHtml',
-            'html' => $html,
-        ];
     }
 
-    public static function morph($node, $newNode)
+    public static function apply(object $item, ...$properties): object
     {
-        foreach ($node as $property => $value) {
-            unset($node->$property);
+        foreach ($properties as $key => $value) {
+            if ($key === 'attrs' || $key === 'info') {
+                $value = (object) $value;
+            }
+            $item->$key = $value;
         }
-        foreach ($newNode as $property => $value) {
-            $node->$property = $value;
-        }
+
+        // @todo This can be tidied up once the meta refactoring is in place
+        $item->info = (object) ['processed' => true];
+
+        return $item;
     }
 
-    public static function clone($node, $attrs = null, $content = null)
+    public static function clone(object $item, ...$properties): object
     {
-        $attrs = $attrs ?? $node->attrs ?? null;
-        $content = $content ?? $node->content ?? null;
+        return static::apply(clone $item, ...$properties);
+    }
 
-        $newNode = clone $node;
-        if (isset($attrs)) {
-            $newNode->attrs = clone (object) $attrs;
+    public static function morph(object $item, object $into): object
+    {
+        foreach ($item as $key => $value) {
+            unset($item->$key);
         }
-        if (isset($content)) {
-            $newNode->content = Arr::map($content, fn ($child) => Data::clone($child));
+        foreach ($into as $key => $value) {
+            $item->$key = $value;
         }
 
-        return $newNode;
+        // @todo This can be tidied up once the meta refactoring is in place
+        $item->info = (object) ['processed' => true];
+
+        return $item;
     }
 }

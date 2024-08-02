@@ -143,10 +143,6 @@ it('wraps heading content in link', function () {
 
 it('converts blockquote to figure and figcaption', function () {
     Mutator::data('blockquote', function ($data) {
-        if ($data->converted ?? false) {
-            return;
-        }
-        $data->converted = true;
         Data::morph($data, Data::html('figure', ['class' => 'quote'], [
             Data::clone($data, content: collect($data->content)->slice(0, -1)->values()->all()),
             Data::html('figcaption', [], [collect($data->content)->last()]),

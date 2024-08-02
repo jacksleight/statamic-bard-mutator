@@ -8,12 +8,6 @@ class Html extends \Tiptap\Core\Node
 
     public function renderHTML($node, $HTMLAttributes = [])
     {
-        $html = $node->html ?? null;
-
-        if (is_string($html)) {
-            return ['content' => $html];
-        }
-
-        return $html;
+        return $node->html ?? null;
     }
 }

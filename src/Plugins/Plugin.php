@@ -66,11 +66,6 @@ class Plugin
         return $this->options;
     }
 
-    public function plugins(): array
-    {
-        return [];
-    }
-
     public function process(object $data, array $meta): void
     {
     }
