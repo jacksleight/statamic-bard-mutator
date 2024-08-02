@@ -1,12 +1,10 @@
 <?php
 
 use JackSleight\StatamicBardMutator\Facades\Mutator;
+use JackSleight\StatamicBardMutator\Support\Data;
+use Statamic\Support\Str;
 
 uses(Tests\TestCase::class);
-
-// afterEach(function () {
-//     App::forgetInstance(Mutator::class);
-// });
 
 it('mutates all nodes', function () {
     foreach ($this->nodes as $type => $attrs) {
@@ -52,7 +50,7 @@ it('adds a wrapper div around all tables', function () {
     expect($this->renderTestValue($value))->toContain('<div class="table-wrapper"><table><tbody><tr>');
 });
 
-test('is adds a wrapper span around all bullet list item content', function () {
+it('adds a wrapper span around all bullet list item content', function () {
     Mutator::html('listItem', function ($value, $meta) {
         if ($meta['parent']->type === 'bulletList') {
             $value[2] = ['span', [], 0];
@@ -75,6 +73,16 @@ test('is adds a wrapper span around all bullet list item content', function () {
         ]],
     ]]);
     $this->assertStringNotContainsString('<span>', $this->renderTestValue($value));
+});
+
+it('converts all hrs to a custom html string', function () {
+    Mutator::data('horizontalRule', function ($data) {
+        Data::morph($data, Data::html('<custom-hr>'));
+    });
+    $value = $this->getTestValue([[
+        'type' => 'horizontalRule',
+    ]]);
+    expect($this->renderTestValue($value))->toContain('<custom-hr>');
 });
 
 it('converts all images to a custom element', function () {
@@ -111,7 +119,7 @@ it('removes paragraph nodes inside list items', function () {
 
 it('wraps heading content in link', function () {
     Mutator::html('heading', function ($value, $data) {
-        $slug = str_slug(collect($data->content)->implode('text', ''));
+        $slug = Str::slug(collect($data->content)->implode('text', ''));
         $value[2] = ['a', [
             'id' => $slug,
             'href' => '#'.$slug,
@@ -131,4 +139,30 @@ it('wraps heading content in link', function () {
         ]],
     ]]);
     expect($this->renderTestValue($value))->toEqual('<h1><a id="test" href="#test" class="hover:underline">Test</a></h1>');
+});
+
+it('converts blockquote to figure and figcaption', function () {
+    Mutator::data('blockquote', function ($data) {
+        Data::morph($data, Data::html('figure', ['class' => 'quote'], [
+            Data::clone($data, content: collect($data->content)->slice(0, -1)->values()->all()),
+            Data::html('figcaption', [], [collect($data->content)->last()]),
+        ]));
+    });
+    $value = $this->getTestValue([[
+        'type' => 'blockquote',
+        'content' => [[
+            'type' => 'paragraph',
+            'content' => [[
+                'type' => 'text',
+                'text' => 'Lorem ipsum dolor sit amet',
+            ]],
+        ], [
+            'type' => 'paragraph',
+            'content' => [[
+                'type' => 'text',
+                'text' => '— Publius Vergilius Maro',
+            ]],
+        ]],
+    ]]);
+    expect($this->renderTestValue($value))->toEqual('<figure class="quote"><blockquote><p>Lorem ipsum dolor sit amet</p></blockquote><figcaption><p>— Publius Vergilius Maro</p></figcaption></figure>');
 });
