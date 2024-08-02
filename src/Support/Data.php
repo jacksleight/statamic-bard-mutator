@@ -3,10 +3,11 @@
 namespace JackSleight\StatamicBardMutator\Support;
 
 use Closure;
+use JackSleight\StatamicBardMutator\Facades\Mutator;
 
 class Data
 {
-    public static function walk(object $data, Closure $callback): void
+    public static function walk(object $item, Closure $callback): void
     {
         $step = function ($item, $meta) use (&$callback, &$step) {
             $callback($item, $meta);
@@ -31,13 +32,13 @@ class Data
                 ]);
             }
         };
-        $step($data, [
+        $step($item, [
             'parent' => null,
             'prev' => null,
             'next' => null,
             'index' => 0,
             'depth' => 0,
-            'root' => $data,
+            'root' => $item,
         ]);
     }
 
@@ -47,9 +48,6 @@ class Data
             'type' => $type,
             'attrs' => (object) ($attrs ?? []),
             'content' => ($content ?? []),
-            'info' => (object) [
-                'processed' => true,
-            ],
         ];
     }
 
@@ -58,9 +56,6 @@ class Data
         return (object) [
             'type' => $type,
             'attrs' => (object) ($attrs ?? []),
-            'info' => (object) [
-                'processed' => true,
-            ],
         ];
     }
 
@@ -69,9 +64,6 @@ class Data
         return (object) [
             'type' => 'text',
             'text' => $text,
-            'info' => (object) [
-                'processed' => true,
-            ],
         ];
     }
 
@@ -80,14 +72,14 @@ class Data
         return preg_match('/^[a-z][a-z0-9-]*$/i', $html)
             ? (object) [
                 'type' => 'bmuHtml',
-                'html' => [$html, ($attrs ?? []), 0],
+                'render' => [$html, ($attrs ?? []), 0],
                 'content' => ($content ?? []),
                 'info' => (object) [
                     'processed' => true,
                 ],
             ] : (object) [
                 'type' => 'bmuHtml',
-                'html' => ['content' => $html],
+                'render' => ['content' => $html],
                 'info' => (object) [
                     'processed' => true,
                 ],
@@ -103,8 +95,7 @@ class Data
             $item->$key = $value;
         }
 
-        // @todo This can be tidied up once the meta refactoring is in place
-        $item->info = (object) ['processed' => true];
+        Mutator::fetchInfo($item)?->processed(true);
 
         return $item;
     }
@@ -123,8 +114,7 @@ class Data
             $item->$key = $value;
         }
 
-        // @todo This can be tidied up once the meta refactoring is in place
-        $item->info = (object) ['processed' => true];
+        Mutator::fetchInfo($item)?->processed(true);
 
         return $item;
     }

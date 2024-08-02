@@ -7,9 +7,9 @@ use Tiptap\Core\Node;
 
 trait Mutates
 {
-    public function mutate($kind, $value, array $params = [], $phase = null)
+    public function mutate($mode, $value, array $params = [], $phase = null)
     {
-        return Mutator::mutateHtml($kind, static::$name, $value, $params, $phase);
+        return Mutator::mutateHtml($mode, static::$name, $value, $params, $phase);
     }
 
     public function parseHTML()
@@ -17,12 +17,12 @@ trait Mutates
         return $this->mutate('parse', parent::parseHTML());
     }
 
-    public function renderHTML($data, $HTMLAttributes = [])
+    public function renderHTML($item, $HTMLAttributes = [])
     {
         $phase = ($this instanceof Node ? 'node' : 'mark').':'.(func_num_args() === 2 ? 'open' : 'close');
 
-        return $this->mutate('render', parent::renderHTML($data, $HTMLAttributes), [
-            'data' => $data,
+        return $this->mutate('render', parent::renderHTML($item, $HTMLAttributes), [
+            'item' => $item,
             'HTMLAttributes' => $HTMLAttributes,
         ], $phase);
     }

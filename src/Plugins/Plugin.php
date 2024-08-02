@@ -66,16 +66,16 @@ class Plugin
         return $this->options;
     }
 
-    public function process(object $data, array $meta): void
+    public function process(object $item, object $info): void
     {
     }
 
-    public function render(array $value, array $meta, array $params): array
+    public function render(array $value, object $info, array $params): array
     {
         return $value;
     }
 
-    public function parse(array $value, array $meta, array $params): array
+    public function parse(array $value, object $info, array $params): array
     {
         return $value;
     }
