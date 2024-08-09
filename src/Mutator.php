@@ -9,26 +9,28 @@ use JackSleight\StatamicBardMutator\Support\Data;
 use JackSleight\StatamicBardMutator\Support\Value;
 use Statamic\Fields\Field;
 use Statamic\Fieldtypes\Bard\Augmentor;
+use WeakMap;
 
 class Mutator
 {
-    protected $extensions = null;
+    protected $extensions;
 
     protected $plugins = [];
 
-    protected $roots = [];
+    protected $processed;
 
-    protected $datas = [];
+    protected $infos;
 
-    protected $metas = [];
-
-    protected $renders = [];
+    protected $renders;
 
     protected $renderMarks = [];
 
     public function __construct($extensions)
     {
         $this->extensions = $extensions;
+        $this->processed = new WeakMap;
+        $this->infos = new WeakMap;
+        $this->renders = new WeakMap;
     }
 
     public function injectRoot($value)
@@ -41,17 +43,20 @@ class Mutator
         return $value;
     }
 
-    public function processRoot($data, array $extra)
+    public function processRoot($item, array $extra)
     {
-        if (in_array($data, $this->roots, true)) {
-            return;
-        }
-
-        $this->roots[] = $data;
-
-        Data::walk($data, function ($data, $meta) use ($extra) {
-            $this->storeMeta($data, array_merge($meta, $extra));
-            $this->mutateData($data->type, $data);
+        Data::walk($item, function ($item, $meta) use ($extra) {
+            $this->storeInfo($item, new Info(
+                item: $item,
+                parent: $meta['parent'],
+                prev: $meta['prev'],
+                next: $meta['next'],
+                index: $meta['index'],
+                depth: $meta['depth'],
+                root: $meta['root'],
+                bard: $extra['bard'],
+            ));
+            $this->mutateData($item->type, $item);
         });
     }
 
@@ -100,88 +105,92 @@ class Mutator
         return $this->plugin(new ClosurePlugin($types, render: $render, parse: $parse));
     }
 
-    public function mutateData($type, $data)
+    public function mutateData($type, $item)
     {
-        if ($data->info->processed ?? false) {
+        if ($this->isProcessed($item)) {
             return;
         }
 
-        $meta = $this->fetchMeta($data);
+        $info = $this->fetchInfo($item);
 
-        if (! $plugins = $this->filteredPlugins($meta['bard'], $type)) {
+        if (! $plugins = $this->filteredPlugins($info->bard, $type)) {
             return;
         }
 
         foreach ($plugins as $plugin) {
-            $plugin->process($data, $meta);
+            $plugin->process($item, $info);
         }
 
-        // @todo This can be tidied up once the meta refactoring is in place
-        $data->info = (object) ['processed' => true];
+        $this->setProcessed($item);
     }
 
-    public function mutateHtml($kind, $type, $value, array $params = [], $phase = null)
+    public function mutateHtml($mode, $type, $value, array $params = [], $phase = null)
     {
-        if ($kind === 'render' && $stored = $this->fetchRender($params['data'], $phase)) {
+        $item = $params['item'] ?? (object) [
+            'type' => $type,
+        ];
+
+        if ($mode === 'render' && $stored = $this->fetchRender($item, $phase)) {
             return $stored;
         }
 
-        $meta = isset($params['data'])
-            ? $this->fetchMeta($params['data'])
-            : null;
+        $info = $this->fetchInfo($item);
 
-        if (! $plugins = $this->filteredPlugins($meta['bard'] ?? null, $type)) {
+        if (! $plugins = $this->filteredPlugins($info->bard ?? null, $type)) {
             return $value;
         }
 
         foreach ($plugins as $plugin) {
-            $value = Value::normalize($kind, $value);
-            $value = $plugin->$kind($value, $meta, $params);
+            $value = Value::normalize($mode, $value);
+            $value = $plugin->$mode($value, $info, $params);
         }
 
-        if ($kind === 'render') {
-            $this->storeRender($params['data'], $value, $phase);
+        if ($mode === 'render') {
+            $this->storeRender($item, $value, $phase);
         }
 
         return $value;
     }
 
-    protected function storeMeta($data, $meta)
+    public function setProcessed($item)
     {
-        $this->storeData($data);
-        $this->metas[spl_object_id($data)] = $meta;
+        $this->processed[$item] = true;
     }
 
-    protected function fetchMeta($data)
+    protected function isProcessed($item)
     {
-        return $this->metas[spl_object_id($data)] ?? null;
+        return $this->processed[$item] ?? false;
     }
 
-    protected function storeRender($data, $render, $phase)
+    protected function storeInfo($item, $info)
     {
-        $this->storeData($data);
-        $this->renders[spl_object_id($data)] = $render;
+        $this->infos[$item] = $info;
+    }
+
+    protected function fetchInfo($item)
+    {
+        return $this->infos[$item] ?? null;
+    }
+
+    protected function storeRender($item, $render, $phase)
+    {
+        $this->renders[$item] = $render;
 
         if ($phase === 'mark:open') {
-            $this->renderMarks[$data->type] = $render;
+            $this->renderMarks[$item->type] = $render;
         }
     }
 
-    protected function fetchRender($data, $phase)
+    protected function fetchRender($item, $phase)
     {
-        $render = $this->renders[spl_object_id($data)] ?? null;
+        $render = $this->renders[$item] ?? null;
 
         if ($phase === 'mark:close') {
-            $render = $render ?? $this->renderMarks[$data->type] ?? null;
-            unset($this->renderMarks[$data->type]);
+            $render = $render ?? $this->renderMarks[$item->type] ?? null;
+            unset($this->renderMarks[$item->type]);
         }
 
         return $render;
-    }
-
-    protected function storeData($data)
-    {
-        $this->datas[spl_object_id($data)] = $data;
     }
 
     public function registerExtensions()

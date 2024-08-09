@@ -4,9 +4,9 @@ namespace JackSleight\StatamicBardMutator\Support;
 
 class Value
 {
-    public static function normalize($kind, $value)
+    public static function normalize($mode, $value)
     {
-        return static::{'normalize'.ucfirst($kind)}($value);
+        return static::{'normalize'.ucfirst($mode)}($value);
     }
 
     public static function normalizeRender($value)

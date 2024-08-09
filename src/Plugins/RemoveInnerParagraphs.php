@@ -13,9 +13,9 @@ class RemoveInnerParagraphs extends Plugin
         return $this->options['types'];
     }
 
-    public function process(object $data, array $meta): void
+    public function process(object $item, object $info): void
     {
-        $content = $data->content ?? [];
+        $content = $item->content ?? [];
         if (! $content) {
             return;
         }
@@ -26,7 +26,7 @@ class RemoveInnerParagraphs extends Plugin
             return;
         }
 
-        $data->content = collect($content)
+        $item->content = collect($content)
             ->flatMap(fn ($node) => $node->content)
             ->all();
     }
