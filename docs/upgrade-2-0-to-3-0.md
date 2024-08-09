@@ -9,9 +9,15 @@ order: 110
 
 ---
 
-## Terminology Change
+This update includes some fairly significant changes to the terminology and variables used in mutators, and all documentation and examples have been updated to use the new conventions. However none of these changes are breaking, all existing mutators should continue to work exactly as before. 
 
-Mutators--the individual chunks of code that do something--are now called Plugins. The documentation and the rest of this upgrade guide uses this new terminology.
+The terminology changes are:
+
+* Mutators are now known as Plugins
+* The `$data` argument is now called `$item`
+* The `$meta` argument is now an object called `$info`
+
+All documentation, examples and the rest of this upgrade guide use this new terminology.
 
 ## Breaking Changes
 
@@ -30,10 +36,18 @@ It is no longer necessary to bind a custom Tiptap Editor class in order to use a
 
 ## Deprecated
 
+### Metadata argument
+
+The `$meta` argument that contained information about the current node or mark has been superseded by the `$info` argument. This is an object instead of an array.
+
+### Data argument
+
+The `$data` argument that contained the source node or mark object has been superseded by the `$item` argument.
+
 ### Individual render/parse HTML methods
 
 The individual `Mutator::renderHtml()` and `Mutator::parseHtml()` methods have been deprecated. These were never documentented so it's unlinkely anyone is using them, and they were just aliases for `Mutator::html()` anyway.
 
 ### Reverse HTML mutators
 
-Reverse HTML mutators have been deprecated and will be removed in a future version. They never really made sense as part of Mutator, they can’t currently work with the new field specific plugin configuration, and as far as I’m aware no one’s using using them anyway.
+Reverse HTML mutators have been deprecated and will be removed in a future version. They never really made sense as part of Mutator, they can’t work with the new scoped plugins feature, and as far as I’m aware no one’s using using them anyway.

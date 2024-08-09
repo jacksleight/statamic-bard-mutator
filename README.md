@@ -30,9 +30,9 @@ Mutator::html('link', function ($value) {
 use Illuminate\Support\Str;
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::html('heading', function ($value, $data) {
-    if ($data->attrs->level === 2) {
-        $value[1]['id'] = Str::slug(collect($data->content)->implode('text', ''));
+Mutator::html('heading', function ($value, $item) {
+    if ($item->attrs->level === 2) {
+        $value[1]['id'] = Str::slug(collect($item->content)->implode('text', ''));
     }
     return $value;
 });
