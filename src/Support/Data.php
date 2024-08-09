@@ -44,46 +44,56 @@ class Data
 
     public static function node(string $type, array $attrs = null, array $content = null): object
     {
-        return (object) [
+        $item = (object) [
             'type' => $type,
             'attrs' => (object) ($attrs ?? []),
             'content' => ($content ?? []),
         ];
+
+        Mutator::setProcessed($item);
+
+        return $item;
     }
 
     public static function mark(string $type, array $attrs = null): object
     {
-        return (object) [
+        $item = (object) [
             'type' => $type,
             'attrs' => (object) ($attrs ?? []),
         ];
+
+        Mutator::setProcessed($item);
+
+        return $item;
     }
 
     public static function text(string $text): object
     {
-        return (object) [
+        $item = (object) [
             'type' => 'text',
             'text' => $text,
         ];
+
+        Mutator::setProcessed($item);
+
+        return $item;
     }
 
     public static function html(string $html, array $attrs = null, array $content = null): object
     {
-        return preg_match('/^[a-z][a-z0-9-]*$/i', $html)
+        $item = preg_match('/^[a-z][a-z0-9-]*$/i', $html)
             ? (object) [
                 'type' => 'bmuHtml',
                 'render' => [$html, ($attrs ?? []), 0],
                 'content' => ($content ?? []),
-                'info' => (object) [
-                    'processed' => true,
-                ],
             ] : (object) [
                 'type' => 'bmuHtml',
                 'render' => ['content' => $html],
-                'info' => (object) [
-                    'processed' => true,
-                ],
             ];
+
+        Mutator::setProcessed($item);
+
+        return $item;
     }
 
     public static function apply(object $item, ...$properties): object
@@ -95,7 +105,7 @@ class Data
             $item->$key = $value;
         }
 
-        Mutator::fetchInfo($item)?->processed(true);
+        Mutator::setProcessed($item);
 
         return $item;
     }
@@ -114,7 +124,7 @@ class Data
             $item->$key = $value;
         }
 
-        Mutator::fetchInfo($item)?->processed(true);
+        Mutator::setProcessed($item);
 
         return $item;
     }

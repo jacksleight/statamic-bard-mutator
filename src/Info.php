@@ -4,8 +4,6 @@ namespace JackSleight\StatamicBardMutator;
 
 class Info
 {
-    protected $processed = false;
-
     public function __construct(
         protected $item,
         protected $parent,
@@ -25,18 +23,7 @@ class Info
 
     public function __set($key, $value)
     {
-        throw new \Exception('Cannot set property on Info object, use $info->item if you need to modify the actual node/mark');
-    }
-
-    public function processed($processed = null)
-    {
-        if (func_num_args()) {
-            $this->processed = $processed;
-
-            return $this;
-        }
-
-        return $this->processed;
+        throw new \Exception('Unable to set property on Info object, use $info->item to access the actual node/mark');
     }
 
     // @deprecated 3.0.0

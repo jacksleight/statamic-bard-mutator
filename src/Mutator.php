@@ -9,26 +9,28 @@ use JackSleight\StatamicBardMutator\Support\Data;
 use JackSleight\StatamicBardMutator\Support\Value;
 use Statamic\Fields\Field;
 use Statamic\Fieldtypes\Bard\Augmentor;
+use WeakMap;
 
 class Mutator
 {
-    protected $extensions = null;
+    protected $extensions;
 
     protected $plugins = [];
 
-    protected $roots = [];
+    protected $processed;
 
-    protected $items = [];
+    protected $infos;
 
-    protected $infos = [];
-
-    protected $renders = [];
+    protected $renders;
 
     protected $renderMarks = [];
 
     public function __construct($extensions)
     {
         $this->extensions = $extensions;
+        $this->processed = new WeakMap;
+        $this->infos = new WeakMap;
+        $this->renders = new WeakMap;
     }
 
     public function injectRoot($value)
@@ -43,12 +45,6 @@ class Mutator
 
     public function processRoot($item, array $extra)
     {
-        if (in_array($item, $this->roots, true)) {
-            return;
-        }
-
-        $this->roots[] = $item;
-
         Data::walk($item, function ($item, $meta) use ($extra) {
             $this->storeInfo($item, new Info(
                 item: $item,
@@ -111,11 +107,11 @@ class Mutator
 
     public function mutateData($type, $item)
     {
-        $info = $this->fetchInfo($item);
-
-        if (! $info || $info->processed()) {
+        if ($this->isProcessed($item)) {
             return;
         }
+
+        $info = $this->fetchInfo($item);
 
         if (! $plugins = $this->filteredPlugins($info->bard, $type)) {
             return;
@@ -125,7 +121,7 @@ class Mutator
             $plugin->process($item, $info);
         }
 
-        $info->processed(true);
+        $this->setProcessed($item);
     }
 
     public function mutateHtml($mode, $type, $value, array $params = [], $phase = null)
@@ -156,21 +152,29 @@ class Mutator
         return $value;
     }
 
-    protected function storeInfo($item, $info)
+    public function setProcessed($item)
     {
-        $this->storeData($item);
-        $this->infos[spl_object_id($item)] = $info;
+        $this->processed[$item] = true;
     }
 
-    public function fetchInfo($item)
+    protected function isProcessed($item)
     {
-        return $this->infos[spl_object_id($item)] ?? null;
+        return $this->processed[$item] ?? false;
+    }
+
+    protected function storeInfo($item, $info)
+    {
+        $this->infos[$item] = $info;
+    }
+
+    protected function fetchInfo($item)
+    {
+        return $this->infos[$item] ?? null;
     }
 
     protected function storeRender($item, $render, $phase)
     {
-        $this->storeData($item);
-        $this->renders[spl_object_id($item)] = $render;
+        $this->renders[$item] = $render;
 
         if ($phase === 'mark:open') {
             $this->renderMarks[$item->type] = $render;
@@ -179,7 +183,7 @@ class Mutator
 
     protected function fetchRender($item, $phase)
     {
-        $render = $this->renders[spl_object_id($item)] ?? null;
+        $render = $this->renders[$item] ?? null;
 
         if ($phase === 'mark:close') {
             $render = $render ?? $this->renderMarks[$item->type] ?? null;
@@ -187,11 +191,6 @@ class Mutator
         }
 
         return $render;
-    }
-
-    protected function storeData($item)
-    {
-        $this->items[spl_object_id($item)] = $item;
     }
 
     public function registerExtensions()
