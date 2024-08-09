@@ -32,42 +32,53 @@ class ClosurePlugin extends Plugin
         $this->parse = $parse;
     }
 
-    public function process(object $data, array $meta): void
+    public function process(object $item, object $info): void
     {
         if (! $this->process) {
             return;
         }
 
+        // @deprecated 3.0.0 The type, data and meta keys are deprecated
         app()->call($this->process, [
-            'type' => $data->type,
-            'meta' => $meta,
-            'data' => $data,
+            'item' => $info->item,
+            'info' => $info,
+            'type' => $info->type,
+            'data' => $info->item,
+            'meta' => $info->meta(),
         ]);
     }
 
-    public function render(array $value, array $meta, array $params): array
+    public function render(array $value, object $info, array $params): array
     {
         if (! $this->render) {
             return $value;
         }
 
+        // @deprecated 3.0.0 The type, data and meta keys are deprecated
         return app()->call($this->render, [
-            'type' => $params['data']->type,
-            'meta' => $meta,
             'value' => $value,
+            'item' => $info->item,
+            'info' => $info,
+            'type' => $info->type,
+            'data' => $info->item,
+            'meta' => $info->meta(),
         ] + $params);
     }
 
-    public function parse(array $value, array $meta, array $params): array
+    public function parse(array $value, object $info, array $params): array
     {
         if (! $this->parse) {
             return $value;
         }
 
+        // @deprecated 3.0.0 The type, data and meta keys are deprecated
         return app()->call($this->parse, [
-            'type' => $params['data']->type,
-            'meta' => $meta,
             'value' => $value,
+            'item' => $info->item,
+            'info' => $info,
+            'type' => $info->type,
+            'data' => $info->item,
+            'meta' => $info->meta(),
         ] + $params);
     }
 }

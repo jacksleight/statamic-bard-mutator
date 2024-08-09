@@ -13,7 +13,7 @@ class RemoveOuterParagraphs extends Plugin
         return $this->options['types'];
     }
 
-    public function process(object $data, array $meta): void
+    public function process(object $item, object $info): void
     {
     }
 }
