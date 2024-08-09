@@ -56,6 +56,8 @@ class Mutator
                 root: $meta['root'],
                 bard: $extra['bard'],
             ));
+        });
+        Data::walk($item, function ($item, $meta) {
             $this->mutateData($item->type, $item);
         });
     }
@@ -167,7 +169,7 @@ class Mutator
         $this->infos[$item] = $info;
     }
 
-    protected function fetchInfo($item)
+    public function fetchInfo($item)
     {
         return $this->infos[$item] ?? null;
     }

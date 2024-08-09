@@ -2,6 +2,8 @@
 
 namespace JackSleight\StatamicBardMutator;
 
+use JackSleight\StatamicBardMutator\Facades\Mutator;
+
 class Info
 {
     public function __construct(
@@ -18,6 +20,10 @@ class Info
 
     public function __get($key)
     {
+        if (in_array($key, ['parent', 'prev', 'next'])) {
+            return Mutator::fetchInfo($this->{$key});
+        }
+
         return $this->item->{$key} ?? $this->{$key};
     }
 

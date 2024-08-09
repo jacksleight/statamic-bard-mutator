@@ -6,7 +6,7 @@ use JackSleight\StatamicBardMutator\Facades\Mutator;
 
 uses(Tests\TestCase::class);
 
-it('is passed meta data array', function () {
+it('is passed metadata array', function () {
     Mutator::html('listItem', function ($value, $meta) {
         expect($meta)
             ->toBeArray()
