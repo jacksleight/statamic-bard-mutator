@@ -1,17 +1,17 @@
 ---
-title: Data Formats
+title: Formats
 order: 7
 ---
 
-# Data Formats
+# Formats
 
 [TOC]
 
 ---
 
-## Node Data
+## Nodes
 
-Nodes mostly map to block elements in the rendered HTML. They're used for things like paragraphs, headings and lists. Node data looks like this:
+Nodes mostly map to block elements in the rendered HTML. They're used for things like paragraphs, headings and lists. Nodes  look like this:
 
 ```yaml
 -
@@ -35,7 +35,7 @@ Each node is an object with the following properties:
 
 ---
 
-## Mark Data
+## Marks
 
 Marks mostly map to inline elements in the rendered HTML. They're used for things like links, bold, and italic text. Marks are not nested in the same way they are in HTML. Instead they're applied to a node in a flat list. For example, a bold link is a text node with marks that look like this:
 

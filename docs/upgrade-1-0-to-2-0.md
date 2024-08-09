@@ -45,7 +45,7 @@ The previously deprecated `Mutator:node()` and `Mutator:mark()` methods have bee
 
 Tag rendering isn’t the same in Tiptap PHP. Bard Mutator 2 includes a compatibility layer that maintains support for tag mutators, but these are deprecated and may be removed in a future version. 
 
-HTML mutators replace tag mutators. They work in a similar way but the data format is different. Below is an example of a tag mutator converted to an HTML mutator. Refer to the [HTML mutators](mutators), [HTML value format](data-formats), and updated [examples](examples) for more information. 
+HTML mutators replace tag mutators. They work in a similar way but the data format is different. Below is an example of a tag mutator converted to an HTML mutator.
 
 ```php
 Mutator::tag('heading', function ($tag) {

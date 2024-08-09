@@ -2,14 +2,17 @@
 
 namespace Tests;
 
+use JackSleight\StatamicBardMutator\Facades\Mutator;
 use JackSleight\StatamicBardMutator\ServiceProvider;
-use JackSleight\StatamicBardMutator\TestServiceProvider;
+use Statamic\Fields\Field;
 use Statamic\Fields\Value;
-use Statamic\Fieldtypes\Bard;
 use Statamic\Fieldtypes\Bard\Augmentor;
+use Statamic\Testing\AddonTestCase;
 
-class TestCase extends \Orchestra\Testbench\TestCase
+class TestCase extends AddonTestCase
 {
+    protected string $addonServiceProvider = ServiceProvider::class;
+
     protected $nodes = [
         'blockquote' => [],
         'bulletList' => [],
@@ -42,15 +45,8 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected function setUp(): void
     {
         parent::setUp();
-    }
 
-    protected function getPackageProviders($app)
-    {
-        return [
-            ServiceProvider::class,
-            TestServiceProvider::class,
-            \Statamic\Providers\BardServiceProvider::class,
-        ];
+        Mutator::registerAllExtensions();
     }
 
     protected function getTestNode($type, $attrs = [])
@@ -72,9 +68,14 @@ class TestCase extends \Orchestra\Testbench\TestCase
         ]]);
     }
 
-    protected function getTestValue($value)
+    protected function getTestValue($value, $config = [])
     {
-        return new Value($value, 'handle', new Bard());
+        return new Value($value, 'handle', $this->getTestField($config)->fieldtype());
+    }
+
+    protected function getTestField($config = [])
+    {
+        return new Field('handle', ['type' => 'bard'] + $config);
     }
 
     protected function renderTestValue(Value $value)

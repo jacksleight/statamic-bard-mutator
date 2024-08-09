@@ -5,11 +5,11 @@ namespace JackSleight\StatamicBardMutator\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static void data($types, $mutator, $config = [])
- * @method static void html($types, $renderHtml, $parseHtml = null, $config = [])
- * @method static void parseHtml($types, $mutator, $config = [])
- * @method static void renderHtml($types, $mutator, $config = [])
- * @method static void tag($types, $mutator)
+ * @method static \JackSleight\StatamicBardMutator\Plugins\Plugin plugin(string|\JackSleight\StatamicBardMutator\Plugins\Plugin $plugin)
+ * @method static \JackSleight\StatamicBardMutator\Plugins\ClosurePlugin data(array|string $types, \Closure $process)
+ * @method static \JackSleight\StatamicBardMutator\Plugins\ClosurePlugin html(array|string $types, ?\Closure $render = null, ?\Closure $parse = null)
+ *
+ * @see \JackSleight\StatamicBardMutator\Mutator
  */
 class Mutator extends Facade
 {

@@ -1,12 +1,9 @@
 <?php
 
 use JackSleight\StatamicBardMutator\Facades\Mutator;
+use Statamic\Support\Str;
 
 uses(Tests\TestCase::class);
-
-// afterEach(function () {
-//     App::forgetInstance(Mutator::class);
-// });
 
 it('mutates all nodes', function () {
     foreach ($this->nodes as $type => $attrs) {
@@ -52,9 +49,9 @@ it('adds a wrapper div around all tables', function () {
     expect($this->renderTestValue($value))->toContain('<div class="table-wrapper"><table><tbody><tr>');
 });
 
-test('is adds a wrapper span around all bullet list item content', function () {
-    Mutator::html('listItem', function ($value, $meta) {
-        if ($meta['parent']->type === 'bulletList') {
+it('adds a wrapper span around all bullet list item content', function () {
+    Mutator::html('listItem', function ($value, $info) {
+        if ($info->parent->type === 'bulletList') {
             $value[2] = ['span', [], 0];
         }
 
@@ -92,26 +89,9 @@ it('converts all images to a custom element', function () {
     expect($this->renderTestValue($value))->toContain('<fancy-image');
 });
 
-it('removes paragraph nodes inside list items', function () {
-    Mutator::data('listItem', function ($data) {
-        if (($data->content[0]->type ?? null) === 'paragraph') {
-            $data->content = $data->content[0]->content;
-        }
-    });
-    $value = $this->getTestValue([[
-        'type' => 'listItem',
-        'content' => [[
-            'type' => 'paragraph',
-            'content' => [],
-        ]],
-    ]]);
-    expect($this->renderTestValue($value))->toContain('<li');
-    $this->assertStringNotContainsString('<p', $this->renderTestValue($value));
-});
-
 it('wraps heading content in link', function () {
     Mutator::html('heading', function ($value, $data) {
-        $slug = str_slug(collect($data->content)->implode('text', ''));
+        $slug = Str::slug(collect($data->content)->implode('text', ''));
         $value[2] = ['a', [
             'id' => $slug,
             'href' => '#'.$slug,

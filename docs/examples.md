@@ -41,9 +41,9 @@ Mutator::html('link', function ($value) {
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::html('heading', function ($value, $data) {
-    if ($data->attrs->level === 2) {
-        $value[1]['id'] = str_slug(collect($data->content)->implode('text', ''));
+Mutator::html('heading', function ($value, $item) {
+    if ($item->attrs->level === 2) {
+        $value[1]['id'] = str_slug(collect($item->content)->implode('text', ''));
     }
     return $value;
 });
@@ -68,8 +68,8 @@ Mutator::html('table', function ($value) {
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::html('listItem', function ($value, $meta) {
-    if ($meta['parent']->type === 'bulletList') {
+Mutator::html('listItem', function ($value, $info) {
+    if ($info->parent->type === 'bulletList') {
         $value[2] = ['span', [], 0];
     }
     return $value;
@@ -108,8 +108,8 @@ Mutator::html('image', function ($value) {
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::html('paragraph', function ($value, $meta) {
-    if (($meta['parent']->type ?? null) === 'listItem') {
+Mutator::html('paragraph', function ($value, $info) {
+    if (($info->parent->type ?? null) === 'listItem') {
         return null;
     }
     return $value;
@@ -121,8 +121,8 @@ Mutator::html('paragraph', function ($value, $meta) {
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::html('paragraph', function ($value, $data) {
-    if (($data->content[0]->type ?? null) === 'image') {
+Mutator::html('paragraph', function ($value, $item) {
+    if (($item->content[0]->type ?? null) === 'image') {
         return null;
     }
     return $value;
@@ -134,8 +134,8 @@ Mutator::html('paragraph', function ($value, $data) {
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
-Mutator::html('heading', function ($value, $data) {
-    $slug = str_slug(collect($data->content)->implode('text', ''));
+Mutator::html('heading', function ($value, $item) {
+    $slug = str_slug(collect($item->content)->implode('text', ''));
     $value[2] = ['a', [
         'id' => $slug,
         'href' => '#'.$slug,
@@ -153,10 +153,10 @@ Mutator::html('heading', function ($value, $data) {
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 use JackSleight\StatamicBardMutator\Support\Data;
 
-Mutator::data('heading', function ($data) {
-    $slug = str_slug(collect($data->content)->implode('text', ''));
+Mutator::data('heading', function ($item) {
+    $slug = str_slug(collect($item->content)->implode('text', ''));
     array_unshift(
-        $data->content,
+        $item->content,
         Data::html('<a id="'.$slug.'" href="#'.$slug.'">#</a>')
     );
 });
