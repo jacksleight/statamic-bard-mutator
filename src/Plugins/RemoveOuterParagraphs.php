@@ -15,5 +15,16 @@ class RemoveOuterParagraphs extends Plugin
 
     public function process(object $item, object $info): void
     {
+        $outer = $info->parent;
+
+        if ($outer->type !== 'paragraph') {
+            return;
+        }
+
+        if (count($outer->content) !== 1) {
+            return;
+        }
+
+        $outer->parent->item->content[$outer->index] = $item;
     }
 }

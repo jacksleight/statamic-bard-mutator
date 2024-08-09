@@ -60,6 +60,18 @@ class Mutator
         Data::walk($item, function ($item, $meta) {
             $this->mutateData($item->type, $item);
         });
+        Data::walk($item, function ($item, $meta) use ($extra) {
+            $this->storeInfo($item, new Info(
+                item: $item,
+                parent: $meta['parent'],
+                prev: $meta['prev'],
+                next: $meta['next'],
+                index: $meta['index'],
+                depth: $meta['depth'],
+                root: $meta['root'],
+                bard: $extra['bard'],
+            ));
+        });
     }
 
     public function plugin(string|Plugin $plugin)

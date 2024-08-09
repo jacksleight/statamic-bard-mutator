@@ -16,18 +16,17 @@ class RemoveInnerParagraphs extends Plugin
     public function process(object $item, object $info): void
     {
         $content = $item->content ?? [];
-        if (! $content) {
+
+        if (count($content) !== 1) {
             return;
         }
 
-        $onlyParagraphs = collect($content)
-            ->doesntContain(fn ($node) => $node->type !== 'paragraph');
-        if (! $onlyParagraphs) {
+        $inner = $content[0];
+
+        if ($inner->type !== 'paragraph') {
             return;
         }
 
-        $item->content = collect($content)
-            ->flatMap(fn ($node) => $node->content)
-            ->all();
+        $item->content = $inner->content;
     }
 }
