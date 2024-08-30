@@ -22,7 +22,7 @@ class Plugin
         return $this->types;
     }
 
-    public function handle(string $handle = null): static|string|null
+    public function handle(?string $handle = null): static|string|null
     {
         if (func_num_args()) {
             $this->handle = $handle;
@@ -33,7 +33,7 @@ class Plugin
         return $handle ?: Str::snake((new ReflectionClass(static::class))->getShortName());
     }
 
-    public function display(string $display = null): static|string|null
+    public function display(?string $display = null): static|string|null
     {
         if (func_num_args()) {
             $this->display = $display;
@@ -44,7 +44,7 @@ class Plugin
         return $this->display ?: Str::headline($this->handle());
     }
 
-    public function scoped(bool $scoped = null): static|bool
+    public function scoped(?bool $scoped = null): static|bool
     {
         if (func_num_args()) {
             $this->scoped = $scoped;
@@ -55,7 +55,7 @@ class Plugin
         return $this->scoped;
     }
 
-    public function options(array $options = null): static|array
+    public function options(?array $options = null): static|array
     {
         if (func_get_args()) {
             $this->options = $options;
@@ -66,9 +66,7 @@ class Plugin
         return $this->options;
     }
 
-    public function process(object $item, object $info): void
-    {
-    }
+    public function process(object $item, object $info): void {}
 
     public function render(array $value, object $info, array $params): array
     {

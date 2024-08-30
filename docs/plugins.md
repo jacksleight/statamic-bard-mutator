@@ -62,6 +62,58 @@ You should return an [HTML value](formats#html-values). If you return `null` or 
 
 ---
 
+## Class Based Plugins
+
+In addition to closure based plugins you can add class based plugins, which can be useful when you want to re-use plugins or just keep things more organised. A class based plugin should extend the `Plugin` class, implement a `types` property or method, and implement the `process` and/or `render` methods:
+
+```php
+namespace App\MutatorPlugins;
+
+use JackSleight\StatamicBardMutator\Plugins\Plugin;
+
+class MyPlugin extends Plugin
+{
+    protected array $types = ['heading'];
+
+    public function process(object $item, object $info): void
+    {
+        // Perform data changes
+    }
+
+    public function render(array $value, object $info, array $params): array
+    {
+        // Perform HTML changes
+    }
+}
+```
+
+To register a class based plugin use the `Mutator::plugin()` method:
+
+```php
+use JackSleight\StatamicBardMutator\Facades\Mutator;
+
+Mutator::plugin(MyPlugin::class);
+```
+
+---
+
+## Scoped Plugins
+
+By default all plugins are global, which means they will run whenever any Bard value is augmented. You can also make a plugin scoped, which then allows you to enable it for specifc Bard fields through the blueprint editor. Closure based plugins must also be given a handle before they can be selected. And you can optionally specify a display value:
+
+```php
+use JackSleight\StatamicBardMutator\Facades\Mutator;
+
+Mutator::plugin(MyPlugin::class)->scoped(true);
+
+Mutator::html([...], fn () => ...)
+    ->scoped(true)
+    ->handle('my_closure_plugin')
+    ->display('My Closure Plugin');
+```
+
+---
+
 ## Info Objects
 
 The `$info` argument contains information about the current node or mark. It's an object with the following properties:
