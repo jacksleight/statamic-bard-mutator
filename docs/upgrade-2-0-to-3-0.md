@@ -9,13 +9,13 @@ order: 110
 
 ---
 
-This update includes some fairly significant changes to the terminology and variables used in mutators, and all documentation and examples have been updated to use the new conventions. However none of these changes are breaking, all existing mutators should continue to work exactly as before. 
+This update introduces some fairly significant changes to the terminology and variables used in mutators, and all documentation and examples have been updated to use the new conventions. However none of these changes are breaking, all existing mutators should continue to work exactly as before. 
 
 The terminology changes are:
 
-* Mutators are now known as Plugins
-* The `$data` argument is now called `$item`
-* The `$meta` argument is now an object called `$info`
+* Mutators are now known as plugins
+* The `$data` object is now called `$item`
+* The `$meta` array is now an object called `$info`
 
 All documentation, examples and the rest of this upgrade guide use this new terminology.
 
@@ -32,17 +32,19 @@ It is no longer necessary to bind a custom Tiptap Editor class in order to use a
 -);
 ```
 
-### Deprecated methods removed (Low Impact)
+### Deprecated method removed (Low Impact)
+
+The previously deprecated `Mutator:tag()` method has been removed. You should use `Mutator:html()` instead.
 
 ## Deprecated
 
 ### Metadata argument
 
-The `$meta` argument that contained information about the current node or mark has been superseded by the `$info` argument. This is an object instead of an array.
+The `$meta` argument that contains information about the current node or mark has been superseded by the `$info` argument. This is an object instead of an array.
 
 ### Data argument
 
-The `$data` argument that contained the source node or mark object has been superseded by the `$item` argument.
+The `$data` argument that contains the source node or mark object has been superseded by the `$item` argument.
 
 ### Individual render/parse HTML methods
 
@@ -50,4 +52,4 @@ The individual `Mutator::renderHtml()` and `Mutator::parseHtml()` methods have b
 
 ### Reverse HTML mutators
 
-Reverse HTML mutators have been deprecated and will be removed in a future version. They never really made sense as part of Mutator, they can’t work with the new scoped plugins feature, and as far as I’m aware no one’s using using them anyway.
+Reverse HTML mutators have been deprecated and will be removed in a future version. They never really made sense, they can’t work with the new scoped plugins feature, and as far as I’m aware no one’s using using them anyway.

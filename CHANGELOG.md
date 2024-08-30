@@ -2,7 +2,14 @@
 
 ## 3.0.0 ()
 
-- 
+Bard Mutator v3 introduces some fairly significant changes to the terminology and variables used in mutators, and one high-impact but very small breaking change, please read [upgrade guide](https://jacksleight.dev/docs/bard-mutator/upgrade-2-0-to-3-0) for more information.
+
+- [new] Class based plugins (mutators)
+- [new] Scoped and global plugins (mutators)
+- [new] Advanced data helpers
+- [new] New meta/info API
+- [break] Editor class binding removed
+- Statamic 5.0+ is now required
 
 ## 2.3.1 (2024-05-07)
 
