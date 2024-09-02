@@ -45,6 +45,13 @@ class Mutator
 
     public function processRoot($item, array $extra)
     {
+        $this->indexRoot($item, $extra);
+        $this->mutateRoot($item, $extra);
+        $this->indexRoot($item, $extra);
+    }
+
+    protected function indexRoot($item, array $extra)
+    {
         Data::walk($item, function ($item, $meta) use ($extra) {
             $this->storeInfo($item, new Info(
                 item: $item,
@@ -57,20 +64,12 @@ class Mutator
                 bard: $extra['bard'],
             ));
         });
-        Data::walk($item, function ($item, $meta) {
+    }
+
+    protected function mutateRoot($item, array $extra)
+    {
+        Data::walk($item, function ($item) {
             $this->mutateData($item->type, $item);
-        });
-        Data::walk($item, function ($item, $meta) use ($extra) {
-            $this->storeInfo($item, new Info(
-                item: $item,
-                parent: $meta['parent'],
-                prev: $meta['prev'],
-                next: $meta['next'],
-                index: $meta['index'],
-                depth: $meta['depth'],
-                root: $meta['root'],
-                bard: $extra['bard'],
-            ));
         });
     }
 
