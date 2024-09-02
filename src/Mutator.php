@@ -25,6 +25,18 @@ class Mutator
 
     protected $renderMarks = [];
 
+    protected $aliases = [
+        'code_block' => 'codeBlock',
+        'horizontal_rule' => 'horizontalRule',
+        'list_item' => 'listItem',
+        'ordered_list' => 'orderedList',
+        'table_cell' => 'tableCell',
+        'table_header' => 'tableHeader',
+        'table_row' => 'tableRow',
+        'unordered_list' => 'bulletList',
+        'unorderedList' => 'bulletList',
+    ];
+
     public function __construct($extensions)
     {
         $this->extensions = $extensions;
@@ -79,9 +91,7 @@ class Mutator
             $plugin = app($plugin);
         }
 
-        foreach ($plugin->types() as $type) {
-            $this->plugins[] = $plugin;
-        }
+        $this->plugins[] = $plugin;
 
         return $plugin;
     }
@@ -104,7 +114,7 @@ class Mutator
 
         return collect($this->plugins)
             ->filter(fn ($plugin) => ! $plugin->scoped() || in_array($plugin->handle(), $plugins))
-            ->filter(fn ($plugin) => in_array($type, $plugin->types()))
+            ->filter(fn ($plugin) => in_array($type, $this->normalizeTypes($plugin->types())))
             ->all();
     }
 
@@ -209,7 +219,7 @@ class Mutator
     public function registerExtensions()
     {
         $types = collect($this->plugins)
-            ->map(fn ($plugin) => $plugin->types())
+            ->map(fn ($plugin) => $this->normalizeTypes($plugin->types()))
             ->flatten()
             ->unique()
             ->all();
@@ -226,6 +236,13 @@ class Mutator
         foreach ($this->extensions as $type => $extension) {
             Augmentor::replaceExtension($type, $extension);
         }
+    }
+
+    protected function normalizeTypes(array $types)
+    {
+        return collect($types)
+            ->map(fn ($type) => $this->aliases[$type] ?? $type)
+            ->all();
     }
 
     /**
