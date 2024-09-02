@@ -104,8 +104,8 @@ it('removes all paragraphs keeping content', function () {
 });
 
 it('wraps heading content in link', function () {
-    Mutator::html('heading', function ($value, $data) {
-        $slug = Str::slug(collect($data->content)->implode('text', ''));
+    Mutator::html('heading', function ($value, $item) {
+        $slug = Str::slug(collect($item->content)->implode('text', ''));
         $value[2] = ['a', [
             'id' => $slug,
             'href' => '#'.$slug,
@@ -125,4 +125,30 @@ it('wraps heading content in link', function () {
         ]],
     ]]);
     expect($this->renderTestValue($value))->toEqual('<h1><a id="test" href="#test" class="hover:underline">Test</a></h1>');
+});
+
+it('obfuscates email addresses', function () {
+    $obfuscated = '';
+    Mutator::html('link', function ($value, $item) use (&$obfuscated) {
+        if (Str::startsWith($item->attrs->href, 'mailto:')) {
+            $obfuscated = Statamic::modify(Str::after($item->attrs->href, 'mailto:'))->obfuscateEmail();
+            $value[1]['href'] = 'mailto:'.$obfuscated;
+        }
+
+        return $value;
+    });
+    $value = $this->getTestValue([[
+        'type' => 'paragraph',
+        'content' => [[
+            'type' => 'text',
+            'text' => 'Test',
+            'marks' => [[
+                'type' => 'link',
+                'attrs' => [
+                    'href' => 'mailto:test@example.com',
+                ],
+            ]],
+        ]],
+    ]]);
+    expect($this->renderTestValue($value))->toEqual('<p><a href="mailto:'.htmlentities($obfuscated).'">Test</a></p>');
 });

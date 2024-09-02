@@ -145,6 +145,21 @@ Mutator::html('heading', function ($value, $item) {
 });
 ```
 
+### Obfuscate email address link values
+
+```php
+use JackSleight\StatamicBardMutator\Facades\Mutator;
+
+Mutator::html('link', function ($value, $item) use (&$obfuscated) {
+    if (Str::startsWith($item->attrs->href, 'mailto:')) {
+        $obfuscated = Statamic::modify(Str::after($item->attrs->href, 'mailto:'))->obfuscateEmail();
+        $value[1]['href'] = 'mailto:'.$obfuscated;
+    }
+
+    return $value;
+});
+```
+
 ## Data Mutators
 
 ### Add permalink anchors before all heading text
