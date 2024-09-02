@@ -89,6 +89,20 @@ it('converts all images to a custom element', function () {
     expect($this->renderTestValue($value))->toContain('<fancy-image');
 });
 
+it('removes all paragraphs keeping content', function () {
+    Mutator::html('paragraph', function ($value) {
+        return null;
+    });
+    $value = $this->getTestValue([[
+        'type' => 'paragraph',
+        'content' => [[
+            'type' => 'text',
+            'text' => 'Test',
+        ]],
+    ]]);
+    expect($this->renderTestValue($value))->toEqual('Test');
+});
+
 it('wraps heading content in link', function () {
     Mutator::html('heading', function ($value, $data) {
         $slug = Str::slug(collect($data->content)->implode('text', ''));

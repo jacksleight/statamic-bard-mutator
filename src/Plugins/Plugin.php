@@ -68,7 +68,7 @@ class Plugin
 
     public function process(object $item, object $info): void {}
 
-    public function render(array $value, object $info, array $params): array
+    public function render(array $value, object $info, array $params): ?array
     {
         return $value;
     }
