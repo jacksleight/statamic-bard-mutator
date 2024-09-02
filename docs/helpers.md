@@ -25,6 +25,18 @@ Creates a new mark object.
 
 Creates a new text node object.
 
-### `Data::html($html)`
+### `Data::html($html|$tag, $attrs = [], $content = [])`
 
 Creates a new HTML node object.
+
+### `Data::apply($item, ...$properties)`
+
+Apply new properties to an existing node/mark.
+
+### `Data::clone($item, ...$properties)`
+
+Clone an existing node/mark and optionally apply new properties to it.
+
+### `Data::morph($item, $into)`
+
+Morph an existing node/mark into a different node/mark.

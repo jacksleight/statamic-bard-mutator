@@ -99,7 +99,7 @@ Mutator::plugin(MyPlugin::class);
 
 ## Scoped Plugins
 
-By default all plugins are global, which means they will run whenever any Bard value is augmented. You can also make a plugin scoped, which then allows you to enable it for specifc Bard fields through the blueprint editor. Closure based plugins must also be given a handle before they can be selected. And you can optionally specify a display value:
+By default all plugins are global and run on every bard field. You can limit a plugin to specific fields by making it scoped and then enabling it through the Mutator Plugins config option in the blueprint editor. Closure based plugins need to be given a handle before they will appear in the blueprint editor, and you can optionally specify a display value:
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;

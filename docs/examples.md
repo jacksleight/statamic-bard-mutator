@@ -162,6 +162,20 @@ Mutator::data('heading', function ($item) {
 });
 ```
 
+### Convert blockquotes to figures with figcaptions
+
+```php
+use JackSleight\StatamicBardMutator\Facades\Mutator;
+use JackSleight\StatamicBardMutator\Support\Data;
+
+Mutator::data('blockquote', function ($data) {
+    Data::morph($data, Data::html('figure', ['class' => 'quote'], [
+        Data::clone($data, content: collect($data->content)->slice(0, -1)->values()->all()),
+        Data::html('figcaption', [], [collect($data->content)->last()]),
+    ]));
+});
+```
+
 Check out the modifier [example below](examples#using-with-the-bard-modifiers) to see how you could use these in a table of contents.
 
 ## Using with the Bard modifiers
