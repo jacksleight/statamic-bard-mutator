@@ -7,10 +7,10 @@ This release introduces some significant changes to the terminology and variable
 - [new] Mutators are now known as plugins
 - [new] Class based plugins for easier organisation and reuse
 - [new] Scoped plugins that can be enabled per-field
-- [new] New helpers and meta/info API for advanced data manipulation
-- Easier setup with no custom Editor class binding
+- [new] New helpers and metadata for advanced data manipulation
+- Easier setup with no custom editor class binding
 - Better indexing of parent and sibling items
-- Legacy type name normalization
+- More flexible type name handling
 - Statamic 5.0+ is now required
 
 ## 2.3.1 (2024-05-07)
