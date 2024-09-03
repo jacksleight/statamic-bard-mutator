@@ -118,10 +118,12 @@ Mutator::html([...], fn () => ...)
 
 The `$info` argument contains information about the current node or mark. It's an object with the following properties:
 
-* **root (object):** The `bmuRoot` node for this Bard value
+* **item (object):** The source node or mark object
 * **parent (object):** The parent node
 * **prev (object):** The previous node/mark
 * **next (object):** The next node/mark
 * **index (int):** The index of the current node/mark
 * **depth (int):** The depth of the current node/mark
+* **root (object):** The `bmuRoot` node for this Bard value
 * **bard (object):** The Bard field object
+* **[properties] (mixed)** Any of the source item's properties

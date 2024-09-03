@@ -15,8 +15,7 @@ class Info
         protected $depth,
         protected $root,
         protected $bard,
-    ) {
-    }
+    ) {}
 
     public function __get($key)
     {
@@ -24,7 +23,7 @@ class Info
             return Mutator::fetchInfo($this->{$key});
         }
 
-        return $this->item->{$key} ?? $this->{$key};
+        return $this->{$key} ?? $this->item->{$key};
     }
 
     public function __set($key, $value)
