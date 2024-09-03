@@ -9,7 +9,7 @@ order: 110
 
 ---
 
-This update introduces the biggest change to bard mutator since its first release. There are some significant changes to the terminology and variables used in mutators, however there are only two very small breaking changes. All exiting mutators should still work exactly as before, but it’s advised to familiarise yourself with the new APIs and terminology, and migrate your existing mutators to the new conventions when you have time. Support for the old APIs may be removed in future. 
+This update introduces the biggest change to bard mutator since its first release. There are some significant changes to the terminology and variables used in mutators, however there are only two very small breaking changes. All existing mutators should still work exactly as before, but it’s advised to familiarise yourself with the new APIs and terminology, and migrate your existing mutators to the new conventions when you have time. Support for the old APIs may be removed in future. 
 
 The terminology changes are:
 
