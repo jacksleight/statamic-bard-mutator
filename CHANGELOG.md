@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.0.0 (2024-09-03)
+
+This release introduces some significant changes to the terminology and variables used in mutators, however there are only two very small breaking changes, please read [upgrade guide](https://jacksleight.dev/docs/bard-mutator/upgrade-2-0-to-3-0) for more information.
+
+- [new] Mutators are now known as plugins
+- [new] Class based plugins for easier organisation and reuse
+- [new] Scoped plugins that can be enabled per-field
+- [new] New helpers and metadata for advanced data manipulation
+- Easier setup with no custom editor class binding
+- Better indexing of parent and sibling items
+- More flexible type name handling
+- Statamic 5.0+ is now required
+
 ## 2.3.1 (2024-05-07)
 
 - Statamic 5 support

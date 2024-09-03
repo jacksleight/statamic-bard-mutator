@@ -17,9 +17,11 @@ class Root extends \Tiptap\Core\Node
 
     public function renderHTML($node, $HTMLAttributes = [])
     {
-        Mutator::processRoot($node, [
-            'bard' => $this->options['bard'],
-        ]);
+        if (func_num_args() === 2) {
+            Mutator::processRoot($node, [
+                'bard' => $this->options['bard'],
+            ]);
+        }
 
         return null;
     }

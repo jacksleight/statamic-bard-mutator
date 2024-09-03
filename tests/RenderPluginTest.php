@@ -1,12 +1,9 @@
 <?php
 
 use JackSleight\StatamicBardMutator\Facades\Mutator;
+use Statamic\Support\Str;
 
 uses(Tests\TestCase::class);
-
-// afterEach(function () {
-//     App::forgetInstance(Mutator::class);
-// });
 
 it('mutates all nodes', function () {
     foreach ($this->nodes as $type => $attrs) {
@@ -52,9 +49,9 @@ it('adds a wrapper div around all tables', function () {
     expect($this->renderTestValue($value))->toContain('<div class="table-wrapper"><table><tbody><tr>');
 });
 
-test('is adds a wrapper span around all bullet list item content', function () {
-    Mutator::html('listItem', function ($value, $meta) {
-        if ($meta['parent']->type === 'bulletList') {
+it('adds a wrapper span around all bullet list item content', function () {
+    Mutator::html('listItem', function ($value, $info) {
+        if ($info->parent->type === 'bulletList') {
             $value[2] = ['span', [], 0];
         }
 
@@ -92,26 +89,23 @@ it('converts all images to a custom element', function () {
     expect($this->renderTestValue($value))->toContain('<fancy-image');
 });
 
-it('removes paragraph nodes inside list items', function () {
-    Mutator::data('listItem', function ($data) {
-        if (($data->content[0]->type ?? null) === 'paragraph') {
-            $data->content = $data->content[0]->content;
-        }
+it('removes all paragraphs keeping content', function () {
+    Mutator::html('paragraph', function ($value) {
+        return null;
     });
     $value = $this->getTestValue([[
-        'type' => 'listItem',
+        'type' => 'paragraph',
         'content' => [[
-            'type' => 'paragraph',
-            'content' => [],
+            'type' => 'text',
+            'text' => 'Test',
         ]],
     ]]);
-    expect($this->renderTestValue($value))->toContain('<li');
-    $this->assertStringNotContainsString('<p', $this->renderTestValue($value));
+    expect($this->renderTestValue($value))->toEqual('Test');
 });
 
 it('wraps heading content in link', function () {
-    Mutator::html('heading', function ($value, $data) {
-        $slug = str_slug(collect($data->content)->implode('text', ''));
+    Mutator::html('heading', function ($value, $item) {
+        $slug = Str::slug(collect($item->content)->implode('text', ''));
         $value[2] = ['a', [
             'id' => $slug,
             'href' => '#'.$slug,
@@ -131,4 +125,30 @@ it('wraps heading content in link', function () {
         ]],
     ]]);
     expect($this->renderTestValue($value))->toEqual('<h1><a id="test" href="#test" class="hover:underline">Test</a></h1>');
+});
+
+it('obfuscates email addresses', function () {
+    $obfuscated = '';
+    Mutator::html('link', function ($value, $item) use (&$obfuscated) {
+        if (Str::startsWith($item->attrs->href, 'mailto:')) {
+            $obfuscated = Statamic::modify(Str::after($item->attrs->href, 'mailto:'))->obfuscateEmail();
+            $value[1]['href'] = 'mailto:'.$obfuscated;
+        }
+
+        return $value;
+    });
+    $value = $this->getTestValue([[
+        'type' => 'paragraph',
+        'content' => [[
+            'type' => 'text',
+            'text' => 'Test',
+            'marks' => [[
+                'type' => 'link',
+                'attrs' => [
+                    'href' => 'mailto:test@example.com',
+                ],
+            ]],
+        ]],
+    ]]);
+    expect($this->renderTestValue($value))->toEqual('<p><a href="mailto:'.htmlentities($obfuscated).'">Test</a></p>');
 });
