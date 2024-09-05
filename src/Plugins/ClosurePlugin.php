@@ -13,7 +13,7 @@ class ClosurePlugin extends Plugin
 
     protected ?Closure $parse;
 
-    public function handle(string $handle = null): static|string|null
+    public function handle(?string $handle = null): static|string|null
     {
         if (func_num_args()) {
             $this->handle = $handle;
@@ -48,7 +48,7 @@ class ClosurePlugin extends Plugin
         ]);
     }
 
-    public function render(array $value, object $info, array $params): array
+    public function render(array $value, object $info, array $params): ?array
     {
         if (! $this->render) {
             return $value;

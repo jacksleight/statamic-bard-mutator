@@ -9,7 +9,7 @@ order: 5
 
 ---
 
-## HTML Mutators
+## HTML Plugins
 
 ### Add a class to all lists
 
@@ -145,7 +145,22 @@ Mutator::html('heading', function ($value, $item) {
 });
 ```
 
-## Data Mutators
+### Obfuscate email address link values
+
+```php
+use JackSleight\StatamicBardMutator\Facades\Mutator;
+
+Mutator::html('link', function ($value, $item) use (&$obfuscated) {
+    if (Str::startsWith($item->attrs->href, 'mailto:')) {
+        $obfuscated = Statamic::modify(Str::after($item->attrs->href, 'mailto:'))->obfuscateEmail();
+        $value[1]['href'] = 'mailto:'.$obfuscated;
+    }
+
+    return $value;
+});
+```
+
+## Data Plugins
 
 ### Add permalink anchors before all heading text
 
@@ -159,6 +174,20 @@ Mutator::data('heading', function ($item) {
         $item->content,
         Data::html('<a id="'.$slug.'" href="#'.$slug.'">#</a>')
     );
+});
+```
+
+### Convert blockquotes to figures with figcaptions
+
+```php
+use JackSleight\StatamicBardMutator\Facades\Mutator;
+use JackSleight\StatamicBardMutator\Support\Data;
+
+Mutator::data('blockquote', function ($data) {
+    Data::morph($data, Data::html('figure', ['class' => 'quote'], [
+        Data::clone($data, content: collect($data->content)->slice(0, -1)->values()->all()),
+        Data::html('figcaption', [], [collect($data->content)->last()]),
+    ]));
 });
 ```
 
