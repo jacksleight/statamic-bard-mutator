@@ -9,7 +9,7 @@ order: 5
 
 ---
 
-## HTML Mutators
+## HTML Plugins
 
 ### Add a class to all lists
 
@@ -160,7 +160,7 @@ Mutator::html('link', function ($value, $item) use (&$obfuscated) {
 });
 ```
 
-## Data Mutators
+## Data Plugins
 
 ### Add permalink anchors before all heading text
 
