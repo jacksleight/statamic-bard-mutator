@@ -76,9 +76,12 @@ class ServiceProvider extends AddonServiceProvider
 
     protected function bootHooks()
     {
-        Bard::hook('augment', function ($value, $next) {
+        $callback = function ($value, $next) {
             return $next(MutatorFacade::injectRoot($value));
-        });
+        };
+
+        Bard::hook('augment', $callback);
+        Bard::hook('pre-process-index', $callback);
 
         return $this;
     }
