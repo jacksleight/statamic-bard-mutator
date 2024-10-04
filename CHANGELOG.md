@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.1 (2024-10-04)
+
+- [fix] Info argument error when augmenting for CP listing
+
 ## 3.0.0 (2024-09-03)
 
 This release introduces some significant changes to the terminology and variables used in mutators, however there are only two very small breaking changes, please read [upgrade guide](https://jacksleight.dev/docs/bard-mutator/upgrade-2-0-to-3-0) for more information.
