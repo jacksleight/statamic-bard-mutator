@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.2 (2024-10-15)
+
+- [fix] Info argument error when pre-processing HTML for CP form
+
 ## 3.0.1 (2024-10-04)
 
 - [fix] Info argument error when augmenting for CP listing
