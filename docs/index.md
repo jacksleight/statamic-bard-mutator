@@ -20,4 +20,8 @@ This is how Tiptap (the magic behind Bard's content format and rendering) handle
 
 ## Compatibility
 
+:::warning
+Bard's "Save as HTML" option is not recommended when using Mutator. It's not completely unsupported, but only some kinds of mutations will work with it enabled as the changes could cause issues when converting the HTML back to ProseMirror for editing.
+:::
+
 In order to give you access to the Tiptap rendering process Bard Mutator has to override the Tiptap editor class and replace the built-in extensions with its own. It can only do that reliably if there are no other addons (or user code) trying to do the same thing. To help minimise incompatibilities Bard Mutator will only replace extensions that are actually being mutated, and this is only required for HTML plugins.
