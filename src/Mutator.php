@@ -165,7 +165,10 @@ class Mutator
 
         foreach ($plugins as $plugin) {
             $value = Value::normalize($mode, $value);
-            $value = $plugin->$mode($value, $info, $params);
+            $value = match ($mode) {
+                'render' => $plugin->render($value, $info, $params),
+                'parse' => $plugin->parse($value, $params),
+            };
         }
 
         if ($mode === 'render') {

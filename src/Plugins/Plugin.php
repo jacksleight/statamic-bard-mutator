@@ -73,7 +73,7 @@ class Plugin
         return $value;
     }
 
-    public function parse(array $value, object $info, array $params): array
+    public function parse(array $value, array $params): array
     {
         return $value;
     }

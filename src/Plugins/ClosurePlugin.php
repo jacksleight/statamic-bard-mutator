@@ -65,20 +65,14 @@ class ClosurePlugin extends Plugin
         ] + $params);
     }
 
-    public function parse(array $value, object $info, array $params): array
+    public function parse(array $value, array $params): array
     {
         if (! $this->parse) {
             return $value;
         }
 
-        // @deprecated 3.0.0 The type, data and meta keys are deprecated
         return app()->call($this->parse, [
             'value' => $value,
-            'item' => $info->item,
-            'info' => $info,
-            'type' => $info->type,
-            'data' => $info->item,
-            'meta' => $info->meta(),
         ] + $params);
     }
 }
