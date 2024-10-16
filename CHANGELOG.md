@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.3 (2024-10-16)
+
+- [fix] Fix undefined property error
+
 ## 3.0.2 (2024-10-15)
 
 - [fix] Info argument error when pre-processing HTML for CP form
