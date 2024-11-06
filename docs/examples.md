@@ -43,7 +43,7 @@ use JackSleight\StatamicBardMutator\Facades\Mutator;
 
 Mutator::html('heading', function ($value, $item) {
     if ($item->attrs->level === 2) {
-        $value[1]['id'] = str_slug(collect($item->content)->implode('text', ''));
+        $value[1]['id'] = str_slug(collect($item->content ?? [])->implode('text', ''));
     }
     return $value;
 });
