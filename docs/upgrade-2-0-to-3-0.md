@@ -32,6 +32,29 @@ It is no longer necessary to bind a custom Tiptap Editor class in order to use a
 -);
 ```
 
+### New node/mark creation (High Impact)
+
+If you're creating new nodes or marks in data plugins you should use the new `node` and `mark` helpers provided by the Data support class. eg. Instead of:
+
+```php
+$node = (object) [
+    'type' => 'paragraph',
+    'attrs' => (object) [
+        'class' => 'text-base',
+    ],
+];
+```
+
+You should now do:
+
+```php
+use JackSleight\StatamicBardMutator\Support\Data;
+
+$node = Data::node('paragraph', [
+    'class' => 'text-base',
+]);
+```
+
 ### Deprecated method removed (Low Impact)
 
 The previously deprecated `Mutator:tag()` method has been removed. You should use `Mutator:html()` instead.
