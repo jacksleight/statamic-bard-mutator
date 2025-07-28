@@ -34,7 +34,7 @@ It is no longer necessary to bind a custom Tiptap Editor class in order to use a
 
 ### New node/mark creation (High Impact)
 
-If you're creating new nodes or marks in data plugins you should use the new `node` and `mark` helpers provided by the Data support class. eg. Instead of:
+If you're creating new nodes or marks in data plugins you should use the new `node` and `mark` helpers provided by the Data support class.
 
 ```php
 $node = (object) [
@@ -44,9 +44,6 @@ $node = (object) [
     ],
 ];
 ```
-
-You should now do:
-
 ```php
 use JackSleight\StatamicBardMutator\Support\Data;
 
