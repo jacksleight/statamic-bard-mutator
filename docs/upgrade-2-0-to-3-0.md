@@ -55,6 +55,8 @@ $node = Data::node('paragraph', [
 ]);
 ```
 
+You can also use the `apply`, `clone` and `morph` helpers, depending on what you're trying to do. Check the [helpers](helpers) page for more information.
+
 ### Deprecated method removed (Low Impact)
 
 The previously deprecated `Mutator:tag()` method has been removed. You should use `Mutator:html()` instead.
