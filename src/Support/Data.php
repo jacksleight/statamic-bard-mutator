@@ -42,12 +42,13 @@ class Data
         ]);
     }
 
-    public static function node(string $type, array $attrs = null, array $content = null): object
+    public static function node(string $type, ?array $attrs = null, ?array $content = null, ?array $marks = null): object
     {
         $item = (object) [
             'type' => $type,
             'attrs' => (object) ($attrs ?? []),
             'content' => ($content ?? []),
+            'marks' => ($marks ?? []),
         ];
 
         Mutator::setProcessed($item);
@@ -55,7 +56,7 @@ class Data
         return $item;
     }
 
-    public static function mark(string $type, array $attrs = null): object
+    public static function mark(string $type, ?array $attrs = null): object
     {
         $item = (object) [
             'type' => $type,
@@ -67,11 +68,12 @@ class Data
         return $item;
     }
 
-    public static function text(string $text): object
+    public static function text(string $text, ?array $marks = null): object
     {
         $item = (object) [
             'type' => 'text',
             'text' => $text,
+            'marks' => ($marks ?? []),
         ];
 
         Mutator::setProcessed($item);
@@ -79,16 +81,18 @@ class Data
         return $item;
     }
 
-    public static function html(string $html, array $attrs = null, array $content = null): object
+    public static function html(string $html, ?array $attrs = null, ?array $content = null, ?array $marks = null): object
     {
         $item = preg_match('/^[a-z][a-z0-9-]*$/i', $html)
             ? (object) [
                 'type' => 'bmuHtml',
                 'render' => [$html, ($attrs ?? []), 0],
                 'content' => ($content ?? []),
+                'marks' => ($marks ?? []),
             ] : (object) [
                 'type' => 'bmuHtml',
                 'render' => ['content' => $html],
+                'marks' => ($attrs ?? []),
             ];
 
         Mutator::setProcessed($item);

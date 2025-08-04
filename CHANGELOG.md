@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.4 (2025-08-04)
+
+- [fix] Mark support in node data helpers
+
 ## 3.0.3 (2024-10-16)
 
 - [fix] Fix undefined property error
