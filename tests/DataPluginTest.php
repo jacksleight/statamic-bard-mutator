@@ -57,3 +57,22 @@ it('converts blockquote to figure and figcaption', function () {
     ]]);
     expect($this->renderTestValue($value))->toEqual('<figure class="quote"><blockquote><p>Lorem ipsum dolor sit amet</p></blockquote><figcaption><p>— Publius Vergilius Maro</p></figcaption></figure>');
 });
+
+it('adds svgs to links', function () {
+    Mutator::data('link', function ($info) {
+        $node = $info->parent->item;
+        Data::morph($node, Data::html('<svg></svg> '.e($node->text), $node->marks));
+    });
+    $value = $this->getTestValue([[
+        'type' => 'paragraph',
+        'content' => [[
+            'type' => 'text',
+            'text' => 'Link',
+            'marks' => [
+                ['type' => 'link', 'attrs' => ['href' => 'https://example.com']],
+                ['type' => 'bold'],
+            ],
+        ]],
+    ]]);
+    expect($this->renderTestValue($value))->toEqual('<p><a href="https://example.com"><strong><svg></svg> Link</strong></a></p>');
+});

@@ -191,6 +191,18 @@ Mutator::data('blockquote', function ($data) {
 });
 ```
 
+### Add SVG icons to links
+
+```php
+use JackSleight\StatamicBardMutator\Facades\Mutator;
+use JackSleight\StatamicBardMutator\Support\Data;
+
+Mutator::data('link', function ($info) {
+    $node = $info->parent->item;
+    Data::morph($node, Data::html('<svg></svg> '.e($node->text), $node->marks));
+});
+```
+
 Check out the modifier [example below](examples#using-with-the-bard-modifiers) to see how you could use these in a table of contents.
 
 ## Using with the Bard modifiers
