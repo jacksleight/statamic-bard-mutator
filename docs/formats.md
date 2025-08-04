@@ -80,3 +80,5 @@ Alternatively you can specify an HTML string as follows:
 ```php
 ['content' => '<p>Some HTML</p>']
 ```
+
+Tiptap only supports the `content` option for nodes, not marks.
