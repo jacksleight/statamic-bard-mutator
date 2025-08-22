@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.5 (2025-08-22)
+
+- Statamic 6 support
+
 ## 3.0.4 (2025-08-04)
 
 - [fix] Mark support in node data helpers
