@@ -1,9 +1,9 @@
 ---
-title: Upgrade 1.0 to 2.0
-order: 109
+title: Upgrade v1 to v2
+order: 1
 ---
 
-# Upgrade from 1.0 to 2.0
+# Upgrade from v1 to v2
 
 [TOC]
 
@@ -15,7 +15,11 @@ Bard Mutator 2 integrates with the new `tiptap-php` library in Statamic 3.4, whi
 
 ### Tag & render method  (High Impact)
 
-The `{{ bmu }}` tag and `Mutator::render()` method have been removed in favour of [binding Bard Mutator's Editor class](installation#enabling-advanced-features). This allows all advanced features to just work without the need to use a custom tag and within API responses. If you were using these you should bind the new class, remove those calls and just output your Bard values in the usual Statamic way.
+The `{{ bmu }}` tag and `Mutator::render()` method have been removed in favour of binding Bard Mutator's Editor class. This allows all advanced features to just work without the need to use a custom tag and within API responses. If you were using these you should bind the new class, remove those calls and just output your Bard values in the usual Statamic way.
+
+:::note
+The Editor class binding was itself removed in v3, so if you're upgrading further you can skip it. See [Upgrade v2 to v3](upgrade-guides/v2-to-v3#editor-class-binding-removed-high-impact).
+:::
 
 ### Node & mark name changes (High Impact)
 
