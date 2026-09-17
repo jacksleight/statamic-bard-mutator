@@ -8,7 +8,7 @@ This Statamic addon allows you to modify the data and tags rendered by the Bard 
 
 ## Examples
 
-Here are a few examples of what's possible. For more information and more examples check [the documentation](https://jacksleight.com/code/statamic-bard-mutator/examples).
+Here are a few examples of what's possible. For more information and more examples check [the documentation](https://jacksleight.dev/docs/bard-mutator/examples).
 
 ### Add a class to all external links
 
@@ -56,7 +56,7 @@ Mutator::data('heading', function ($data) {
 
 ## Documentation
 
-[Statamic Bard Mutator Documentation](https://jacksleight.com/code/statamic-bard-mutator)
+[Statamic Bard Mutator Documentation](https://jacksleight.dev/docs/bard-mutator)
 
 ## Compatibility
 
