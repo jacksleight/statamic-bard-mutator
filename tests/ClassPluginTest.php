@@ -28,3 +28,20 @@ it('executes class based plugin', function () {
     ]]);
     expect($this->renderTestValue($value))->toContain('<p class="paragraph">Test</p>');
 });
+
+class HandlePropertyPlugin extends Plugin
+{
+    protected ?string $handle = 'from_property';
+}
+
+it('uses the default handle', function () {
+    expect((new MyPlugin)->handle())->toEqual('my_plugin');
+});
+
+it('uses a handle set by property', function () {
+    expect((new HandlePropertyPlugin)->handle())->toEqual('from_property');
+});
+
+it('uses a handle set by setter', function () {
+    expect((new MyPlugin)->handle('from_setter')->handle())->toEqual('from_setter');
+});

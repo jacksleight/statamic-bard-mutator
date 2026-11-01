@@ -30,7 +30,7 @@ class Plugin
             return $this;
         }
 
-        return $handle ?: Str::snake((new ReflectionClass(static::class))->getShortName());
+        return $this->handle ?: Str::snake((new ReflectionClass(static::class))->getShortName());
     }
 
     public function display(?string $display = null): static|string|null
