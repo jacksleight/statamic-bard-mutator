@@ -1,5 +1,6 @@
 {
     "name": "jacksleight/statamic-bard-mutator",
+    "description": "Modify the data and tags rendered by the Bard fieldtype, giving you full control over the final HTML.",
     "license": "MIT",
     "autoload": {
         "psr-4": {
@@ -14,7 +15,7 @@
     "extra": {
         "statamic": {
             "name": "Bard Mutator",
-            "description": "This Statamic addon allows you to modify the data and tags rendered by the Bard fieldtype, giving you full control over the final HTML."
+            "description": "Modify the data and tags rendered by the Bard fieldtype, giving you full control over the final HTML."
         },
         "laravel": {
             "providers": [
