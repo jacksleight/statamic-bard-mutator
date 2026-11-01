@@ -76,3 +76,22 @@ it('can traverse info objects', function () {
     ]]);
     $this->renderTestValue($value);
 });
+
+it('returns null info at the edges', function () {
+    $infos = [];
+    Mutator::data(['bmuRoot', 'paragraph'], function ($item, $info) use (&$infos) {
+        $infos[$item->type] = [$info->parent, $info->prev, $info->next];
+    });
+    $value = $this->getTestValue([[
+        'type' => 'paragraph',
+        'content' => [[
+            'type' => 'text',
+            'text' => 'A',
+        ]],
+    ]]);
+    $this->renderTestValue($value);
+    expect($infos['bmuRoot'])->toBe([null, null, null]);
+    expect($infos['paragraph'][0])->toBeInstanceOf(Info::class);
+    expect($infos['paragraph'][1])->toBeNull();
+    expect($infos['paragraph'][2])->toBeNull();
+});

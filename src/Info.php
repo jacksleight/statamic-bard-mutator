@@ -20,7 +20,7 @@ class Info
     public function __get($key)
     {
         if (in_array($key, ['parent', 'prev', 'next'])) {
-            return Mutator::fetchInfo($this->{$key});
+            return $this->{$key} ? Mutator::fetchInfo($this->{$key}) : null;
         }
 
         return property_exists($this, $key) ? $this->{$key} : $this->item->{$key};
