@@ -1,5 +1,6 @@
 {
     "name": "jacksleight/statamic-bard-mutator",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "JackSleight\\StatamicBardMutator\\": "src"
