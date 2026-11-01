@@ -76,3 +76,23 @@ it('adds svgs to links', function () {
     ]]);
     expect($this->renderTestValue($value))->toEqual('<p><a href="https://example.com"><strong><svg></svg> Link</strong></a></p>');
 });
+
+it('skips raw objects added by data plugins', function () {
+    Mutator::data('paragraph', function ($item) {
+        $item->content[] = (object) [
+            'type' => 'text',
+            'text' => 'B',
+        ];
+    });
+    Mutator::data('text', function ($item) {
+        $item->text = strtolower($item->text);
+    });
+    $value = $this->getTestValue([[
+        'type' => 'paragraph',
+        'content' => [[
+            'type' => 'text',
+            'text' => 'A',
+        ]],
+    ]]);
+    expect($this->renderTestValue($value))->toEqual('<p>aB</p>');
+});

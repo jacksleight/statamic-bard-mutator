@@ -134,7 +134,9 @@ class Mutator
             return;
         }
 
-        $info = $this->fetchInfo($item);
+        if (! $info = $this->fetchInfo($item)) {
+            return;
+        }
 
         if (! $plugins = $this->filteredPlugins($info->bard, $type)) {
             return;
