@@ -1,0 +1,13 @@
+<header>
+    <p class="font-mono text-xs tracking-wide text-zinc-500 uppercase">{{ blueprint }}</p>
+    <h1 class="mt-1 text-2xl font-semibold tracking-tight text-zinc-950">{{ title }}</h1>
+    <p class="mt-2 max-w-[70ch] text-pretty text-zinc-600">{{ summary }}</p>
+    <p class="mt-3 flex flex-wrap gap-x-4 text-sm text-zinc-500">
+        <a href="/cp/collections/{{ collection:handle }}/entries/{{ id }}" class="underline decoration-zinc-950/20 underline-offset-3 hover:text-zinc-950">Edit entry</a>
+        <a href="/cp/fields/blueprints/collections/{{ collection:handle }}/{{ blueprint:handle }}/edit" class="underline decoration-zinc-950/20 underline-offset-3 hover:text-zinc-950">Edit blueprint</a>
+    </p>
+</header>
+
+{{ partial:panel heading="app/Mutator/{plugin}.php" }}
+    <pre class="overflow-x-auto font-mono text-xs/relaxed text-zinc-700">{{ lab:source :file="plugin" }}</pre>
+{{ /partial:panel }}

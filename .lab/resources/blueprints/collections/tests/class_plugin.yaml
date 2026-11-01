@@ -1,0 +1,86 @@
+title: 'Class Plugin'
+fields:
+  -
+    handle: title
+    field:
+      type: text
+      display: Title
+      required: true
+      validate:
+        - required
+  -
+    handle: summary
+    field:
+      type: text
+      display: Summary
+  -
+    handle: plugin
+    field:
+      type: text
+      display: Plugin
+  -
+    handle: intended
+    field:
+      type: bard
+      display: 'Intended Handles'
+      container: assets
+      remove_empty_nodes: false
+      buttons:
+        - h1
+        - h2
+        - h3
+        - h4
+        - bold
+        - italic
+        - underline
+        - strikethrough
+        - small
+        - superscript
+        - subscript
+        - code
+        - unorderedlist
+        - orderedlist
+        - quote
+        - codeblock
+        - horizontalrule
+        - anchor
+        - image
+        - table
+        - removeformat
+      bmu_plugins:
+        - class_test
+        - from_property
+        - from_setter
+        - options_test
+  -
+    handle: actual
+    field:
+      type: bard
+      display: 'Actual Handles'
+      container: assets
+      remove_empty_nodes: false
+      buttons:
+        - h1
+        - h2
+        - h3
+        - h4
+        - bold
+        - italic
+        - underline
+        - strikethrough
+        - small
+        - superscript
+        - subscript
+        - code
+        - unorderedlist
+        - orderedlist
+        - quote
+        - codeblock
+        - horizontalrule
+        - anchor
+        - image
+        - table
+        - removeformat
+      bmu_plugins:
+        - handle_property
+        - handle_setter

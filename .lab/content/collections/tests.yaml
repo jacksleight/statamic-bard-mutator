@@ -1,0 +1,11 @@
+title: Tests
+route: '/tests/{slug}'
+layout: layout
+sort_by: title
+sort_dir: asc
+revisions: false
+preview_targets:
+  -
+    label: Entry
+    url: '{permalink}'
+    refresh: true

@@ -1,0 +1,46 @@
+<header>
+    <p class="font-mono text-xs tracking-wide text-zinc-500 uppercase">jacksleight/statamic-bard-mutator</p>
+    <h1 class="mt-1 text-2xl font-semibold tracking-tight text-zinc-950">{{ title }}</h1>
+    <p class="mt-2 max-w-[60ch] text-pretty text-zinc-600">One entry per feature. Each has its own blueprint, with its plugin scoped to that entry's Bard field, and its own template showing the plugin source, the rendered output and the HTML source.</p>
+    <p class="mt-3 flex flex-wrap gap-x-4 text-sm text-zinc-500">
+        <a href="/cp/collections/tests" class="underline decoration-zinc-950/20 underline-offset-3 hover:text-zinc-950">CP listing</a>
+        <a href="/cp/fields/blueprints/collections/tests/html_all_types/edit" class="underline decoration-zinc-950/20 underline-offset-3 hover:text-zinc-950">Blueprint editor</a>
+        <a href="/!/skip/admin" class="underline decoration-zinc-950/20 underline-offset-3 hover:text-zinc-950">Log in</a>
+    </p>
+</header>
+
+<ul class="mt-6 grid gap-px overflow-hidden rounded-xl bg-zinc-950/5 ring-1 ring-zinc-950/5">
+    {{ collection:tests }}
+        <li class="group relative bg-white p-5">
+            <h2 class="text-sm font-medium tracking-tight text-zinc-950">
+                <a href="{{ url }}" class="before:absolute before:inset-0">{{ title }}</a>
+            </h2>
+            <p class="mt-1 text-sm text-pretty text-zinc-600">{{ summary }}</p>
+        </li>
+    {{ /collection:tests }}
+</ul>
+
+<h2 class="mt-10 font-mono text-xs tracking-wide text-zinc-500 uppercase">Demos</h2>
+<ul class="mt-3 grid gap-px overflow-hidden rounded-xl bg-zinc-950/5 ring-1 ring-zinc-950/5">
+    {{ collection:demos }}
+        <li class="group relative bg-white p-5">
+            <h3 class="text-sm font-medium tracking-tight text-zinc-950">
+                <a href="{{ url }}" class="before:absolute before:inset-0">{{ title }}</a>
+            </h3>
+            <p class="mt-1 font-mono text-xs text-zinc-500">app/Mutator/{{ plugin }}.php</p>
+        </li>
+    {{ /collection:demos }}
+</ul>
+
+{{ partial:panel heading="Registered plugins" }}
+    <table class="w-full text-left text-xs">
+        <thead class="text-zinc-500">
+            <tr><th class="py-1 pr-3">Class</th><th class="py-1 pr-3">Handle</th><th class="py-1 pr-3">Display</th><th class="py-1 pr-3">Scoped</th><th class="py-1 pr-3">Types</th><th class="py-1">Options</th></tr>
+        </thead>
+        <tbody class="font-mono text-zinc-700">
+            {{ lab:plugins }}
+                <tr class="border-t border-zinc-950/5"><td class="py-1 pr-3">{{ class }}</td><td class="py-1 pr-3">{{ handle }}</td><td class="py-1 pr-3">{{ display }}</td><td class="py-1 pr-3">{{ scoped ? 'yes' : 'no' }}</td><td class="py-1 pr-3">{{ types }}</td><td class="py-1">{{ options }}</td></tr>
+            {{ /lab:plugins }}
+        </tbody>
+    </table>
+{{ /partial:panel }}

@@ -1,0 +1,16 @@
+<div class="demo">
+    <article>
+        <p class="demo-kicker">Brighton Notes</p>
+        <div class="demo-content">{{ content }}</div>
+    </article>
+
+    <section class="demo-panel">
+        <h2 class="demo-panel-label">app/Mutator/{{ plugin }}.php</h2>
+        <pre>{{ lab:source :file="plugin" }}</pre>
+    </section>
+
+    <section class="demo-panel">
+        <h2 class="demo-panel-label">Output</h2>
+        <pre>{{ lab:pretty field="content" }}</pre>
+    </section>
+</div>

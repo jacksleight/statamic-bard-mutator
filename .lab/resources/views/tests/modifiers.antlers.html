@@ -1,0 +1,16 @@
+{{ partial:heading }}
+
+{{ partial:field heading="content (augmented, scoped plugin runs)" :value="content" }}
+
+{{ partial:panel heading="content | raw | bard_html" }}
+    <pre class="overflow-x-auto font-mono text-xs/relaxed whitespace-pre-wrap text-zinc-600">{{ content | raw | bard_html | sanitize }}</pre>
+{{ /partial:panel }}
+
+{{ partial:panel heading="Contents from bard_items, bard_text and bard_html" }}
+    {{ headings = content | raw | bard_items | where('type', 'heading') }}
+    <ul class="list-disc pl-5 text-sm">
+        {{ headings }}
+            <li><a href="#{{ content | bard_text | slugify }}" class="underline">{{ content | bard_html }}</a> <code class="text-xs text-zinc-500">{{ content | bard_html | sanitize }}</code></li>
+        {{ /headings }}
+    </ul>
+{{ /partial:panel }}

@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@source "../views";
+@source "../../content";
+
+.content :where(h1) { @apply mt-6 mb-2 text-2xl font-semibold tracking-tight text-zinc-950 first:mt-0; }
+.content :where(h2) { @apply mt-6 mb-2 text-xl font-semibold tracking-tight text-zinc-950 first:mt-0; }
+.content :where(h3) { @apply mt-5 mb-2 text-lg font-semibold tracking-tight text-zinc-950 first:mt-0; }
+.content :where(h4, h5, h6) { @apply mt-5 mb-2 font-semibold tracking-tight text-zinc-950 first:mt-0; }
+.content :where(p) { @apply my-3 first:mt-0 last:mb-0; }
+.content :where(ul) { @apply my-3 list-disc pl-5; }
+.content :where(ol) { @apply my-3 list-decimal pl-5; }
+.content :where(li) { @apply my-1; }
+.content :where(a) { @apply text-zinc-950 underline decoration-zinc-950/25 underline-offset-3 hover:decoration-zinc-950; }
+.content :where(blockquote) { @apply my-3 border-l-2 border-zinc-950/15 pl-4 text-zinc-600; }
+.content :where(code) { @apply rounded bg-zinc-950/5 px-1 py-0.5 font-mono text-sm; }
+.content :where(pre) { @apply my-3 overflow-x-auto rounded-lg bg-zinc-950 p-4 font-mono text-sm text-zinc-100; }
+.content :where(pre code) { @apply bg-transparent p-0 text-inherit; }
+.content :where(hr) { @apply my-6 border-zinc-950/10; }
+.content :where(img) { @apply my-3 max-w-full rounded-lg; }
+.content :where(table) { @apply my-3 w-full text-left text-sm; }
+.content :where(th, td) { @apply border border-zinc-950/10 px-2 py-1; }
+.content :where(aside) { @apply my-3 rounded bg-sky-100 p-3 text-sm; }
+.content :where(figure) { @apply my-3; }
+.content :where(figcaption) { @apply text-sm text-zinc-500; }
+
+.demo-body {
+    background: #fbfaf8;
+    color: #16181d;
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+}
+
+.demo {
+    margin: 0 auto;
+    max-width: 44rem;
+    padding: 4rem 2rem 5rem;
+}
+
+.demo-kicker {
+    color: #d94f2b;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.demo-content { font-size: 1.0625rem; line-height: 1.7; margin-top: 1.75rem; }
+.demo-content :where(p) { margin: 1em 0; }
+.demo-content :where(h2) { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin: 1.6em 0 0.4em; }
+.demo-content > :first-child { margin-top: 0; }
+.demo-content :where(a) { color: inherit; text-decoration: underline; text-decoration-color: #d94f2b99; text-underline-offset: 2px; }
+.demo-content :where(a.external)::after { content: " \2197"; color: #d94f2b; font-size: 0.85em; }
+.demo-content :where(h2 > a[href^="#"]) { color: #d94f2b; margin-right: 0.4em; text-decoration: none; }
+
+.demo-panel { margin-top: 3rem; }
+.demo-panel-label { color: #5b6472; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.75rem; letter-spacing: 0.05em; }
+.demo-panel pre { background: #16181d; border-radius: 8px; color: #e8eaee; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.8125rem; line-height: 1.6; margin-top: 0.5rem; overflow-x: auto; padding: 1rem 1.15rem; }

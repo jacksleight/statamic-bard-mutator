@@ -1,0 +1,48 @@
+title: 'Plugins'
+fields:
+  -
+    handle: title
+    field:
+      type: text
+      display: Title
+      required: true
+      validate:
+        - required
+  -
+    handle: plugin
+    field:
+      type: text
+      display: Plugin
+  -
+    handle: content
+    field:
+      type: bard
+      display: 'Article'
+      container: assets
+      remove_empty_nodes: false
+      buttons:
+        - h1
+        - h2
+        - h3
+        - h4
+        - bold
+        - italic
+        - underline
+        - strikethrough
+        - small
+        - superscript
+        - subscript
+        - code
+        - unorderedlist
+        - orderedlist
+        - quote
+        - codeblock
+        - horizontalrule
+        - anchor
+        - image
+        - table
+        - removeformat
+      bmu_plugins:
+        - external_links
+        - heading_anchors
+        - lazy_images

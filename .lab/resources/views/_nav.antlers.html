@@ -1,0 +1,20 @@
+<nav class="shrink-0 sm:w-44">
+    <a href="/" class="text-sm font-semibold tracking-tight text-zinc-950">Mutator Lab</a>
+    <ul class="mt-4 space-y-0.5">
+        {{ collection:tests }}
+            <li>
+                <a
+                    href="{{ url }}"
+                    class="block rounded-md px-2 py-1 text-sm {{ if url == current_uri }}bg-zinc-950 text-white{{ else }}text-zinc-600 hover:bg-zinc-950/5 hover:text-zinc-950{{ /if }}"
+                >{{ title }}</a>
+            </li>
+        {{ /collection:tests }}
+    </ul>
+    <p class="mt-5 px-2 font-mono text-xs tracking-wide text-zinc-500 uppercase">Demos</p>
+    <ul class="mt-1 space-y-0.5">
+        {{ collection:demos }}
+            <li><a href="{{ url }}" class="block rounded-md px-2 py-1 text-sm text-zinc-600 hover:bg-zinc-950/5 hover:text-zinc-950">{{ title }}</a></li>
+        {{ /collection:demos }}
+    </ul>
+    <a href="/cp" class="mt-5 inline-block text-sm text-zinc-500 underline decoration-zinc-950/20 underline-offset-3 hover:text-zinc-950">Control Panel</a>
+</nav>

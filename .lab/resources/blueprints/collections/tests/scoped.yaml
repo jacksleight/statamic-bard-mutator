@@ -1,0 +1,80 @@
+title: 'Scoped'
+fields:
+  -
+    handle: title
+    field:
+      type: text
+      display: Title
+      required: true
+      validate:
+        - required
+  -
+    handle: summary
+    field:
+      type: text
+      display: Summary
+  -
+    handle: plugin
+    field:
+      type: text
+      display: Plugin
+  -
+    handle: first
+    field:
+      type: bard
+      display: 'First (scoped plugin enabled)'
+      container: assets
+      remove_empty_nodes: false
+      buttons:
+        - h1
+        - h2
+        - h3
+        - h4
+        - bold
+        - italic
+        - underline
+        - strikethrough
+        - small
+        - superscript
+        - subscript
+        - code
+        - unorderedlist
+        - orderedlist
+        - quote
+        - codeblock
+        - horizontalrule
+        - anchor
+        - image
+        - table
+        - removeformat
+      bmu_plugins:
+        - test_scoped
+  -
+    handle: second
+    field:
+      type: bard
+      display: 'Second (no plugins enabled)'
+      container: assets
+      remove_empty_nodes: false
+      buttons:
+        - h1
+        - h2
+        - h3
+        - h4
+        - bold
+        - italic
+        - underline
+        - strikethrough
+        - small
+        - superscript
+        - subscript
+        - code
+        - unorderedlist
+        - orderedlist
+        - quote
+        - codeblock
+        - horizontalrule
+        - anchor
+        - image
+        - table
+        - removeformat

@@ -1,0 +1,20 @@
+{{ partial:heading }}
+
+{{ partial:field heading="Intended handles: class_test, from_property, from_setter, options_test" :value="intended" }}
+
+{{ partial:field heading="Actual handles: handle_property, handle_setter" :value="actual" }}
+
+{{ partial:panel heading="Registered class plugins" }}
+    <table class="w-full text-left text-xs">
+        <thead class="text-zinc-500">
+            <tr><th class="py-1 pr-3">Class</th><th class="py-1 pr-3">Handle</th><th class="py-1 pr-3">Display</th><th class="py-1 pr-3">Scoped</th><th class="py-1">Options</th></tr>
+        </thead>
+        <tbody class="font-mono text-zinc-700">
+            {{ lab:plugins }}
+                {{ if class != 'ClosurePlugin' }}
+                    <tr class="border-t border-zinc-950/5"><td class="py-1 pr-3">{{ class }}</td><td class="py-1 pr-3">{{ handle }}</td><td class="py-1 pr-3">{{ display }}</td><td class="py-1 pr-3">{{ scoped ? 'yes' : 'no' }}</td><td class="py-1">{{ options }}</td></tr>
+                {{ /if }}
+            {{ /lab:plugins }}
+        </tbody>
+    </table>
+{{ /partial:panel }}

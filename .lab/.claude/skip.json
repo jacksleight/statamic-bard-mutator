@@ -1,0 +1,9 @@
+{
+    "users": {
+        "admin": {
+            "name": "Skip Admin",
+            "super": true,
+            "redirect": "/cp"
+        }
+    }
+}

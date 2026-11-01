@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="{{ site:short_locale }}" class="h-full">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ title | sanitize }} &middot; Mutator Lab</title>
+        {{ vite src="resources/js/site.js|resources/css/site.css" }}
+    </head>
+    <body class="min-h-full bg-zinc-100 font-sans text-zinc-800 antialiased">
+        <div class="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-10 sm:flex-row sm:gap-12">
+            {{ partial:nav }}
+            <main class="min-w-0 grow">
+                {{ template_content }}
+            </main>
+        </div>
+    </body>
+</html>

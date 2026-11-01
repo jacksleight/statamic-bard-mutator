@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="{{ site:short_locale }}" class="h-full">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ title | sanitize }} &middot; Brighton Notes</title>
+        {{ vite src="resources/js/site.js|resources/css/site.css" }}
+    </head>
+    <body class="demo-body min-h-full antialiased">
+        {{ template_content }}
+    </body>
+</html>

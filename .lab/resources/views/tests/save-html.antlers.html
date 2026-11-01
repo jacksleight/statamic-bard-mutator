@@ -1,0 +1,11 @@
+{{ partial:heading }}
+
+{{ partial:field heading="Stored HTML, shown as is" :value="content" }}
+
+{{ partial:panel heading="Pre-processed for the CP (parse plugins)" }}
+    <pre class="overflow-x-auto font-mono text-xs/relaxed text-zinc-600">{{ lab:preprocess field="content" }}</pre>
+{{ /partial:panel }}
+
+{{ partial:panel heading="Round trip: pre-process, then process again (render plugins)" }}
+    <pre class="overflow-x-auto font-mono text-xs/relaxed whitespace-pre-wrap text-zinc-600">{{ lab:roundtrip field="content" }}</pre>
+{{ /partial:panel }}

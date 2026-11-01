@@ -1,0 +1,7 @@
+{{ partial:panel heading="{heading} &middot; rendered" }}
+    <div class="content">{{ value }}</div>
+{{ /partial:panel }}
+
+{{ partial:panel heading="{heading} &middot; source" }}
+    <pre class="overflow-x-auto font-mono text-xs/relaxed whitespace-pre-wrap text-zinc-600">{{ value | sanitize }}</pre>
+{{ /partial:panel }}
