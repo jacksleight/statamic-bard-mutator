@@ -177,6 +177,7 @@ class Mutator
         }
 
         if ($mode === 'render') {
+            $value = Value::castRender($value);
             $this->storeRender($item, $value, $phase);
         }
 

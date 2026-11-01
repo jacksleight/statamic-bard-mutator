@@ -173,3 +173,39 @@ it('obfuscates email addresses', function () {
     ]]);
     expect($this->renderTestValue($value))->toEqual('<p><a href="mailto:'.htmlentities($obfuscated).'">Test</a></p>');
 });
+
+it('renders integer attribute values', function () {
+    Mutator::html('paragraph', function ($value) {
+        $value[1]['class'] = 'intro';
+        $value[1]['data-index'] = 0;
+
+        return $value;
+    });
+    Mutator::html('table', function ($value) {
+        $inner = array_splice($value, 2, count($value), [0]);
+
+        $value[1]['class'] = 'table';
+        $value[1]['data-index'] = 0;
+
+        return ['div', ['class' => 'wrapper', 'data-index' => 0], $value, ...$inner];
+    });
+    $value = $this->getTestValue([
+        [
+            'type' => 'paragraph',
+            'content' => [[
+                'type' => 'text',
+                'text' => 'Test',
+            ]],
+        ],
+        [
+            'type' => 'table',
+        ],
+    ]);
+    expect($this->renderTestValue($value))
+        ->toContain('<p class="intro"')
+        ->toContain('<div class="wrapper"')
+        ->toContain('<table class="table"')
+        ->not->toContain('<intro>')
+        ->not->toContain('<wrapper>')
+        ->not->toContain('<table>');
+});

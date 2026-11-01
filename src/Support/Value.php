@@ -24,6 +24,23 @@ class Value
         return $value;
     }
 
+    public static function castRender($value)
+    {
+        if (! is_array($value) || isset($value['content'])) {
+            return $value;
+        }
+        if (isset($value[1]) && is_array($value[1]) && ! array_is_list($value[1])) {
+            $value[1] = array_map(fn ($attr) => is_int($attr) ? (string) $attr : $attr, $value[1]);
+        }
+        foreach ($value as $index => $item) {
+            if (is_int($index) && $index >= 1 && is_array($item) && array_is_list($item)) {
+                $value[$index] = static::castRender($item);
+            }
+        }
+
+        return $value;
+    }
+
     public static function normalizeParse($value)
     {
         if (! isset($value)) {
