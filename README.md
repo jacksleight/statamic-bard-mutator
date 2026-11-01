@@ -60,7 +60,7 @@ Mutator::data('heading', function ($item) {
 
 ## Compatibility
 
-In order to give you access to the Tiptap rendering process Bard Mutator has to override the Tiptap editor class and replace the built-in extensions with its own. It can only do that reliably if there are no other addons (or user code) trying to do the same thing. To help minimise incompatibilities Bard Mutator will only replace extensions that are actually being mutated, and this is only required for HTML plugins.
+In order to give you access to the Tiptap rendering process Bard Mutator has to replace Statamic's built-in Tiptap extensions with its own. It can only do that reliably if there are no other addons (or user code) trying to do the same thing. To help minimise incompatibilities Bard Mutator will only replace the extensions for types that have plugins.
 
 ## Sponsoring 
 

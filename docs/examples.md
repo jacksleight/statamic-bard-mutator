@@ -25,11 +25,12 @@ Mutator::html(['bulletList', 'orderedList'], function ($value) {
 ### Add a class to all external links
 
 ```php
+use Illuminate\Support\Str;
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 use Statamic\Facades\URL;
 
 Mutator::html('link', function ($value) {
-    if (URL::isExternal($value[1]['href'])) {
+    if (Str::startsWith($value[1]['href'], ['http://', 'https://', '//']) && URL::isExternal($value[1]['href'])) {
         $value[1]['class'] = 'external';
     }
     return $value;
@@ -147,23 +148,6 @@ Mutator::html('heading', function ($value, $item) {
 });
 ```
 
-### Obfuscate email address link values
-
-```php
-use Illuminate\Support\Str;
-use JackSleight\StatamicBardMutator\Facades\Mutator;
-use Statamic\Statamic;
-
-Mutator::html('link', function ($value, $item) use (&$obfuscated) {
-    if (Str::startsWith($item->attrs->href, 'mailto:')) {
-        $obfuscated = Statamic::modify(Str::after($item->attrs->href, 'mailto:'))->obfuscateEmail();
-        $value[1]['href'] = 'mailto:'.$obfuscated;
-    }
-
-    return $value;
-});
-```
-
 ---
 
 ## Data Plugins
@@ -210,6 +194,25 @@ Mutator::data('link', function ($info) {
 });
 ```
 
+### Obfuscate email address links
+
+```php
+use Illuminate\Support\Str;
+use JackSleight\StatamicBardMutator\Facades\Mutator;
+use JackSleight\StatamicBardMutator\Support\Data;
+use Statamic\Statamic;
+
+Mutator::data('link', function ($item, $info) {
+    if (! Str::startsWith($item->attrs->href, 'mailto:')) {
+        return;
+    }
+    $node = $info->parent->item;
+    $href = Statamic::modify($item->attrs->href)->obfuscateEmail();
+    $marks = collect($node->marks)->reject(fn ($mark) => $mark === $item)->values()->all();
+    Data::morph($node, Data::html('<a href="'.$href.'">'.e($node->text).'</a>', $marks));
+});
+```
+
 Check out the modifier [example below](examples#using-with-the-bard-modifiers) to see how you could use these in a table of contents.
 
 ---
@@ -224,3 +227,5 @@ Statamic includes a set of [modifiers](https://statamic.dev/modifiers) that can 
     <a href="#{{ content | bard_text | slugify }}">{{ content | bard_html }}</a>
 {{ /headings }}
 ```
+
+The modifiers render without a field, so only global plugins run there, scoped plugins won't.

@@ -79,4 +79,4 @@ fields:
         - table
         - removeformat
       bmu_plugins:
-        - test_html_recipes_images
+        - test_html_recipes

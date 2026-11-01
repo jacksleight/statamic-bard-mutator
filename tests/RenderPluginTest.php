@@ -148,32 +148,6 @@ it('wraps heading content in link', function () {
     expect($this->renderTestValue($value))->toEqual('<h1><a id="test" href="#test" class="hover:underline">Test</a></h1>');
 });
 
-it('obfuscates email addresses', function () {
-    $obfuscated = '';
-    Mutator::html('link', function ($value, $item) use (&$obfuscated) {
-        if (Str::startsWith($item->attrs->href, 'mailto:')) {
-            $obfuscated = Statamic::modify(Str::after($item->attrs->href, 'mailto:'))->obfuscateEmail();
-            $value[1]['href'] = 'mailto:'.$obfuscated;
-        }
-
-        return $value;
-    });
-    $value = $this->getTestValue([[
-        'type' => 'paragraph',
-        'content' => [[
-            'type' => 'text',
-            'text' => 'Test',
-            'marks' => [[
-                'type' => 'link',
-                'attrs' => [
-                    'href' => 'mailto:test@example.com',
-                ],
-            ]],
-        ]],
-    ]]);
-    expect($this->renderTestValue($value))->toEqual('<p><a href="mailto:'.htmlentities($obfuscated).'">Test</a></p>');
-});
-
 it('renders integer attribute values', function () {
     Mutator::html('paragraph', function ($value) {
         $value[1]['class'] = 'intro';

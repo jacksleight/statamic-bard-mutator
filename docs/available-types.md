@@ -26,10 +26,10 @@ Plugins support mutating the following node and mark types.
 | tableHeader           | ●            | ●            |       |
 | tableRow              | ●            | ●            |       |
 | text                  |              | ●            |       |
-| set                   |              | ●            |       |
+| set                   |              | ●            | Can't change the set's values |
 | bmuRoot               |              | ●            | Mutator node wrapping all content |
 | bmuHtml               |              | ●            | Mutator node for arbitrary HTML |
-| btsDiv                | ●            | ●            | Part of [Bard Texstyle](https://github.com/jacksleight/statamic-bard-texstyle) |
+| btsDiv                |              | ●            | Part of [Bard Texstyle](https://github.com/jacksleight/statamic-bard-texstyle) |
 
 ## Marks
 
@@ -44,4 +44,4 @@ Plugins support mutating the following node and mark types.
 | subscript             | ●            | ●            |       |
 | superscript           | ●            | ●            |       |
 | underline             | ●            | ●            |       |
-| btsSpan               | ●            | ●            | Part of [Bard Texstyle](https://github.com/jacksleight/statamic-bard-texstyle) |
+| btsSpan               |              | ●            | Part of [Bard Texstyle](https://github.com/jacksleight/statamic-bard-texstyle) |

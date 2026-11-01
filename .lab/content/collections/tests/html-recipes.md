@@ -2,7 +2,7 @@
 id: fccd9772-d50f-482c-99d5-cf1152b98072
 blueprint: html_recipes
 title: 'HTML Recipes'
-summary: 'Every HTML plugin recipe from docs/examples.md, with str_slug swapped for Str::slug and the missing imports added. The paragraph around images recipe has its own handle and field, because chaining it after the list item paragraph recipe crashes.'
+summary: 'Every HTML plugin recipe from docs/examples.md, including both paragraph recipes on one handle. The images field holds the paragraph around images content.'
 plugin: Tests/html-recipes
 template: tests/html-recipes
 images:

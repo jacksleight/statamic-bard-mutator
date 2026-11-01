@@ -2,6 +2,8 @@
 
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 use JackSleight\StatamicBardMutator\Support\Data;
+use Statamic\Statamic;
+use Statamic\Support\Str;
 
 uses(Tests\TestCase::class);
 
@@ -95,4 +97,34 @@ it('skips raw objects added by data plugins', function () {
         ]],
     ]]);
     expect($this->renderTestValue($value))->toEqual('<p>aB</p>');
+});
+
+it('obfuscates email address links', function () {
+    Mutator::data('link', function ($item, $info) {
+        if (! Str::startsWith($item->attrs->href, 'mailto:')) {
+            return;
+        }
+        $node = $info->parent->item;
+        $href = Statamic::modify($item->attrs->href)->obfuscateEmail();
+        $marks = collect($node->marks)->reject(fn ($mark) => $mark === $item)->values()->all();
+        Data::morph($node, Data::html('<a href="'.$href.'">'.e($node->text).'</a>', $marks));
+    });
+    $value = $this->getTestValue([[
+        'type' => 'paragraph',
+        'content' => [[
+            'type' => 'text',
+            'text' => 'Email',
+            'marks' => [
+                ['type' => 'link', 'attrs' => ['href' => 'mailto:test@example.com']],
+                ['type' => 'bold'],
+            ],
+        ]],
+    ]]);
+    $html = $this->renderTestValue($value);
+    $document = new DOMDocument;
+    $document->loadHTML($html);
+    $link = $document->getElementsByTagName('a')->item(0);
+
+    expect($html)->toStartWith('<p><strong><a href="')->toEndWith('">Email</a></strong></p>');
+    expect($link->getAttribute('href'))->toEqual('mailto:test@example.com');
 });

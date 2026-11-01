@@ -3,7 +3,6 @@
 use Illuminate\Support\Str;
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 use Statamic\Facades\URL;
-use Statamic\Statamic;
 
 Mutator::html(['bulletList', 'orderedList'], function ($value) {
     $value[1]['class'] = 'list';
@@ -11,7 +10,7 @@ Mutator::html(['bulletList', 'orderedList'], function ($value) {
 })->scoped(true)->handle('test_html_recipes');
 
 Mutator::html('link', function ($value) {
-    if (URL::isExternal($value[1]['href'])) {
+    if (Str::startsWith($value[1]['href'], ['http://', 'https://', '//']) && URL::isExternal($value[1]['href'])) {
         $value[1]['class'] = 'external';
     }
     return $value;
@@ -54,7 +53,7 @@ Mutator::html('paragraph', function ($value, $item) {
         return null;
     }
     return $value;
-})->scoped(true)->handle('test_html_recipes_images');
+})->scoped(true)->handle('test_html_recipes');
 
 Mutator::html('heading', function ($value, $item) {
     $slug = Str::slug(collect($item->content)->implode('text', ''));
@@ -63,14 +62,5 @@ Mutator::html('heading', function ($value, $item) {
         'href' => '#'.$slug,
         'class' => 'hover:underline',
     ], 0];
-    return $value;
-})->scoped(true)->handle('test_html_recipes');
-
-Mutator::html('link', function ($value, $item) use (&$obfuscated) {
-    if (Str::startsWith($item->attrs->href, 'mailto:')) {
-        $obfuscated = Statamic::modify(Str::after($item->attrs->href, 'mailto:'))->obfuscateEmail();
-        $value[1]['href'] = 'mailto:'.$obfuscated;
-    }
-
     return $value;
 })->scoped(true)->handle('test_html_recipes');
