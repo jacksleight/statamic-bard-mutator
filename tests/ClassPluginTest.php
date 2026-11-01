@@ -45,3 +45,15 @@ it('uses a handle set by property', function () {
 it('uses a handle set by setter', function () {
     expect((new MyPlugin)->handle('from_setter')->handle())->toEqual('from_setter');
 });
+
+it('resets options and scoped when given null', function () {
+    $plugin = (new MyPlugin)
+        ->options(['foo' => 'bar'])
+        ->scoped(true);
+    $plugin
+        ->options(null)
+        ->scoped(null);
+
+    expect($plugin->options())->toEqual([]);
+    expect($plugin->scoped())->toBeFalse();
+});

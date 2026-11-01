@@ -47,7 +47,7 @@ class Plugin
     public function scoped(?bool $scoped = null): static|bool
     {
         if (func_num_args()) {
-            $this->scoped = $scoped;
+            $this->scoped = $scoped ?? false;
 
             return $this;
         }
@@ -58,7 +58,7 @@ class Plugin
     public function options(?array $options = null): static|array
     {
         if (func_get_args()) {
-            $this->options = $options;
+            $this->options = $options ?? [];
 
             return $this;
         }
