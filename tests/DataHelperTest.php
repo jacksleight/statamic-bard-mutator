@@ -53,6 +53,13 @@ it('creates html node object', function () {
     expect($node3->content)->toEqual($content);
 });
 
+it('creates raw html node object with marks', function () {
+    $node = Data::html('<b>Hello world</b>', $marks = [Data::mark('italic')]);
+
+    expect($node->render)->toEqual(['content' => '<b>Hello world</b>']);
+    expect($node->marks)->toEqual($marks);
+});
+
 it('applys node', function () {
     $node1 = Data::node('p', ['foo' => 1]);
     $node2 = Data::apply($node1, attrs: ['bar' => 2]);

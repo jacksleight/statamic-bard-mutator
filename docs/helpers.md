@@ -25,9 +25,13 @@ Creates a new mark object.
 
 Creates a new text node object.
 
-#### `Data::html($html|$tag, $attrs = [], $content = [], $marks = [])`
+#### `Data::html($tag, $attrs = [], $content = [], $marks = [])`
 
-Creates a new HTML node object. Input is treated as raw HTML, so any text should be escaped with the `e()` helper.
+Creates a new HTML node object that renders a tag around its content.
+
+#### `Data::html($html, $marks = [])`
+
+Creates a new HTML node object from a string of raw HTML. Input is treated as raw HTML, so any text should be escaped with the `e()` helper.
 
 #### `Data::apply($item, ...$properties)`
 
