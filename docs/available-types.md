@@ -29,6 +29,7 @@ Plugins support mutating the following node and mark types.
 | set                   |              | ●            |       |
 | bmuRoot               |              | ●            | Mutator node wrapping all content |
 | bmuHtml               |              | ●            | Mutator node for arbitrary HTML |
+| btsDiv                | ●            | ●            | Part of [Bard Texstyle](https://github.com/jacksleight/statamic-bard-texstyle) |
 
 ## Marks
 
@@ -44,4 +45,3 @@ Plugins support mutating the following node and mark types.
 | superscript           | ●            | ●            |       |
 | underline             | ●            | ●            |       |
 | btsSpan               | ●            | ●            | Part of [Bard Texstyle](https://github.com/jacksleight/statamic-bard-texstyle) |
-| btsDiv                | ●            | ●            | Part of [Bard Texstyle](https://github.com/jacksleight/statamic-bard-texstyle) |

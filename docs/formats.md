@@ -11,7 +11,7 @@ order: 7
 
 ## Nodes
 
-Nodes mostly map to block elements in the rendered HTML. They're used for things like paragraphs, headings and lists. Nodes  look like this:
+Nodes mostly map to block elements in the rendered HTML. They're used for things like paragraphs, headings and lists. Nodes look like this:
 
 ```yaml
 -

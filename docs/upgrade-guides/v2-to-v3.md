@@ -9,7 +9,7 @@ order: 2
 
 ---
 
-This update introduces the biggest change to bard mutator since its first release. There are some significant changes to the terminology and variables used in mutators, however there are only two very small breaking changes. All existing mutators should still work exactly as before, but it’s advised to familiarise yourself with the new APIs and terminology, and migrate your existing mutators to the new conventions when you have time. Support for the old APIs may be removed in future. 
+This update introduces the biggest change to Bard Mutator since its first release. There are some significant changes to the terminology and variables used in mutators, however there are only two very small breaking changes. All existing mutators should still work exactly as before, but it’s advised to familiarise yourself with the new APIs and terminology, and migrate your existing mutators to the new conventions when you have time. Support for the old APIs may be removed in future. 
 
 The terminology changes are:
 
@@ -19,11 +19,13 @@ The terminology changes are:
 
 All documentation, examples and the rest of this upgrade guide use this new terminology.
 
+---
+
 ## Breaking Changes
 
 ### Editor class binding removed (High Impact)
 
-It is no longer necessary to bind a custom Tiptap Editor class in order to use advanced features, and Bard Mutator's Editor class has been removed. If you enabled this you should remove it from your app service providers `register()` method:
+It is no longer necessary to bind a custom Tiptap Editor class in order to use advanced features, and Bard Mutator's Editor class has been removed. If you enabled this you should remove it from your app service provider's `register()` method:
 
 ```diff
 -$this->app->bind(
@@ -56,7 +58,9 @@ You can also use the `apply`, `clone` and `morph` helpers, depending on what you
 
 ### Deprecated method removed (Low Impact)
 
-The previously deprecated `Mutator:tag()` method has been removed. You should use `Mutator:html()` instead.
+The previously deprecated `Mutator::tag()` method has been removed. You should use `Mutator::html()` instead.
+
+---
 
 ## Deprecated
 
@@ -70,8 +74,8 @@ The `$data` argument that contains the source node or mark object has been super
 
 ### Individual render/parse HTML methods
 
-The individual `Mutator::renderHtml()` and `Mutator::parseHtml()` methods have been deprecated. These were never documentented so it's unlinkely anyone is using them, and they were just aliases for `Mutator::html()` anyway.
+The individual `Mutator::renderHtml()` and `Mutator::parseHtml()` methods have been deprecated. These were never documented so it's unlikely anyone is using them, and they were just aliases for `Mutator::html()` anyway.
 
 ### Reverse HTML mutators
 
-Reverse HTML mutators have been deprecated and will be removed in a future version. They never really made sense, they can’t work with the new scoped plugins feature, and as far as I’m aware no one’s using using them anyway.
+Reverse HTML mutators have been deprecated and will be removed in a future version. They never really made sense, they can’t work with the new scoped plugins feature, and as far as I’m aware no one’s using them anyway.

@@ -39,11 +39,12 @@ Mutator::html('link', function ($value) {
 ### Add an auto-generated ID to all level 2 headings
 
 ```php
+use Illuminate\Support\Str;
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
 Mutator::html('heading', function ($value, $item) {
     if ($item->attrs->level === 2) {
-        $value[1]['id'] = str_slug(collect($item->content ?? [])->implode('text', ''));
+        $value[1]['id'] = Str::slug(collect($item->content ?? [])->implode('text', ''));
     }
     return $value;
 });
@@ -132,10 +133,11 @@ Mutator::html('paragraph', function ($value, $item) {
 ### Wrap all heading text with permalink anchors and add a class
 
 ```php
+use Illuminate\Support\Str;
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 
 Mutator::html('heading', function ($value, $item) {
-    $slug = str_slug(collect($item->content)->implode('text', ''));
+    $slug = Str::slug(collect($item->content)->implode('text', ''));
     $value[2] = ['a', [
         'id' => $slug,
         'href' => '#'.$slug,
@@ -148,7 +150,9 @@ Mutator::html('heading', function ($value, $item) {
 ### Obfuscate email address link values
 
 ```php
+use Illuminate\Support\Str;
 use JackSleight\StatamicBardMutator\Facades\Mutator;
+use Statamic\Statamic;
 
 Mutator::html('link', function ($value, $item) use (&$obfuscated) {
     if (Str::startsWith($item->attrs->href, 'mailto:')) {
@@ -160,16 +164,19 @@ Mutator::html('link', function ($value, $item) use (&$obfuscated) {
 });
 ```
 
+---
+
 ## Data Plugins
 
 ### Add permalink anchors before all heading text
 
 ```php
+use Illuminate\Support\Str;
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 use JackSleight\StatamicBardMutator\Support\Data;
 
 Mutator::data('heading', function ($item) {
-    $slug = str_slug(collect($item->content)->implode('text', ''));
+    $slug = Str::slug(collect($item->content)->implode('text', ''));
     array_unshift(
         $item->content,
         Data::html('<a id="'.$slug.'" href="#'.$slug.'">#</a>')
@@ -183,10 +190,10 @@ Mutator::data('heading', function ($item) {
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 use JackSleight\StatamicBardMutator\Support\Data;
 
-Mutator::data('blockquote', function ($data) {
-    Data::morph($data, Data::html('figure', ['class' => 'quote'], [
-        Data::clone($data, content: collect($data->content)->slice(0, -1)->values()->all()),
-        Data::html('figcaption', [], [collect($data->content)->last()]),
+Mutator::data('blockquote', function ($item) {
+    Data::morph($item, Data::html('figure', ['class' => 'quote'], [
+        Data::clone($item, content: collect($item->content)->slice(0, -1)->values()->all()),
+        Data::html('figcaption', [], [collect($item->content)->last()]),
     ]));
 });
 ```
@@ -205,9 +212,11 @@ Mutator::data('link', function ($info) {
 
 Check out the modifier [example below](examples#using-with-the-bard-modifiers) to see how you could use these in a table of contents.
 
+---
+
 ## Using with the Bard modifiers
 
-Statamic includes a set of [modifiers](https://statamic.dev/modifiers) that can extract items from Bard fields and output their content. For example, after adding heading IDs or permalinks you could create a simple table contents like this:
+Statamic includes a set of [modifiers](https://statamic.dev/modifiers) that can extract items from Bard fields and output their content. For example, after adding heading IDs or permalinks you could create a simple table of contents like this:
 
 ```html
 {{ headings = article | raw | bard_items | where('type', 'heading') }}

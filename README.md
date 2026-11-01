@@ -4,7 +4,7 @@
 
 <!-- /statamic:hide -->
 
-This Statamic addon allows you to modify the data and tags rendered by the Bard fieldtype, giving you full control over the final HTML. You can add, remove and modify attributes, wrap tags and content, or rename and replace tags entirely. You can also make changes the raw data before anything is rendered to HTML.
+This Statamic addon allows you to modify the data and tags rendered by the Bard fieldtype, giving you full control over the final HTML. You can add, remove and modify attributes, wrap tags and content, or rename and replace tags entirely. You can also make changes to the raw data before anything is rendered to HTML.
 
 ## Examples
 
@@ -45,10 +45,10 @@ use Illuminate\Support\Str;
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 use JackSleight\StatamicBardMutator\Support\Data;
 
-Mutator::data('heading', function ($data) {
-    $slug = Str::slug(collect($data->content)->implode('text', ''));
+Mutator::data('heading', function ($item) {
+    $slug = Str::slug(collect($item->content)->implode('text', ''));
     array_unshift(
-        $data->content,
+        $item->content,
         Data::html('<a id="'.$slug.'" href="#'.$slug.'">#</a>')
     );
 });

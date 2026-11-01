@@ -11,7 +11,7 @@ order: 6
 
 ## Data Helpers
 
-Data helpers are available in the `JackSleight\StatamicBardMutator\Support\Data` namespace.
+Data helpers are available in the `JackSleight\StatamicBardMutator\Support\Data` class.
 
 #### `Data::node($type, $attrs = [], $content = [], $marks = [])`
 

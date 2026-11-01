@@ -25,14 +25,14 @@ Mutator::html(['bulletList', 'orderedList'], function ($value) {
 });
 ```
 
-You should add render HTML plugins in a service provider's `boot()` method. They can receive any of the following arguments which you can specify in any order:
+You should add HTML plugins in a service provider's `boot()` method. They can receive any of the following arguments which you can specify in any order:
 
 * **value (array):** The normal [HTML value](formats#html-values)
 * **item (object):** The source [node or mark](formats) object
 * **info (object):** Information about the current node or mark (see below)
 * **type (string):** The type of the current node or mark
 
-You should return an [HTML value](formats#html-values). If you return `null` or an empty array no tags will be rendered but the content will be. You can add multiple tag plugins for the same type, they'll be executed in the order they were added.
+You should return an [HTML value](formats#html-values). If you return `null` or an empty array no tags will be rendered but the content will be. You can add multiple HTML plugins for the same type, they'll be executed in the order they were added.
 
 ---
 
@@ -42,11 +42,12 @@ Data plugins allow you to make changes to the [node and mark objects](formats) b
 
 ```php
 # app/Providers/AppServiceProvider.php
+use Illuminate\Support\Str;
 use JackSleight\StatamicBardMutator\Facades\Mutator;
 use JackSleight\StatamicBardMutator\Support\Data;
 
 Mutator::data('heading', function ($item) {
-    $slug = str_slug(collect($item->content)->implode('text', ''));
+    $slug = Str::slug(collect($item->content)->implode('text', ''));
     array_unshift(
         $item->content,
         Data::html('<a id="'.$slug.'" href="#'.$slug.'">#</a>')
@@ -101,7 +102,7 @@ Mutator::plugin(MyPlugin::class);
 
 ## Scoped Plugins
 
-By default all plugins are global and run on every bard field. You can limit a plugin to specific fields by making it scoped and then enabling it through the Mutator Plugins config option in the blueprint editor. Closure based plugins need to be given a handle before they will appear in the blueprint editor, and you can optionally specify a display value:
+By default all plugins are global and run on every Bard field. You can limit a plugin to specific fields by making it scoped and then enabling it through the Mutator Plugins config option in the blueprint editor. Closure based plugins need to be given a handle before they will appear in the blueprint editor, and you can optionally specify a display value:
 
 ```php
 use JackSleight\StatamicBardMutator\Facades\Mutator;
@@ -128,4 +129,4 @@ The `$info` argument contains information about the current node or mark. It's a
 * **depth (int):** The depth of the current item
 * **root (object):** The `bmuRoot` node for this Bard value
 * **bard (object):** The Bard field object
-* **[properties] (mixed)** Any of the source item's properties
+* **[properties] (mixed):** Any of the source item's properties
