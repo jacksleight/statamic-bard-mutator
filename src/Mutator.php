@@ -164,6 +164,9 @@ class Mutator
         }
 
         foreach ($plugins as $plugin) {
+            if (is_null($value)) {
+                break;
+            }
             $value = Value::normalize($mode, $value);
             $value = match ($mode) {
                 'render' => $plugin->render($value, $info, $params),

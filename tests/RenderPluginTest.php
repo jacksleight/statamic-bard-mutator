@@ -103,6 +103,27 @@ it('removes all paragraphs keeping content', function () {
     expect($this->renderTestValue($value))->toEqual('Test');
 });
 
+it('skips later plugins once a plugin returns null', function () {
+    $called = false;
+    Mutator::html('paragraph', function ($value) {
+        return null;
+    });
+    Mutator::html('paragraph', function ($value) use (&$called) {
+        $called = true;
+
+        return $value;
+    });
+    $value = $this->getTestValue([[
+        'type' => 'paragraph',
+        'content' => [[
+            'type' => 'text',
+            'text' => 'Test',
+        ]],
+    ]]);
+    expect($this->renderTestValue($value))->toEqual('Test');
+    expect($called)->toBeFalse();
+});
+
 it('wraps heading content in link', function () {
     Mutator::html('heading', function ($value, $item) {
         $slug = Str::slug(collect($item->content)->implode('text', ''));

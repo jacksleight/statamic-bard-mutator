@@ -32,7 +32,7 @@ You should add HTML plugins in a service provider's `boot()` method. They can re
 * **info (object):** Information about the current node or mark (see below)
 * **type (string):** The type of the current node or mark
 
-You should return an [HTML value](formats#html-values). If you return `null` or an empty array no tags will be rendered but the content will be. You can add multiple HTML plugins for the same type, they'll be executed in the order they were added.
+You should return an [HTML value](formats#html-values). If you return `null` or an empty array no tags will be rendered but the content will be, and returning `null` also skips any later HTML plugins for that item. You can add multiple HTML plugins for the same type, they'll be executed in the order they were added.
 
 ---
 
