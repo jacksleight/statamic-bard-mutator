@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.0.6 (2026-11-02)
+- [fix] Class based plugins ignoring their custom handle
+- [fix] Later HTML plugins crashing after a plugin returns `null`
+- [fix] Info `parent`, `prev` and `next` errors at the edges of the content
+- [fix] Data plugins crashing on raw objects added by another data plugin
+- [fix] Integer attribute values breaking rendered tags
+- [fix] Plugin `options()` and `scoped()` errors when passed `null`
+- [fix] Email obfuscation and external link examples
+
 ## 3.0.5 (2025-08-22)
 
 - Statamic 6 support
@@ -22,7 +31,7 @@
 
 ## 3.0.0 (2024-09-03)
 
-This release introduces some significant changes to the terminology and variables used in mutators, however there are only two very small breaking changes, please read [upgrade guide](https://jacksleight.dev/docs/bard-mutator/upgrade-2-0-to-3-0) for more information.
+This release introduces some significant changes to the terminology and variables used in mutators, however there are only two very small breaking changes, please read the [upgrade guide](https://jacksleight.dev/docs/bard-mutator/upgrade-2-0-to-3-0) for more information.
 
 - [new] Mutators are now known as plugins
 - [new] Class based plugins for easier organisation and reuse
@@ -91,7 +100,7 @@ This release introduces some significant changes to the terminology and variable
 - [new] Data Mutators: Make changes to the node/mark data before anything is rendered to HTML
 - [new] Ability to specify multiple types when adding mutators
 - [new] Support for the new "small" mark in Statamic 3.3.9
-- [new] Brand new [documentation](https://jacksleight.dev/docs/bard-mutato/) that's better organised and with more information and examples 
+- [new] Brand new [documentation](https://jacksleight.dev/docs/bard-mutator/) that's better organised and with more information and examples 
 
 ## 1.0.4 (2022-04-10)
 
@@ -99,7 +108,7 @@ This release introduces some significant changes to the terminology and variable
 
 ## 1.0.3 (2021-12-03)
 
-- [fix] Fix Tiptap schema normalization
+- [fix] Fix Tiptap schema normalisation
 
 ## 1.0.2 (2021-12-03)
 
